@@ -1,0 +1,68 @@
+<div class="bankAccount body-content-container">
+    <div class="tab-content-header">
+        <ul class="bread-crumb-nav">
+            <li class="crumb-nav-left crumb-nav-action" ui-sref="aep.loc.bank_manage">银行管理列表</li>
+            <li class="crumb-nav-interval">/</li>
+            <li class="crumb-nav-title" ng-bind="title"></li>
+        </ul>
+    </div>
+    <div class="data-content-body row">
+        <form class="form-horizontal" name="bankManageForm">
+            <div class="form-group">
+                <label class="col-lg-3 control-label"><span class="font-dot-circle"></span>账户名称：</label>
+                <div class="col-lg-5">
+                    <input type="text" class="form-control" ng-model="bankName" ng-maxlength="30" maxlength="30" placeholder="请填写账户名称" required >
+                </div>
+                <span class="col-lg-4 form-control-static font-error"
+                ng-messages="bankManageForm.bankName.$dirty && bankManageForm.bankName.$error">
+              <span ng-message="required">账户名称不能为空</span>
+              <span ng-message="maxlength">账户名称最大长度不超过20位</span>
+            </span>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-3 control-label"><span class="font-dot-circle"></span>开户行：</label>
+                <div class="col-lg-5">
+                    <input type="text" class="form-control" ng-model="cardName" ng-maxlength="50" maxlength="50" placeholder="开户行" required >
+                </div>
+
+              <span class="col-lg-4 form-control-static font-error"
+                    ng-show="bankManageForm.cardName.$dirty &&bankManageForm.cardName.$invalid">
+                    <span ng-show="bankManageForm.cardName.$error.required">开户行不能为空</span>
+                    <span ng-show="bankManageForm.bankName.$error.maxlength">开户行最大长度不超过50位</span>
+                </span> 
+
+            </div>
+            <div class="form-group">
+                <label class="col-lg-3 control-label"><span class="font-dot-circle"></span>账号：</label>
+                <div class="col-lg-5">
+                    <input type="text"  ng-pattern="/^[+]{0,1}(\d+)$/" class="form-control" ng-model="cardNo" ng-maxlength="19" maxlength="19" name="cardNo" placeholder="卡号/微信/支付宝手机号" required >
+                </div>
+              <span class="col-lg-4 form-control-static font-error"
+                    ng-show="bankManageForm.cardNo.$dirty &&bankManageForm.cardNo.$invalid">
+                    <span ng-show="bankManageForm.cardNo.$error.required">账号不能为空</span>
+                    <span ng-show="bankManageForm.cardNo.$error.pattern">请输入正确的账号</span>
+                </span>
+            </div>
+
+            <div class="form-group" style="height: 400px;">
+                <label class="col-lg-3 control-label">科目：</label>
+                <div class="col-lg-5">
+                    <select class="selectpicker" ng-model="courseId" data-live-search="true">
+                        <option value="">请选择科目类型</option>
+                        <option ng-repeat="a in feeCourseList|filter:{courseType:'0',courseStatus:'0'}" value="{{a.id}}">{{a.courseName}}</option>
+                    </select>
+                </div>
+            </div>
+        </form>
+        <div class="submit-btn-box">
+            <label class="col-lg-3"></label>
+            <div class="col-lg-5">
+                <div class="btn-content">
+                    <button class="btn btn-com form-compile-btn btn-submit" ng-disabled="bankManageForm.$invalid" click-Disable="saveData()"><i class="fa fa-floppy-o">&nbsp;</i>提交</button>
+                    <button class="btn btn-com form-compile-btn btn-close" ng-click="backPage()"><i class="fa fa-close">&nbsp;</i>取消</button>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>

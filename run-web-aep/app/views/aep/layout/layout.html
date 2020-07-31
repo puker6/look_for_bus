@@ -1,0 +1,42 @@
+<div class="main-layout">
+    <div class="main-iot-content">
+        <div class="sidebar" ng-class="{'sidebar-minimized':minimized}">
+            <scrollable always-visible="true">
+                <div class="nav-container">
+                    <div class="nav-fold" ng-class="{'nav_box_minimized': minimized}" ng-click="minimizeToggle()">
+                        <i class="fa fa-bars fa-rotate-90" aria-hidden="true" ng-if="!minimized"></i>
+                        <i class="fa fa-bars" aria-hidden="true" ng-if="minimized"></i>
+                    </div>
+                    <div class="nav-items">
+                        <!--<div class="nav_box">-->
+                            <!--<div class="product-title" ng-bind="accessName"></div>-->
+                        <!--</div>-->
+                        <div class="nav_box have-sub" ng-class="{'nav_box_minimized': minimized}" ng-repeat="mu in menuLists">
+                            <div class="nav-title">
+                                <a tooltip-placement="right" uib-tooltip="{{mu.sourceName}}" tooltip-class="sidebarTooltip" tooltip-enable="minimized" second-toggle-collapse>
+                                    <i ng-class="mu.sourceUI" aria-hidden="true"></i>
+                                    <span class="nav-title-text">{{mu.sourceName}}</span>
+                                    <i class="fa fa-angle-down" aria-hidden="true"></i>
+                                </a>
+                            </div>
+                            <ul class="sub-nav">
+                                <li ng-class='{current:  $state.includes(mus.sourceUrl)}'
+                                    ng-repeat="mus in mu.children">
+                                    <a ui-sref="{{mus.sourceUrl}}">{{mus.sourceName}}</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </scrollable>
+            <!--<sidebar-collapse></sidebar-collapse>-->
+        </div>
+        <div class="main-content-detail-container" ng-if="!config.productSidebar">
+            <scrollable always-visible="true">
+                <div class="main-content-detail">
+                    <div ui-view="mainbody"></div>
+                </div>
+            </scrollable>
+        </div>
+    </div>
+</div>

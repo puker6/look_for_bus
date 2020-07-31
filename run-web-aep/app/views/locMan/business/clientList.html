@@ -1,0 +1,92 @@
+<div class="body-content-container">
+    <div class="tab-content-header">
+        <ul class="bread-crumb-nav">
+            <li class="crumb-nav-left">客户列表</li>
+        </ul>
+    </div>
+    <div class="data-content-body">
+        <div class="search-form-content">
+            <form class="search-form">
+                <div class="form-group-items">
+                    <div class="select-group">
+                        <input type="text" class="form-input" ng-model="keyword" ng-keyup="myKeyup($event)" placeholder="姓名/电话">
+                    </div>
+                </div>
+                <div class="form-group-items">
+                    <div class="select-group">
+                        <input type="text" class="form-input" ng-model="unitName" ng-keyup="myKeyup($event)" placeholder="公司名称">
+                    </div>
+                </div>
+                <div class="form-group-items" ng-show="searchFlagShow">
+                    <div class="select-group">
+                        <input type="text" class="form-input" ng-model="serviceMan" ng-keyup="myKeyup($event)" placeholder="业务员">
+                    </div>
+                </div>
+                <div class="form-group-items" ng-show="searchFlagShow">
+                    <div class="select-group">
+                        <input type="text" class="form-input" ng-model="recomMan" ng-keyup="myKeyup($event)" placeholder="推荐人">
+                    </div>
+                </div>
+                <div class="seach-btn-box">
+                    <button type="button" class="btn btn-com" ng-click="searchKey()"><i class="fa fa-search">&nbsp;</i>搜索</button>
+                </div>
+                <div class="seach-btn-box more-search" ng-show="!searchFlagShow" ng-click="moreSearchAction()">
+                    <span class="fa fa-angle-double-right" title="更多搜索条件"></span>
+                </div>
+                <div class="seach-btn-box more-search" ng-show="searchFlagShow" ng-click="moreSearchAction()">
+                    <span class="fa fa-angle-double-left" title="隐藏搜索条件"></span>
+                </div>
+            </form>
+            
+            <div class="action-right-box">
+                <button type="button" class="btn btn-com" ng-click="businessOwner()"><i class="fa fa-user">&nbsp;</i>业务负责人</button>
+                <button type="button" class="btn btn-com" ng-click="compileClient('add')"><i class="fa fa-plus">&nbsp;</i>新增</button>
+                <button type="button" class="btn btn-com" ng-click="compileClient('edit')"><i class="fa fa-pencil-square-o">&nbsp;</i>修改</button>
+                <button type="button" class="btn btn-com" ng-click="deleteClient()"><i class="fa fa-trash">&nbsp;</i>删除</button>
+            </div>
+        </div>
+        <div class="body-table">
+            <div class="commonGrid" ng-class="{'emptyGrid': model.empty || model.error}" ui-grid="gridOptions" ui-grid-resize-columns ui-grid-move-columns ui-grid-pinning ui-grid-auto-resize ui-grid-selection></div>
+             <mis-pagination record-total="model.totalCount" page-index="model.pageNo"
+                            page-size="model.pageSize" page-total="model.totalPage"
+                            page-state="model.pageState" empty-status="model.empty"
+                            error-status="model.error"></mis-pagination> 
+        </div>
+    </div>
+    <div class="dialog-bg" ng-show="dialogShow">
+        <div class="dialog-box-content">
+            <div class="dialog-header">
+                <span class="dialog-header-title"><i class="fa fa-user">&nbsp;</i>业务负责人</span>
+                <span class="fa fa-remove close-icon" ng-click="closeConfirm()"></span>
+            </div>
+            <div class="dialog-content">
+                <div class="content-add-items">
+                    <span>姓名：</span>
+                    <input class="dialog-form-input" ng-model="ownerName" type="text" placeholder="请输入负责人姓名" maxlength="16">
+                </div>
+                <div class="content-add-items">
+                    <span>手机：</span>
+                    <input class="dialog-form-input" ng-model="ownerPhone" type="text" placeholder="请输入负责人手机" maxlength="11" oninput = "value=value.replace(/[^\d]/g,'')">
+                    <span class="gather-icon-plus" title="添加业务负责人" ng-click="addPerson()"><i class="fa fa-user-plus"></i></span>
+                </div>
+                <div class="content-gather-box">
+                    <div class="gather-items">
+                        <div class="items-list" ng-repeat="o in ownerPersonArr">
+                            <span class="items-user-icon"><i class="fa fa-user-o"></i></span>
+                            <span>{{o.name}}</span>
+                            <span>|</span>
+                            <span>{{o.phone}}</span>&nbsp;&nbsp;
+                            <span class="gather-icon-close" title="删除" ng-click="deleteOwner(o)"><i class="fa fa-close"></i></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="dialog-footer-box">
+                    <div class="footer-btn-box">
+                        <button class="btn btn-com dialog-confirm" ng-click="saveConfirm()"><i class="fa fa-check">&nbsp;</i>确定</button>
+                        <button class="btn btn-com dialog-confirm form-compile-btn btn-close" ng-click="closeConfirm()"><i class="fa fa-close">&nbsp;</i>取消</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

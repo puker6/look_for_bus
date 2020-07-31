@@ -1,0 +1,357 @@
+<div class="body-content-container">
+    <div class="tab-content-header">
+        <ul class="bread-crumb-nav">
+            <li class="crumb-nav-left crumb-nav-action" ui-sref="aep.loc.employee_list">员工列表</li>
+            <li class="crumb-nav-interval">/</li>
+            <li class="crumb-nav-title" ng-bind="title"></li>
+        </ul>
+    </div>
+    <div class="data-content-body row">
+        <form class="form-horizontal" name="employeeForm">
+            <div class="form-group">
+                <label class="col-lg-3 control-label"><span class="font-dot-circle"></span>员工信息：</label>
+                <div class="col-lg-5">
+                    <input type="text" class="form-control name-float-left" name="realPhone" ng-model="realPhone" oninput = "value=value.replace(/[^\d]/g,'')" 
+                        ng-pattern="/^1[3|4|5|6|7|8|9][0-9]{9}$/" maxlength="11" ng-blur="verifyPhone()"
+                        placeholder="请输入手机号码" required>
+                    <input type="text" class="form-control name-float-right" name="realName" ng-model="realName" ng-disabled="nameDis"
+                        placeholder="请输入姓名" ng-maxlength="16" maxlength="16" required>
+                </div>
+                <span class="col-lg-4 form-control-static font-error"
+                    ng-show="employeeForm.realPhone.$dirty &&employeeForm.realPhone.$invalid">
+                    <span ng-show="employeeForm.realPhone.$error.required">手机不能为空</span>
+                    <span ng-show="employeeForm.realPhone.$error.pattern">请输入正确的手机号</span>
+                </span>
+                <span class="col-lg-4 form-control-static font-error"
+                    ng-show="employeeForm.realName.$dirty &&employeeForm.realName.$invalid">
+                    <span ng-show="employeeForm.realName.$error.required">客户姓名不能为空</span>
+                    <span ng-show="employeeForm.realName.$error.maxlength">客户姓名最大长度不超过16位</span>
+                </span> 
+            </div>
+            <div class="form-group">
+                <label class="col-lg-3 control-label"><span class="font-dot-circle"></span>身份证：</label>
+                <div class="col-lg-5">
+                    <input type="text" class="form-control" name="idCard" ng-model="idCard" ng-blur="ageChange()"
+                        ng-pattern="/^[1-9]\d{5}(18|19|20|(3\d))\d{2}((0[1-9])|(1[0-2]))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$/"
+                           placeholder="请输入身份证号码" maxlength="18" required>
+                </div>
+                <span class="col-lg-4 form-control-static font-error"
+                    ng-show="employeeForm.idCard.$dirty &&employeeForm.idCard.$invalid">
+                    <span ng-show="employeeForm.idCard.$error.required">身份证号不能为空</span>
+                    <span ng-show="employeeForm.idCard.$error.pattern">请输入正确的身份证号</span>
+                </span>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-3 control-label"><span class="font-dot-circle"></span>年龄：</label>
+                <div class="col-lg-5">
+                    <input type="text" class="form-control" ng-model="age" ng-disabled="true" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-3 control-label"><span class="font-dot-circle"></span>生日：</label>
+                <div class="col-lg-5">
+                    <!-- <input type="text" id="birthdayTime" class="form-control work-order-time" name="birthdayTime" required
+                        ng-model="birthdayTime" placeholder="请选择生日时间"> -->
+                    <input type="text" class="form-control" ng-model="birthdayTime" ng-disabled="true" required>
+                </div>
+                <!-- <span class="col-lg-4 form-control-static font-error"
+                    ng-show="employeeForm.birthdayTime.$dirty &&employeeForm.birthdayTime.$invalid">
+                    <span ng-show="employeeForm.birthdayTime.$error.required">生日时间不能为空</span>
+                </span> -->
+            </div>
+            <div class="form-group">
+                <label class="col-lg-3 control-label"><span class="font-dot-circle"></span>性别：</label>
+                <div class="col-lg-5">
+                    <select class="form-control" ng-model="sex"  required>
+                        <option value="">请选择性别</option>
+                        <option value="MALE">男</option>
+                        <option value="FEMALE">女</option>
+                        <!-- <option value="OTHER">其他</option> -->
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-3 control-label"><span class="font-dot-circle"></span>部门：</label>
+                <div class="col-lg-5">
+                    <select class="form-control" name="deptId" ng-model="deptId" ng-change="chooseDep()" required>
+                        <option value="">请选择部门</option>
+                        <option ng-repeat="d in deptList" value="{{d.id}}">{{d.name}}</option>
+                    </select>
+                </div>
+                <span class="col-lg-4 form-control-static font-error"
+                    ng-show="employeeForm.deptId.$dirty &&employeeForm.deptId.$invalid">
+                    <span ng-show="employeeForm.deptId.$error.required">部门不能为空</span>
+                </span>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-3 control-label"><span class="font-dot-circle"></span>角色：</label>
+                <div class="col-lg-5">
+                    <select class="form-control" name="roleId" ng-model="roleId" ng-change="driverSelect()" required>
+                        <option value="">请选择角色</option>
+                        <option ng-repeat="r in roleList" value="{{r.id}}">{{r.name}}</option>
+                    </select>
+                </div>
+                <span class="col-lg-4 form-control-static font-error"
+                    ng-show="employeeForm.roleId.$dirty &&employeeForm.roleId.$invalid">
+                    <span ng-show="employeeForm.roleId.$error.required">角色不能为空</span>
+                </span>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-3 control-label"><span class="font-dot-circle"></span>学历：</label>
+                <div class="col-lg-5">
+                    <select class="form-control" ng-model="education"  required>
+                        <option value="">请选择学历</option>
+                        <option value="PRIMARYSCHOOL">小学</option>
+                        <option value="JUNIORSCHOOL"> 初中</option>
+                        <option value="HIGHSCHOOL">中专/高中</option>
+                        <option value="COLLEGEDEGREE">大专</option>
+                        <option value="BACHELOR">本科</option>
+                        <option value="MASTER">硕士</option>
+                        <option value="DOCTOR">博士</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-lg-3"></div>
+                <div class="col-lg-5">
+                    <div id="l-map" style="width: 100%; height: 300px;"></div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-3 control-label"><span class="font-dot-circle"></span>停靠地址：</label>
+                <div class="col-lg-5">
+                    <div id="r-result"><input type="text" class="form-control" id="suggestId" size="20"  placeholder="请输入地址" ng-model="address"   required/></div>
+                    <div id="searchResultPanel" style="border:1px solid #C0C0C0;width:150px;height:auto; display:none;"></div>
+                </div>
+                <span class="col-lg-4 form-control-static font-error"
+                      ng-show="employeeForm.address.$error && employeeForm.address.$invalid">
+                    <span ng-show="employeeForm.address.$error.required">停靠地址不能为空</span>
+                </span>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-3 control-label"><span class="font-dot-circle"></span>地址简称：</label>
+                <div class="col-lg-5">
+                    <input type="text" class="form-control" ng-model="simpleAddress" placeholder="请输入地址简称" required>
+                </div>
+                <span class="col-lg-4 form-control-static font-error"
+                    ng-show="employeeForm.simpleAddress.$dirty &&employeeForm.simpleAddress.$invalid">
+                    <span ng-show="employeeForm.simpleAddress.$error.required">地址简称不能为空</span>
+                </span>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-3 control-label"><span class="font-dot-circle"></span>入职公司是否为当前公司：</label>
+                <div class="col-lg-5">
+                    <label class="control-radio-label"><input type="radio" class="form-control-radio" ng-model="companyFlag" value="1" ng-change="checkCompanyFlag('1')">&nbsp;&nbsp;是</label>
+                    <label class="control-radio-label radio-label-right"><input type="radio" class="form-control-radio" ng-model="companyFlag" value="0" ng-change="checkCompanyFlag('0')">&nbsp;&nbsp;否</label>
+                           
+                </div>
+            </div>
+            <div class="form-group" ng-show='companyFlagShow'>
+                <label class="col-lg-3 control-label"><span class="font-dot-circle"></span>入职公司：</label>
+                <div class="col-lg-5">
+                    <select class="form-control" ng-model="entryCompany">
+                        <!-- <option value="">请选择入职公司</option> -->
+                        <option ng-repeat="c in companyList" value="{{c.id}}">{{c.unitName}}</option>
+                    </select>
+                </div>
+                <!-- <span class="col-lg-4 form-control-static font-error"
+                    ng-show="employeeForm.entryCompany.$dirty &&employeeForm.entryCompany.$invalid">
+                    <span ng-show="employeeForm.entryCompany.$error.required">入职公司不能为空</span>
+                </span> -->
+            </div>
+            <div class="form-group">
+                <label class="col-lg-3 control-label"><span class="font-dot-circle"></span>入职状态：</label>
+                <div class="col-lg-5">
+                    <select class="form-control" name="staffState" ng-model="staffState" required>
+                        <option value="">请选择入职状态</option>
+                        <option value="NORMAL">正式</option>
+                        <option value="TRY">试用</option>
+                        <option value="LEAVE">离职</option>
+                    </select>
+                </div>
+                <span class="col-lg-4 form-control-static font-error"
+                    ng-show="employeeForm.staffState.$dirty &&employeeForm.staffState.$invalid">
+                    <span ng-show="employeeForm.staffState.$error.required">入职状态不能为空</span>
+                </span>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-3 control-label"><span class="font-dot-circle"></span>入职时间：</label>
+                <div class="col-lg-5">
+                    <input type="text" id="entryTime" class="form-control work-order-time" name="entryTime" ng-model="entryTime" 
+                        placeholder="请选择入职时间" ng-blur="timeBlue()" required>
+                </div>
+                <span class="col-lg-4 form-control-static font-error"
+                    ng-show="employeeForm.entryTime.$dirty &&employeeForm.entryTime.$invalid">
+                    <span ng-show="employeeForm.entryTime.$error.required">入职时间不能为空</span>
+                </span>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-3 control-label"><span class="font-dot-circle"></span>合同到期时间（选填）：</label>
+                <div class="col-lg-5">
+                    <input type="text" id="expireTime" class="form-control work-order-time" name="expireTime" ng-model="expireTime" 
+                        placeholder="请选择试用截止/合同到期时间" ng-blur="timeBlue()">
+                </div>
+                <!-- <span class="col-lg-4 form-control-static font-error"
+                    ng-show="employeeForm.expireTime.$dirty &&employeeForm.expireTime.$invalid">
+                    <span ng-show="employeeForm.expireTime.$error.required">合同到期时间不能为空</span>
+                    <span ng-show="errorTimeMsg===true">合同到期时间不能小于入职时间</span>
+                </span> -->
+                <span class="col-lg-4 form-control-static font-error" ng-show="errorTimeMsg">
+                    <span>合同到期时间不能小于入职时间</span>
+                </span>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-3 control-label"><span class="font-dot-circle"></span>社保单位：</label>
+                <div class="col-lg-5">
+                    <input type="text" class="form-control" name="socialUnit" ng-model="socialUnit"
+                           placeholder="请输入社保单位名称" ng-maxlength="36" maxlength="36" required>
+                </div>
+                <span class="col-lg-4 form-control-static font-error"
+                    ng-show="employeeForm.socialUnit.$dirty &&employeeForm.socialUnit.$invalid">
+                    <span ng-show="employeeForm.socialUnit.$error.required">社保单位不能为空</span>
+                    <span ng-show="employeeForm.socialUnit.$error.maxlength">社保单位最大长度不超过36位</span>
+                </span> 
+            </div>
+            <!-- <div class="form-group" ng-show="params.flag==='add'">
+                <label class="col-lg-3 control-label"><span class="font-dot-circle"></span>推荐人：</label>
+                <div class="col-lg-5">
+                    <select class="form-control" name="serviceMan" ng-model="serviceMan" required>
+                        <option value="">请选择推荐人</option>
+                        <option ng-repeat="s in serviceManList" value="{{s.realName}}">{{s.realName}}</option>
+                    </select>
+                </div>
+                <span class="col-lg-4 form-control-static font-error"
+                    ng-show="employeeForm.serviceMan.$dirty &&employeeForm.serviceMan.$invalid">
+                    <span ng-show="employeeForm.serviceMan.$error.required">推荐人不能为空</span>
+                </span>
+            </div> -->
+            
+            <div class="form-group">
+                <label class="col-lg-3 control-label"><span class="font-dot-circle"></span>是否注册为驾驶员：</label>
+                <div class="col-lg-5">
+                    <label class="control-radio-label"><input type="radio" class="form-control-radio" ng-model="isDriver" value="1" ng-change="checkIsDriver('1')">&nbsp;&nbsp;是</label>
+                    <label class="control-radio-label radio-label-right"><input type="radio" class="form-control-radio" ng-model="isDriver" value="0" ng-change="checkIsDriver('0')">&nbsp;&nbsp;否</label>
+                           
+                </div>
+            </div>
+            <div class="form-group" ng-show="extendShow">
+                <label class="col-lg-3 control-label"><span class="font-dot-circle"></span>小组：</label>
+                <div class="col-lg-5">
+                    <select class="form-control" ng-model="groupId">
+                        <option value="">请选择小组</option>
+                        <option ng-repeat="g in groupList" value="{{g.id}}">{{g.groupName}}</option>
+                    </select>
+                </div>
+                <span class="col-lg-4 form-control-static font-error" ng-show="isDriver==='1'&&groupId===''">
+                    <span>小组不能为空</span>
+                </span>
+            </div>
+            <div class="form-group" ng-show="extendShow">
+                <label class="col-lg-3 control-label"><span class="font-dot-circle"></span>驾驶证领证时间：</label>
+                <div class="col-lg-5">
+                    <input type="text" id="takeDriveTime" class="form-control work-order-time" ng-model="takeDriveTime" placeholder="请选择驾驶证领证时间">
+                </div>
+                <span class="col-lg-4 form-control-static font-error" ng-show="isDriver==='1'&&takeDriveTime===''">
+                    <span>驾驶证领证时间不能为空</span>
+                </span>
+            </div>
+            <div class="form-group" ng-show="extendShow">
+                <label class="col-lg-3 control-label">资格证号：</label>
+                <div class="col-lg-5">
+                    <input type="text" class="form-control" name="certificateNum" ng-model="certificateNum"
+                           placeholder="请输入资格证号码" ng-maxlength="36">
+                </div>
+            </div>
+            <div class="form-group" ng-show="extendShow">
+                <label class="col-lg-3 control-label"><span class="font-dot-circle"></span>资格证证件类型：</label>
+                <div class="col-lg-5">
+                    <select class="form-control" ng-model="certificateType">
+                        <option value="">请选择资格证证件类型</option>
+                        <option value="0">道路客运</option>
+                        <option value="1">道路货运</option>
+                        <option value="2">网约车</option>
+                        <option value="3">出租车</option>
+                    </select>
+                </div>
+                <span class="col-lg-4 form-control-static font-error" ng-show="isDriver==='1'&&certificateType===''">
+                    <span>资格证证件类型不能为空</span>
+                </span>
+            </div>
+            <div class="form-group" ng-show="extendShow">
+                <label class="col-lg-3 control-label"><span class="font-dot-circle"></span>资格证领证时间：</label>
+                <div class="col-lg-5">
+                    <input type="text" id="takeCertificateTime" class="form-control work-order-time" ng-model="takeCertificateTime" placeholder="请选择资格证领证时间">
+                </div>
+                <span class="col-lg-4 form-control-static font-error" ng-show="isDriver==='1'&&takeCertificateTime===''">
+                    <span>资格证领证时间不能为空</span>
+                </span>
+            </div>
+            <div class="form-group" ng-show="extendShow">
+                <label class="col-lg-3 control-label"><span class="font-dot-circle"></span>准驾车型：</label>
+                <div class="col-lg-5">
+                    <select id="driveType_select" class="selectpicker form-control" ng-model="driveType" 
+                        title="请选择准驾车型" multiple>
+                        <!-- <option ng-repeat="d in driveTypeList" value="{{d.id}}">{{d.name}}</option> -->
+                    </select>
+                </div>
+                <span class="col-lg-4 form-control-static font-error" ng-show="isDriver==='1'&&driveType===''">
+                    <span>准驾车型不能为空</span>
+                </span>
+            </div>
+            
+            <div class="form-group" ng-show="extendShow">
+                <label class="col-lg-3 control-label">身份证正面照：</label>
+                <div class="col-lg-5">
+                    <div class="form-image-box">
+                        <span class="icon icon-add-pic image-add" ng-click="addPic('idCardFrontImg')" ng-show="imgUrlArr.idCardFrontImgUrl.length===0"></span>
+                        <input type="file" id="idCardFrontImg" accept="image/jpeg,image/jpg,image/png"  multiple="multiple"  onchange="angular.element(this).scope().multipleFileUpload(this,'idCardFrontImg')" ng-show="false">
+                        <img class="image-box-show" ng-click="addPic('idCardFrontImg')" ng-repeat="i in imgUrlArr.idCardFrontImgUrl" ng-src="{{i}}" alt="">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group" ng-show="extendShow">
+                <label class="col-lg-3 control-label">身份证背面照：</label>
+                <div class="col-lg-5">
+                    <div class="form-image-box">
+                        <span class="icon icon-add-pic image-add" ng-click="addPic('idCardBackImg')" ng-show="imgUrlArr.idCardBackImgUrl.length===0"></span>
+                        <input type="file" id="idCardBackImg" accept="image/jpeg,image/jpg,image/png"  multiple="multiple"  onchange="angular.element(this).scope().multipleFileUpload(this,'idCardBackImg')" ng-show="false">
+                        <img class="image-box-show" ng-click="addPic('idCardBackImg')" ng-repeat="i in imgUrlArr.idCardBackImgUrl" ng-src="{{i}}" alt="">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group" ng-show="extendShow">
+                <label class="col-lg-3 control-label">驾驶证：</label>
+                <div class="col-lg-5">
+                    <div class="form-image-box">
+                        <span class="icon icon-add-pic image-add" ng-click="addPic('driveImg')" ng-show="imgUrlArr.driveImgUrl.length===0"></span>
+                        <input type="file" id="driveImg" accept="image/jpeg,image/jpg,image/png"  multiple="multiple"  onchange="angular.element(this).scope().multipleFileUpload(this,'driveImg')" ng-show="false">
+                        <img class="image-box-show" ng-click="addPic('driveImg')" ng-repeat="i in imgUrlArr.driveImgUrl" ng-src="{{i}}" alt="">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group" ng-show="extendShow">
+                <label class="col-lg-3 control-label">资格证：</label>
+                <div class="col-lg-5">
+                    <div class="form-image-box">
+                        <span class="icon icon-add-pic image-add" ng-click="addPic('certificateImg')" ng-show="imgUrlArr.certificateImgUrl.length===0"></span>
+                        <input type="file" id="certificateImg" accept="image/jpeg,image/jpg,image/png"  multiple="multiple"  onchange="angular.element(this).scope().multipleFileUpload(this,'certificateImg')" ng-show="false">
+                        <img class="image-box-show" ng-click="addPic('certificateImg')" ng-repeat="i in imgUrlArr.certificateImgUrl" ng-src="{{i}}" alt="">
+                    </div>
+                </div>
+            </div>
+
+        </form>
+        <div class="submit-btn-box">
+            <label class="col-lg-3"></label>
+            <div class="col-lg-5">
+                <div class="btn-content">
+                    <button class="btn btn-com form-compile-btn btn-submit"
+                        ng-disabled="employeeForm.$invalid ||errorTimeMsg||(isDriver==='1'&&takeDriveTime==='')||(isDriver==='1'&&certificateType==='')||(isDriver==='1'&&takeCertificateTime==='')||(isDriver==='1'&&(driveType===''||driveType===undefined||driveType.length===0))||(isDriver==='1'&&groupId==='')" 
+                        click-Disable="saveData()"><i class="fa fa-floppy-o">&nbsp;</i>提交</button>
+                    <button class="btn btn-com form-compile-btn btn-close" ng-click="backPage()"><i class="fa fa-close">&nbsp;</i>取消</button>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>

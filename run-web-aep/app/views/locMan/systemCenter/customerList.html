@@ -1,0 +1,105 @@
+<div class="body-content-container">
+    <div class="tab-content-header">
+        <ul class="bread-crumb-nav">
+            <li class="crumb-nav-left">客户类型列表</li>
+        </ul>
+    </div>
+    <div class="data-content-body">
+        <div class="search-form-content">
+            <div class="search-form">
+                <div class="form-group-items">
+                    <div class="select-group">
+                        <input type="text" class="form-control" ng-model="typeNameFind" ng-keyup="myKeyup($event)" placeholder="类型名称">
+                    </div>
+                </div>
+                <!-- <div class="form-group-items">
+                    <div class="select-group">
+                        <input type="text" id="sTime" class="form-control" ng-model="sTime" placeholder="请选择开始时间">
+                    </div>
+                </div>
+                <div class="form-group-items">
+                    <div class="select-group">
+                        <input type="text" id="eTime" class="form-control" ng-model="eTime" placeholder="请选择结束时间">
+                    </div>
+                </div> -->
+                <div class="seach-btn-box">
+                    <button type="button" class="btn btn-com" ng-click="searchKey()"><i class="fa fa-search">&nbsp;</i>搜索</button>
+                </div>
+            </div>
+            <div class="action-right-box">
+                <button type="button" class="btn btn-com" ng-click="addCustomer()"><i class="fa fa-plus">&nbsp;</i>新增</button>
+                <button type="button" class="btn btn-com" ng-click="editCustomer()"><i class="fa fa-pencil-square-o">&nbsp;</i>修改</button>
+                <button type="button" class="btn btn-com" ng-click="deleteCustomer()"><i class="fa fa-trash">&nbsp;</i>删除</button>
+            </div>
+        
+        </div>
+        <div class="body-table">
+            <div class="commonGrid" ng-class="{'emptyGrid': model.empty || model.error}" ui-grid="gridOptions" ui-grid-resize-columns ui-grid-move-columns ui-grid-pinning ui-grid-auto-resize ui-grid-selection></div>
+             <mis-pagination record-total="model.totalCount" page-index="model.pageNo"
+                            page-size="model.pageSize" page-total="model.totalPage"
+                            page-state="model.pageState" empty-status="model.empty"
+                            error-status="model.error"></mis-pagination> 
+        </div>
+    </div>
+    <!-- 添加 -->
+    <div class="dialog-bg" ng-show="addCustomerShow">
+        <form name="addCusForm">
+        <div class="dialog-box-content">
+            <div class="dialog-header">
+                <span class="dialog-header-title"><i class="fa fa-user">&nbsp;</i>添加客户类型</span>
+            </div>
+            <div class="dialog-content" style="margin-top: 15px;">
+                <div class="row form-group">
+                    <label class="col-lg-3 control-label"><span class="font-dot-circle"></span>类型名称：</label>
+                    <div class="col-lg-5">
+                        <input type="text" class="form-control" ng-model="typeName" required>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <label class="col-lg-3 control-label"><span class="font-dot-circle"></span>供应商：</label>
+                    <div class="col-lg-5">
+                        <label class="control-radio-label"><input type="radio" class="form-control-radio" ng-model="isSupplier"value="1">&nbsp;&nbsp;是</label>
+                        <label class="control-radio-label radio-label-right"><input type="radio" class="form-control-radio" ng-model="isSupplier" value="0">&nbsp;&nbsp;否</label> 
+                    </div>
+                </div>
+                <div class="dialog-footer-box">
+                    <div class="footer-btn-box">
+                        <button class="btn btn-com dialog-confirm" ng-disabled="addCusForm.$invalid" ng-click="saveConAddfirm()"><i class="fa fa-check">&nbsp;</i>确定</button>
+                        <button class="btn btn-com dialog-confirm form-compile-btn btn-close" ng-click="closeAddCustomerCheck()"><i class="fa fa-close">&nbsp;</i>取消</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    </div>
+
+    <!-- 修改 -->
+    <div class="dialog-bg" ng-show="editCustomerShow">
+        <div class="dialog-box-content">
+            <div class="dialog-header">
+                <span class="dialog-header-title"><i class="fa fa-user">&nbsp;</i>添加客户类型</span>
+            </div>
+            <div class="dialog-content" style="margin-top: 15px;">
+                <div class="row form-group">
+                    <label class="col-lg-3 control-label"><span class="font-dot-circle"></span>类型名称：</label>
+                    <div class="col-lg-5">
+                        <input type="text" class="form-control" ng-model="typeNameX" required>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <label class="col-lg-3 control-label"><span class="font-dot-circle"></span>供应商：</label>
+                    <div class="col-lg-5">
+                        <label class="control-radio-label"><input type="radio" class="form-control-radio" ng-model="isSupplierX"value="1">&nbsp;&nbsp;是</label>
+                        <label class="control-radio-label radio-label-right"><input type="radio" class="form-control-radio" ng-model="isSupplierX" value="0">&nbsp;&nbsp;否</label> 
+                    </div>
+                </div>
+                <div class="dialog-footer-box">
+                    <div class="footer-btn-box">
+                        <button class="btn btn-com dialog-confirm" ng-click="saveConEditfirm()"><i class="fa fa-check">&nbsp;</i>确定</button>
+                        <button class="btn btn-com dialog-confirm form-compile-btn btn-close" ng-click="closeEditCustomerCheck()"><i class="fa fa-close">&nbsp;</i>取消</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

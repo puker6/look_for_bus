@@ -1,0 +1,87 @@
+<div class="register-container-body">
+    <scrollable always-visible="true">
+        <header>
+            <div class="header">
+                <div><img src="src/images/logo.png"></div>
+            </div>
+        </header>
+        <form class="form-inline">
+            <div class="register-body-content">
+                <div class="register">
+                    <div class="head">
+                        <div>注册</div>
+                        <div ng-click="goLogin()">已有账号去登录</div>
+                    </div>
+                    <div class="common-style">
+                        <div>
+                            <div><img src="src/images/user-name.png"></div>
+                            <input type="text" placeholder="请输入手机号码" id="phone-pass" ng-model="model.phoneNum">
+                            <div class="delect delect-phone-pass" onclick="delPhonePass()"><img src="src/images/del.png"></div>
+                        </div>
+                    </div>
+                    <div class="common-style">
+                        <div>
+                            <div><img src="src/images/yzm.png"></div>
+                            <input type="password" placeholder="请输入密码" id="password" ng-model="model.password">
+                            <div class="delect delect-password"><img src="src/images/del.png"></div>
+                        </div>
+                        <div class="look glyphicon glyphicon-eye-open" onclick="show()"></div>
+                    </div>
+                    <div class="common-style">
+                        <div>
+                            <div><img src="src/images/yzm.png"></div>
+                            <input type="password" placeholder="请再次输入密码" id="password" ng-model="model.password">
+                            <div class="delect delect-password"><img src="src/images/del.png"></div>
+                        </div>
+                        <div class="look glyphicon glyphicon-eye-open" onclick="show()"></div>
+                    </div>
+                    <div class="common-style">
+                        <div>
+                            <div><img src="src/images/user-name.png"></div>
+                            <!-- <span class="glyphicon glyphicon-phone"></span> -->
+                            <input type="text" placeholder="请输入手机号码" id="login-phone" ng-model="model.account">
+                            <div class="delect delect-phone" onclick="delPhone()"><img src="src/images/del.png"></div>
+                        </div>
+                        <div class="getValidCodeByCode">获取验证码</div>
+                        <div class="yzm_code" style="display:none">获取验证码</div>
+                    </div>
+                    <div class="common-style">
+                            <div>
+                                <div><img src="src/images/user-password.png"></div>
+                                <input type="text" placeholder="请输入验证码" id="photo-password" ng-model="model.passAuthCode">
+                                <div class="delect delect-photo-yzm" onclick="delPhotoPassword()"><img src="src/images/del.png"></div>
+                            </div>
+                            <div><img src="http://cba360.cn/common/captchaImage"></div>
+                    </div>
+
+                    <div class=" btn btn-com go-register" ng-click="goRegister()">
+                        立即注册
+                    </div>
+                    </div>
+            </div>
+        </form>
+         <!--底部-->
+            <footer id="footer_height">
+                <div>
+                    <div>专业包车服务咨询</div>
+                    <div>
+                        <p>关于我们</p>
+                        <span class="sx"></span>
+                        <p>新闻中心</p>
+                        <span class="sx"></span>
+                        <p>加盟合作</p>
+                        <span class="sx"></span>
+                        <p>隐私保护</p>
+                        <span class="sx"></span>
+                        <p>网站导航</p>
+                        <span class="sx"></span>
+                        <p>联系我们</p>
+                    </div>
+                </div>
+                <div class="xian"></div>
+                <div>
+                    Copyright © 2016-2019 公司版权所有 蜀ICP备号
+                </div>
+            </footer>
+    </scrollable>
+</div>

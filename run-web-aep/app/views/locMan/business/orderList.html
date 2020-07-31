@@ -1,0 +1,506 @@
+<div class="body-content-container">
+    <div class="tab-content-header">
+        <ul class="bread-crumb-nav">
+            <li class="crumb-nav-left">订单列表</li>
+        </ul>
+    </div>
+    <div class="data-content-body have-statistic-content">
+        <div class="body-table">
+            <div class="total-list">
+                <ul style="display: flex;">
+                    <li><span>车辆总数</span>：<span ng-bind="modalStatistic.carCount"></span></li>
+                    <li><span>订单总价</span>：<span ng-bind="modalStatistic.totalPrice "></span></li>
+                    <li><span>当前页总价</span>：<span ng-bind="modalStatistic.pageTotalPrice"></span></li>
+                    <li><span>外调总价</span>：<span ng-bind="modalStatistic.externalPrice"></span></li>
+                    <li><span>旅网总价</span>：<span ng-bind="modalStatistic.totalTravelPrepayPrice"></span></li>
+                    <li><span>自网总价</span>：<span ng-bind="modalStatistic.totalSelfPrepayPrice"></span></li>
+                    <li><span>已收款</span>：<span ng-bind="modalStatistic.totalAlGathPrice"></span></li>
+                    <li><span>应收余额</span>：<span ng-bind="modalStatistic.shGathPrice"></span></li>
+                </ul>
+                <div></div>
+            </div>
+        </div>
+        <div class="search-form-content">
+            <form class="search-form search-form-order">
+                <div class="form-group-items">
+                    <div class="select-group">
+                        <input type="text" class="form-input" ng-model="keyword" ng-keyup="myKeyup($event)" placeholder="业务员/订单号">
+                    </div>
+                </div>
+                <div class="form-group-items">
+                    <div class="select-group">
+                        <select class="form-input" ng-model="orderStatus">
+                            <option value="">订单状态</option>
+                            <option ng-repeat="o in orderStateArr" value="{{o.id}}">{{o.name}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group-items">
+                    <div class="select-group">
+                        <select class="form-input" ng-model="isExternal">
+                            <!-- <option value="">外调状态</option> -->
+                            <option value="0">未外调</option>
+                            <option value="1">已外调</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group-items" ng-show="searchFlagShow">
+                    <div class="select-group">
+                        <select class="form-input" ng-model="orderSource">
+                            <option value="">订单来源</option>
+                            <option ng-repeat="o in orderFromArr" value="{{o.id}}">{{o.name}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group-items" ng-show="searchFlagShow">
+                    <div class="select-group">
+                        <select class="form-input" ng-model="orderPayStatus">
+                            <option value="">订单支付状态</option>
+                            <option ng-repeat="o in orderPayStateArr" value="{{o.id}}">{{o.name}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group-items" ng-show="searchFlagShow">
+                    <div class="select-group">
+                        <select class="form-input" ng-model="routeType">
+                            <option value="">订单行程类型</option>
+                            <option value="ONE_WAY">单程接送</option>
+                            <option value="TRAVEL_BC">旅游包车</option>
+                            <!-- <option ng-repeat="o in orderPayStateArr" value="{{o.id}}">{{o.name}}</option> -->
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group-items" ng-show="searchFlagShow">
+                    <div class="select-group">
+                        <select class="form-input" ng-model="serviceType">
+                            <option value="">订单业务类型</option>
+                            <option value="COUNTY_SER">县际业务</option>
+                            <option value="CITY_SER">市际业务</option>
+                            <option value="PROVINCE_SER">省际业务</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group-items" ng-show="searchFlagShow">
+                    <div class="select-group">
+                        <input type="text" class="form-input" ng-model="driver" ng-keyup="myKeyup($event)" placeholder="驾驶员（手机/姓名）">
+                    </div>
+                </div>
+                <div class="form-group-items" ng-show="searchFlagShow">
+                    <div class="select-group">
+                        <input type="text" class="form-input" ng-model="seats" ng-keyup="myKeyup($event)" placeholder="座位数">
+                    </div>
+                </div>
+                <div class="form-group-items" ng-show="searchFlagShow">
+                    <div class="select-group">
+                        <input type="text" class="form-input" ng-model="dutyMan" ng-keyup="myKeyup($event)" placeholder="用车方负责人">
+                    </div>
+                </div>
+                <div class="form-group-items" ng-show="searchFlagShow">
+                    <div class="select-group">
+                        <input type="text" class="form-input" ng-model="suppMan" ng-keyup="myKeyup($event)" placeholder="供车方负责人">
+                    </div>
+                </div>
+                <div class="form-group-items" ng-show="searchFlagShow">
+                    <div class="select-group">
+                        <input type="text" class="form-input" ng-model="plateNum" ng-keyup="myKeyup($event)" placeholder="车牌号">
+                    </div>
+                </div>
+                <div class="form-group-items" ng-show="searchFlagShow">
+                    <div class="select-group short-select-form">
+                        <select class="form-input" ng-model="timeType">
+                            <option value="">时间类型</option>
+                            <option value="1">用车时间</option>
+                            <option value="2">下单时间</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group-items" ng-show="searchFlagShow">
+                    <div class="select-group">
+                        <input type="text" id="startTime" autocomplete="off" class="form-input" ng-model="startTime" ng-keyup="myKeyup($event)" placeholder="开始日期">
+                    </div>
+                </div>
+                <div class="form-group-items" ng-show="searchFlagShow">
+                    <div class="select-group">
+                        <input type="text" id="endTime" autocomplete="off" class="form-input" ng-model="endTime" ng-keyup="myKeyup($event)" placeholder="结束日期">
+                    </div>
+                </div>
+                <div class="form-group-items" ng-show="searchFlagShow">
+                    <div class="select-group short-select-form">
+                        <select class="form-input" ng-model="compositor">
+                            <option value="DESC">倒序</option>
+                            <option value="ASC">升序</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="seach-btn-box">
+                    <button type="button" class="btn btn-com" ng-click="searchKey()"><i class="fa fa-search">&nbsp;</i>搜索</button>
+                </div>
+                <div class="seach-btn-box more-search" ng-show="!searchFlagShow" ng-click="moreSearchAction()">
+                    <span class="fa fa-angle-double-right" title="更多搜索条件"></span>
+                </div>
+                <div class="seach-btn-box more-search" ng-show="searchFlagShow" ng-click="moreSearchAction()">
+                    <span class="fa fa-angle-double-left" title="隐藏搜索条件"></span>
+                </div>
+            </form>
+            
+            <div class="action-right-box order-action-right-box">
+                
+                <button type="button" class="btn btn-com" ng-click="compileOrder('add')"><i class="fa fa-plus">&nbsp;</i>新增</button>
+                <!-- <button type="button" class="btn btn-com" ng-click="compileOrder('edit')"><i class="fa fa-pencil-square-o">&nbsp;</i>修改</button> -->
+                <button type="button" class="btn btn-com" ng-click="confirmUseCar()"><i class="fa fa-check">&nbsp;</i>确认用车</button>
+                <button type="button" class="btn btn-com" ng-click="cancelOrder()"><i class="fa fa-close">&nbsp;</i>取消订单</button>
+                <button type="button" class="btn btn-com" ng-click="actionGathering()"><i class="fa fa-jpy">&nbsp;</i>确认收款价格</button>
+            </div>
+        </div>
+        <!-- <div class="main-order-box">
+            <div class="main-order-content">
+                <ul>
+                    <li class="main-order-title"><a>主订单列表</a></li>
+                    <li ng-repeat="m in mainOrderList track by $index" title="{{m.orderNum}}" ng-class="{classClick:$index == isActive}" ng-click="mainOrderIndex($index,m)">
+                        <a>{{m.orderNum}}</a>
+                    </li>
+                </ul>
+            </div>
+        </div> -->
+        <div class="body-table sub-order-box">
+             <div class="commonGrid" ng-class="{'emptyGrid': model.empty || model.error}" ui-grid="gridOptions" ui-grid-resize-columns ui-grid-move-columns ui-grid-pinning ui-grid-auto-resize ui-grid-selection></div> 
+               <mis-pagination record-total="model.totalCount" page-index="model.pageNo"
+                            page-size="model.pageSize" page-total="model.totalPage"
+                            page-state="model.pageState" empty-status="model.empty"
+                            error-status="model.error"></mis-pagination>   
+        </div>
+    </div>
+    
+    <div class="dialog-bg" ng-show="subOrderShow">
+        <div class="dialog-box-content order-action-content">
+            <div class="dialog-header">
+                <span class="dialog-header-title"><i class="fa fa-file-text-o">&nbsp;&nbsp;</i>【{{mainOrderNum}}】 子订单列表</span>
+                <span class="fa fa-remove close-icon" ng-click="closeConfirm('subOrderShow')"></span>
+            </div>
+            <div class="dialog-action-box">
+                <button class="btn btn-com" ng-click="aiSendOrder()">智能派单</button>
+                <button class="btn btn-com" ng-click="manualSendOrder()">人工派单</button>
+                <button class="btn btn-com" ng-click="confirmCar('setExternal')">订单外调</button>
+                <button class="btn btn-com" ng-click="confirmCar('cancelExternal')">取消外调</button>
+                <button class="btn btn-com" ng-click="confirmCar('lockExternal')">锁定外调</button>
+                <button class="btn btn-com" ng-click="confirmCar('unlockExternal')">解锁外调</button>
+                <button class="btn btn-com" ng-click="confirmCar('JLConfirm')">确认派单</button>
+                <button class="btn btn-com" ng-click="updateOrder()">修改订单</button>
+                <button class="btn btn-com" ng-click="deleteOrder()">删除订单</button>
+                <button class="btn btn-com" ng-click="actionPayment()">确认付款价格</button> 
+            </div>
+            <div class="dialog-content">
+                <div>
+                    <div class="table-content">
+                        <table border="1">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <!-- <input id="checkAll" type="checkbox" ng-change="checkedBoxChanged()"
+                                            ng-model="checkedAccountAll"/> -->
+                                    </th>
+                                    <th style="width:100px">订单号</th>
+                                    <th style="width:60px">订单状态</th>
+                                    <th style="width:60px">外调状态</th>
+                                    <th style="width:100px">联系人</th>
+                                    <th style="width:60px">车牌号</th>
+                                    <th style="width:100px">供车方负责人</th>
+                                    <th style="width:80px">付款确认人</th>
+                                    <th style="width:50px">行程数</th>
+                                    <th style="width:300px">行程详情</th>
+                                    <th style="width:200px">备注</th>
+                                    <th style="width:100px">需求车辆数</th>
+                                    <th style="width:60px">需求座位</th>
+                                    <th style="width:60px">实际座位</th>
+                                    <th style="width:60px">收款价格</th>
+                                    <th style="width:60px">派单价格</th>
+                                    <th style="width:60px">已付金额</th>
+                                    <th style="width:100px">提醒师傅现收</th>
+                                    <th style="width:125px">出发时间</th>
+                                    <th style="width:125px">到达时间</th>
+                                    <th style="width:100px">主驾驶员</th>
+                                    <th style="width:50px">价格</th>
+                                    <th style="width:200px">起点位置</th>
+                                    <th style="width:200px">终点位置</th>
+                                    <th style="width:125px">添加时间</th>
+                                </tr>
+                            </thead>
+                            <tbody class="son-order-classify" ng-repeat="c in subOrderClassify">
+                                <tr ng-repeat="s in c" ng-class="{'lock-table-tr':s.isExternal===2}">
+                                    <td>
+                                        <input id="checked" type="checkbox" ng-change="checkedBoxChanged(s)"
+                                            ng-model="s.checked"/>
+                                    </td>
+                                    <td>{{s.orderNum}}</td>
+                                    <td>{{s.statusName}}</td>
+                                    <td>{{s.isExternalName}}</td>
+                                    <td>{{s.carOrderBase.routeLink}}</td>
+                                    <td>{{s.disCar.plateNum}}</td>
+                                    <td>{{s.disCar.suppCarHead}}</td>
+                                    <td>{{s.confirmPaymentName}}</td>
+                                    <td>{{s.routeNo}}</td>
+                                    <td>{{s.routeDetail}}</td>
+                                    <td>{{s.note}}</td>
+                                    <td>{{s.needCars}}</td>
+                                    <td>{{s.needSeats}}</td>
+                                    <td>{{s.realSeats}}</td>
+                                    <td>{{s.price}}</td>
+                                    <td>{{s.disPrice}}</td>
+                                    <td>{{s.alPayPrice}}</td>
+                                    <td>{{s.remDriverCharge}}</td>
+                                    <td>{{s.stime}}</td>
+                                    <td>{{s.etime}}</td>
+                                    <td>{{s.disCar.main_driver.realName}}-{{s.disCar.main_driver.phone}}</td>
+                                    <td>{{s.price}}</td>
+                                    <td>{{s.routeMps[0].mapPoint.address}}</td>
+                                    <td>{{s.routeMps[1].mapPoint.address}}</td>
+                                    <td>{{s.addTime}}</td>
+                                </tr>
+                            </tbody>
+                            
+                        </table>
+                    </div>
+                </div>
+                <div class="dialog-footer-box">
+                    <div class="footer-btn-box">
+                        <button class="btn btn-com dialog-confirm form-compile-btn btn-close" ng-click="closeConfirm('subOrderShow')"><i class="fa fa-close">&nbsp;</i>关闭</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="dialog-bg order-dialog-bg" ng-show="manualSendOrderShow">
+        <div class="dialog-box-content">
+            <div class="dialog-header">
+                <span class="dialog-header-title"><i class="fa fa-user">&nbsp;&nbsp;</i>人工派单</span>
+                <span class="fa fa-remove close-icon" ng-click="closeConfirm('manualSendOrderShow')"></span>
+            </div>
+            <div class="dialog-content">
+                <div class="dialog-tab-nav">
+                    <ul>
+                        <li ng-click="checkTab()" ng-class="{active: showTabOne === true}">线上车辆派单</li>
+                        <li ng-click="checkTab()" ng-class="{active: showTabOne === false}">线下师傅派单</li>
+                    </ul>
+                </div>
+                <div class="dialog-content-form" ng-show="showTabOne">
+                    <div class="content-add-items">
+                        <span class="form-title">营运类型：</span>
+                        <select class="dialog-form-input" ng-model="manualSelfOwned">
+                            <option value="">选择营运类型</option>
+                            <option value="MYSELF">自营</option>
+                            <option value="NOTSELF">非自营</option>
+                        </select>
+                    </div>
+                    <div class="content-add-items">
+                        <span class="form-title">运营区域：</span>
+                        <select class="dialog-form-input" ng-model="manualRunArea">
+                            <option value="0">不限区域</option>
+                            <option value="1">省际包车</option>
+                            <option value="2">市际包车</option>
+                            <option value="3">县际包车</option>
+                        </select>
+                    </div>
+                    <div class="content-add-items">
+                        <span class="form-title"><span class="font-dot-circle"></span>座位数：</span>
+                        <select class="dialog-form-input" ng-model="manualSeats">
+                            <option value="">全部座位数</option>
+                            <option ng-repeat="s in seatNumArr" value="{{s}}">{{s}}</option>
+                        </select>
+                    </div>
+                    <div class="content-add-items">
+                        <span class="form-title">车牌号：</span>
+                        <select class="dialog-form-input" ng-model="manualPlateNum">
+                            <option value="">全部车牌号</option>
+                            <option ng-repeat="s in vehicleList" value="{{s}}">{{s}}</option>
+                        </select>
+                    </div>
+                    <div class="content-add-items">
+                        <span class="form-title"><span class="font-dot-circle"></span>平均速度：</span>
+                        <select class="dialog-form-input" ng-model="manualAvgSpeed">
+                            <option value="">平均速度</option>
+                            <option ng-repeat="s in avgSpeedArr" value="{{s.id}}">{{s.name}}</option>
+                        </select>
+                    </div>
+                    <div class="content-add-items">
+                        <span class="form-title"></span>
+                        <span class="gather-icon-plus" title="查询" ng-click="searchSendVehicle('0')"><i class="fa fa-user-plus"></i>&nbsp;查询</span>
+                        <span class="gather-icon-plus" title="强制查询" ng-click="searchSendVehicle('1')"><i class="fa fa-user-plus"></i>&nbsp;强制查询</span>
+                        <!-- <span>查询方式：</span>
+                        <select class="dialog-form-input" ng-model="manualForce">
+                            <option value="0">正常查询</option>
+                            <option value="1">强制查询</option>
+                        </select> -->
+                    </div>
+                </div>
+                <div class="dialog-footer-box" ng-show="showTabOne">
+                    <div class="footer-btn-box">
+                        <button class="btn btn-com dialog-confirm" ng-click="manualOnLineSave()"><i class="fa fa-check">&nbsp;</i>确定</button>
+                        <button class="btn btn-com dialog-confirm form-compile-btn btn-close" ng-click="closeConfirm('manualSendOrderShow')"><i class="fa fa-close">&nbsp;</i>取消</button>
+                    </div>
+                </div>
+                <div class="dialog-content-form" ng-show="!showTabOne">
+                    <div class="content-add-items">
+                        <span class="form-title"><span class="font-dot-circle"></span>线下车队：</span>
+                        <select class="dialog-form-input" ng-model="offlineSuppCar" ng-change="selectOfflineSuppCar()">
+                            <option value="">选择线下车队</option>
+                            <option ng-repeat="p in partunitList" value="{{p.id}}">{{p.unitName}} / {{p.baseUserId.realName}}</option>
+                        </select>
+                    </div>
+                    <div class="content-add-items">
+                        <span class="form-title"><span class="font-dot-circle"></span>业务负责人：</span>
+                        <select class="dialog-form-input" ng-model="offlineSuppCarHead ">
+                            <option value="">业务负责人</option>
+                            <option ng-repeat="c in ownerPersonList" value="{{c.name}}">{{c.name}}/{{c.phone}}</option>
+                        </select>
+                    </div>
+                    <div class="content-add-items">
+                        <span class="form-title"><span class="font-dot-circle"></span>师傅姓名：</span>
+                        <input type="text" class="dialog-form-input" ng-model="offlineDriverName" placeholder="师傅姓名" maxlength="12">
+                    </div>
+                    <div class="content-add-items">
+                        <span class="form-title"><span class="font-dot-circle"></span>师傅电话：</span>
+                        <input type="text" class="dialog-form-input" ng-model="offlineDriverPhone" placeholder="师傅电话" oninput = "value=value.replace(/[^\d]/g,'')" maxlength="11">
+                    </div>
+                    <div class="content-add-items">
+                        <span class="form-title"><span class="font-dot-circle"></span>车牌号：</span>
+                        <input type="text" class="dialog-form-input" ng-model="offlinePlateNum" placeholder="车牌号" maxlength="9">
+                    </div>
+                    <div class="content-add-items">
+                        <span class="form-title"><span class="font-dot-circle"></span>派单价格：</span>
+                        <input type="text" class="dialog-form-input" ng-model="offlineSendPrice" placeholder="派单价格" maxlength="8">
+                    </div>
+                    <div class="content-add-items">
+                        <span class="form-title">师傅现收：</span>
+                        <input type="text" class="dialog-form-input" ng-model="offlineDriverGath" placeholder="师傅现收" maxlength="8">
+                    </div>
+                </div>
+                
+                <div class="dialog-footer-box" ng-show="!showTabOne">
+                    <div class="footer-btn-box">
+                        <button class="btn btn-com dialog-confirm" ng-click="manualOffLineSave()"><i class="fa fa-check">&nbsp;</i>确定</button>
+                        <button class="btn btn-com dialog-confirm form-compile-btn btn-close" ng-click="closeConfirm('manualSendOrderShow')"><i class="fa fa-close">&nbsp;</i>取消</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="dialog-bg" ng-show="sendModalShow">
+        <div class="dialog-box-content choose-car-content">
+            <div class="dialog-header">
+                <span class="dialog-header-title"><i class="fa fa-newspaper-o">&nbsp;&nbsp;</i>提示信息</span>
+                <span class="fa fa-remove close-icon" ng-click="closeConfirm('sendModalShow')"></span>
+            </div>
+            <div class="dialog-content">
+                    <span>请选择获取车辆模式！</span>
+                <div class="dialog-footer-box">
+                </div>
+                <div class="dialog-footer-box">
+                    <div class="footer-btn-box">
+                        <button class="btn btn-com dialog-confirm" ng-click="chooseSendModal(0)"><i class="fa fa-window-maximize">&nbsp;</i>淡季模式</button>
+                        <button class="btn btn-com dialog-confirm" ng-click="chooseSendModal(1)"><i class="fa fa-window-restore">&nbsp;</i>旺季模式</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="dialog-bg" ng-show="sendOrderDialogShow">
+        <div class="dialog-box-content choose-car-content">
+            <div class="dialog-header">
+                <span class="dialog-header-title"><i class="fa fa-newspaper-o">&nbsp;&nbsp;</i>提示信息</span>
+                <span class="fa fa-remove close-icon" ng-click="closeConfirm('sendOrderDialogShow')"></span>
+            </div>
+            <div class="dialog-content">
+                    <span>{{sendOrderPromptMsg}}</span>
+                <div class="dialog-footer-box" ng-show="codeFlag===1">
+                    <div class="footer-btn-box">
+                        <button class="btn btn-com dialog-confirm" ng-click="sendOrderYes()"><i class="fa fa-check">&nbsp;</i>是</button>
+                        <button class="btn btn-com dialog-confirm form-compile-btn btn-close" ng-click="closeConfirm('sendOrderDialogShow')"><i class="fa fa-close">&nbsp;</i>否</button>
+                    </div>
+                </div>
+                <div class="dialog-footer-box" ng-show="codeFlag===-1">
+                    <div class="footer-btn-box">
+                        <button class="btn btn-com dialog-confirm" ng-click="keepSendOrder()"><i class="fa fa-check">&nbsp;</i>确认派单</button>
+                        <button class="btn btn-com dialog-confirm form-compile-btn btn-close" ng-click="nextGetCar()"><i class="fa fa-random">&nbsp;</i>下一辆车</button>
+                    </div>
+                </div>
+                <div class="dialog-footer-box" ng-show="codeFlag===-2">
+                    <div class="footer-btn-box">
+                        <button class="btn btn-com dialog-confirm" ng-click="chooseCarOne()">{{carOneObj.plateNum}}</button>
+                        <button class="btn btn-com dialog-confirm form-compile-btn" ng-click="chooseCarTwo()">{{carTwoObj.plateNum}}</button>
+                    </div>
+                </div>
+                <div class="dialog-footer-box" ng-show="codeFlag===-3">
+                    <div class="footer-btn-box">
+                        <button class="btn btn-com dialog-confirm" ng-click="chooseBigCar()"><i class="fa fa-check">&nbsp;</i>确定</button>
+                        <button class="btn btn-com dialog-confirm form-compile-btn btn-close" ng-click="closeConfirm('sendOrderDialogShow')"><i class="fa fa-random">&nbsp;</i>取消</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="dialog-bg" ng-show="manualConfirmShow">
+        <div class="dialog-box-content choose-car-content">
+            <div class="dialog-header">
+                <span class="dialog-header-title"><i class="fa fa-newspaper-o">&nbsp;&nbsp;</i>提示信息</span>
+                <span class="fa fa-remove close-icon" ng-click="closeConfirm('manualConfirmShow')"></span>
+            </div>
+            <div class="dialog-content">
+                    <span>{{sendOrderPromptMsg}}</span>
+                <div class="dialog-footer-box">
+                </div>
+                <div class="dialog-footer-box">
+                    <div class="footer-btn-box">
+                        <button class="btn btn-com dialog-confirm" ng-click="offineKeepSendOrder()"><i class="fa fa-check">&nbsp;</i>确认派单</button>
+                        <button class="btn btn-com dialog-confirm form-compile-btn btn-close" ng-click="offlineNextGetCar()"><i class="fa fa-random">&nbsp;</i>下一辆车</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="dialog-bg" ng-show="gatheringActionShow">
+        <div class="dialog-box-content choose-car-content">
+            <div class="dialog-header">
+                <span class="dialog-header-title"><i class="fa fa-newspaper-o">&nbsp;&nbsp;</i>提示信息</span>
+                <span class="fa fa-remove close-icon" ng-click="closeConfirm('gatheringActionShow')"></span>
+            </div>
+            <div class="dialog-content">
+                    <span>确认收款人姓名：</span>
+                    <div class="money-action-form">
+                        <input type="text" ng-model="mainGatheringName" placeholder="输入确认收款人姓名" maxlength="12">
+                    </div>
+                    
+                <div class="dialog-footer-box">
+                </div>
+                <div class="dialog-footer-box">
+                    <div class="footer-btn-box">
+                        <button class="btn btn-com dialog-confirm" ng-click="confirmGathering()"><i class="fa fa-check">&nbsp;</i>确定</button>
+                        <button class="btn btn-com dialog-confirm form-compile-btn btn-close" ng-click="closeConfirm('gatheringActionShow')"><i class="fa fa-close">&nbsp;</i>取消</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="dialog-bg" ng-show="paymentActionShow">
+        <div class="dialog-box-content choose-car-content">
+            <div class="dialog-header">
+                <span class="dialog-header-title"><i class="fa fa-newspaper-o">&nbsp;&nbsp;</i>提示信息</span>
+                <span class="fa fa-remove close-icon" ng-click="closeConfirm('paymentActionShow')"></span>
+            </div>
+            <div class="dialog-content">
+                    <span>确认付款人姓名：</span>
+                    <div class="money-action-form">
+                        <input type="text" ng-model="sonPaymentName" placeholder="输入确认付款人姓名" maxlength="12">
+                    </div>
+                    
+                <div class="dialog-footer-box">
+                </div>
+                <div class="dialog-footer-box">
+                    <div class="footer-btn-box">
+                        <button class="btn btn-com dialog-confirm" ng-click="confirmPayment()"><i class="fa fa-check">&nbsp;</i>确定</button>
+                        <button class="btn btn-com dialog-confirm form-compile-btn btn-close" ng-click="closeConfirm('paymentActionShow')"><i class="fa fa-close">&nbsp;</i>取消</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

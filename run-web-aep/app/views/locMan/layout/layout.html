@@ -1,0 +1,73 @@
+<div class="loc-layout">
+    <div class="loc-content">
+        <div class="sidebar" ng-class="{'sidebar-minimized':minimized}">
+            <scrollable always-visible="true">
+                <div class="nav-container">
+                    <div class="nav-fold" ng-class="{'nav_box_minimized': minimized}" ng-click="minimizeToggle()">
+                        <i class="fa fa-bars fa-rotate-90" aria-hidden="true" ng-if="!minimized"></i>
+                        <i class="fa fa-bars" aria-hidden="true" ng-if="minimized"></i>
+                    </div>
+                    <div class="nav-items">
+                        <div class="nav_box" ng-class="{'nav_box_minimized': minimized, current: $state.includes('aep.loc.dashboard')}">
+                            <div class="nav-title">
+                                <a tooltip-placement="right" uib-tooltip="信息概览" tooltip-class="sidebarTooltip" tooltip-enable="minimized" ui-sref="aep.loc.dashboard">
+                                    <i class="fa fa-tachometer" aria-hidden="true"></i>
+                                    <span class="nav-title-text">信息概览</span>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="nav_box have-sub" ng-class="{'nav_box_minimized': minimized}" ng-repeat="mu in menuLists">
+                            <div class="nav-title">
+                                <a  tooltip-placement="right" uib-tooltip="{{mu.sourceName}}" tooltip-class="sidebarTooltip" tooltip-enable="minimized" second-toggle-collapse>
+                                    <i ng-class="mu.sourceUI" aria-hidden="true"></i>
+                                     <span class="nav-title-text">{{mu.sourceName}}</span>
+                                    <i class="fa fa-angle-right" aria-hidden="true" ></i>
+                                </a>
+                            </div>
+                            <ul class="sub-nav loc-sub-nav">
+                                <li ng-class='{current:  $state.includes(mus.sourceUrl)}'
+                                    ng-repeat="mus in mu.children">
+                                     <a ng-click="addTab(mus)">{{mus.sourceName}}</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </scrollable>
+            <!--<sidebar-collapse></sidebar-collapse>-->
+        </div>
+        <div class="sub-page-container">
+            <scrollable always-visible="true">
+                <div class="panel panel-default panel-loc">
+                    <div class="include-box">
+                        <!-- <div class="nav-box">
+                            <ul class="nav nav-tabs">
+                                <li ng-class="{active: $state.includes('aep.loc.dashboard')}">
+                                    <a ui-sref="aep.loc.dashboard">信息概览</a>
+                                </li>
+                                <li ng-class='{active: $state.includes(ta.state)}' ng-repeat="ta in tabArrs track by $index"
+                                    ng-right-click="toggleMenu()" cur-model="ta">
+                                    <a ng-click="showTabs(ta)">{{ta.title}}</a>
+                                    <i class="fa fa-times fa-position" aria-hidden="true"
+                                       ng-click="deleteTab($event,ta)"></i>
+                                    <div class="quick-toolbar" ng-if="ta.rightMenu">
+                                        <span class="toolbar-item" ng-click="closeTab('other',ta)">关闭其它</span>
+                                        <span class="toolbar-item" ng-click="closeTab('all')">关闭所有</span>
+                                    </div>
+                                </li>
+                                <button class="move-arrow move-left" ng-click="moveLeft()"><i class="fa fa-angle-double-left"></i></button>
+                                <button class="move-arrow move-right" ng-click="moveRight()"><i class="fa fa-angle-double-right"></i></button>
+                            </ul>
+                        </div> -->
+                        <div class="panel-body tab-content">
+                            <div class="tab-pane">
+                                <div ui-view="locbody"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </scrollable>
+        </div>
+
+    </div>
+</div>

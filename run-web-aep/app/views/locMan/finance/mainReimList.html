@@ -1,0 +1,264 @@
+<div class="bankAccount body-content-container">
+    <div class="tab-content-header">
+        <ul class="bread-crumb-nav">
+            <li class="crumb-nav-left">凭证记录表</li>
+        </ul>
+    </div>
+    <div class="data-content-body have-statistic-content">
+
+        <div class="body-table">
+            <div class="total-list">
+                <ul style="display: flex;">
+                    <li><span>累计收入</span>:<span ng-bind="totalGath"></span>元</li>
+                    <li><span>累计支出</span>:<span ng-bind="totalPay"></span>元</li>
+                    <li><span>余额</span>:<span ng-bind="balance"></span>元</li>
+                    <li><span>打单费</span>:<span ng-bind="singleFee"></span>元</li>
+                    <li><span>洗车费</span>:<span ng-bind="washingFee"></span>元</li>
+                    <li><span>停车费</span>:<span ng-bind="parkingFee"></span>元</li>
+                    <li><span>过路费</span>:<span ng-bind="roadFee"></span>元</li>
+                    <li><span>生活费</span>:<span ng-bind="livingFee"></span>元</li>
+                    <li><span>其他费</span>:<span ng-bind="otherFee"></span>元</li>
+                    <li><span>买水</span>:<span ng-bind="waterFee"></span>元</li>
+                     <!-- <li class="main-order-title"><a>主订单列表</a></li>
+                    <li ng-repeat="m in mainOrderList track by $index" title="{{m.orderNum}}" ng-class="{classClick:$index == isActive}" ng-click="mainOrderIndex($index,m)">
+                            <a>{{m.orderNum}}</a>
+                     </li> -->
+                </ul>
+            </div>
+            
+        </div>
+
+
+        
+        <div class="search-form-content">
+            <form class="search-form search-form-order">
+                <div class="form-group-items">
+                    <div class="select-group">
+                        <input type="text" class="form-input" ng-model="courseName" ng-keyup="myKeyup($event)" placeholder="科目名称">
+                    </div>
+                </div>
+                <div class="form-group-items" ng-show="searchFlagShow">
+                    <div class="select-group">
+                        <input type="text" class="form-input" id="sTime" ng-model="sTime" ng-keyup="myKeyup($event)" placeholder="添加开始时间">
+                    </div>
+                </div>
+                <div class="form-group-items"  ng-show="searchFlagShow">
+                    <div class="select-group">
+                        <input type="text" class="form-input" id="eTime" ng-model="eTime" ng-keyup="myKeyup($event)" placeholder="添加结束时间">
+                    </div>
+                </div>
+                <div class="form-group-items" ng-show="searchFlagShow">
+                    <div class="select-group short-select-form">
+                        <select class="form-input" ng-model="isCheck">
+                            <option value="">审核状态</option>
+                            <option value="1">已锁定</option>
+                            <option value="0">未锁定</option>
+                        </select>
+                    </div>
+                </div>
+                <!-- <div class="form-group-items" ng-show="searchFlagShow">
+                    <div class="select-group">
+                        <input type="text" class="form-input" ng-model="myBank" ng-keyup="myKeyup($event)" placeholder="银行名称">
+                    </div>
+                </div> -->
+                <div class="form-group-items" ng-show="searchFlagShow">
+                    <div class="select-group">
+                        <input type="text" class="form-input" ng-model="operMark" ng-keyup="myKeyup($event)" placeholder="操作编号">
+                    </div>
+                </div>
+                <div class="form-group-items" ng-show="searchFlagShow">
+                    <div class="select-group short-select-form">
+                        <select class="form-input" ng-model="reimIsCar">
+                            <option value="">开支</option>
+                            <option value="0">公司开支</option>
+                            <option value="1">车辆开支</option>
+                        </select>
+                    </div>
+                </div>
+                <!-- <div class="form-group-items" ng-show="searchFlagShow">
+                    <div class="select-group">
+                        <input type="text" class="form-input" ng-model="reimMoney" ng-keyup="myKeyup($event)" placeholder="凭证金额">
+                    </div>
+                </div> -->
+                <div class="form-group-items">
+                    <div class="select-group">
+                        <select class="selectpicker form-control" ng-model="plateNum" ng-keyup="myKeyup($event)" data-live-search="true">
+                            <option value="">请选择车牌号</option>
+                            <option ng-repeat="i in carNumberList" ng-if="!(i.status ===3)" value="{{i.plateNumber}}" ng-class="{'red':{{i.status}}===3}">
+                                {{i.plateNumber}}
+                            </option>
+                            <option ng-repeat="i in carNumberList" ng-if="i.status ===3" value="{{i.plateNumber}}" ng-class="{'red':{{i.status}}===3}">
+                                {{i.plateNumber}}（下线）
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group-items" ng-show="searchFlagShow">
+                    <div class="select-group">
+                        <input type="text" class="form-input" ng-model="reimZy" ng-keyup="myKeyup($event)" placeholder="摘要">
+                    </div>
+                </div>
+                <!-- <div class="form-group-items" ng-show="searchFlagShow">
+                    <div class="select-group short-select-form">
+                        <select class="form-input" ng-model="status">
+                            <option value="">状态</option>
+                            <option value="0">收入</option>
+                            <option value="1">支出</option>
+                        </select>
+                    </div>
+                </div> -->
+                <div class="form-group-items" ng-show="searchFlagShow">
+                    <div class="select-group">
+                        <select class="selectpicker form-control" ng-keyup="myKeyup($event)" ng-model="uname" data-live-search="true" title="请选择经办人">
+                            <option  value="">请选择经办人</option>
+                            <option ng-repeat="i in employeeListAll" ng-if="!(i.staffState ==='LEAVE')" value="{{i.baseUserId.uname}}" ng-class="{'red':'{{i.staffState}}'==='LEAVE'}">
+                                {{i.baseUserId.realName}}
+                            </option>
+                            <option ng-repeat="i in employeeListAll" ng-if="i.staffState ==='LEAVE'" value="{{i.baseUserId.uname}}" ng-class="{'red':'{{i.staffState}}'==='LEAVE'}">
+                                {{i.baseUserId.realName}}（离职）
+                            </option>
+                         </select>
+                    </div>
+                </div>
+                <div class="form-group-items" ng-show="searchFlagShow">
+                    <div class="select-group">
+                        <input type="text" class="form-input" ng-model="vouNum" ng-keyup="myKeyup($event)" placeholder="凭证编号">
+                    </div>
+                </div>
+                <div class="seach-btn-box">
+                    <button type="button" class="btn btn-com" ng-click="searchKey()"><i class="fa fa-search">&nbsp;</i>搜索</button>
+                </div>
+                <div class="seach-btn-box more-search" ng-show="!searchFlagShow" ng-click="moreSearchAction()">
+                    <span class="fa fa-angle-double-right" title="更多搜索条件"></span>
+                </div>
+                <div class="seach-btn-box more-search" ng-show="searchFlagShow" ng-click="moreSearchAction()">
+                    <span class="fa fa-angle-double-left" title="隐藏搜索条件"></span>
+                </div>
+            </form>
+            
+            <div class="action-right-box order-action-right-box" style="margin-bottom: 15px;">
+                <!-- <button type="button" class="btn btn-com" ng-click="compileReimList('add')"><i class="fa fa-plus">&nbsp;</i>新增</button> -->
+                <button type="button" class="btn btn-com" ng-click="compileReimList('edit')"><i class="fa fa-pencil-square-o">&nbsp;</i>修改</button>
+                <button type="button" class="btn btn-com" ng-click="deleteReim()"><i class="fa fa-trash">&nbsp;</i>撤销</button>
+                <!-- <button type="button" class="btn btn-com" ng-click="HxReim()">核销</button> -->
+                <button type="button" class="btn btn-com" ng-click="YlReim()">预览</button>
+                <button type="button" class="btn btn-com" ng-click="operCheck(0)">解锁</button>
+                <button type="button" class="btn btn-com" ng-click="operCheck(1)">锁定</button>
+        </div>
+        <div class="body-table sub-order-box">
+            <div class="commonGrid" ng-class="{'emptyGrid': model.empty || model.error}" ui-grid="gridOptions" ui-grid-resize-columns ui-grid-move-columns ui-grid-pinning ui-grid-auto-resize ui-grid-selection></div>
+             <mis-pagination record-total="model.totalCount" page-index="model.pageNo"
+                            page-size="model.pageSize" page-total="model.totalPage"
+                            page-state="model.pageState" empty-status="model.empty"
+                            error-status="model.error"></mis-pagination> 
+        </div>
+    </div>
+    <!-- 核销 -->
+    <!-- <div class="dialog-bg" ng-show="cancelShow">
+        <div class="dialog-box-content">
+            <div class="dialog-header">
+                <span class="dialog-header-title"><i class="fa fa-user">&nbsp;</i>核销</span>
+            </div>
+            <div class="dialog-content">
+                <div class="row form-group">
+                    <label class="col-lg-3 control-label"><span class="font-dot-circle"></span>我的银行：</label>
+                    <div class="col-lg-5" style="display: flex;">
+                        <select class="form-control" ng-model="myBankHx"  required>
+                            <option disabled value="">请选择我的银行</option>
+                            <option ng-repeat="i in myBankListHx" value="{{i.cardName}}/{{i.cardNo}}">{{i.cardName}}/{{i.cardNo}}</option>
+                        </select>
+                    </div>
+                    <span class="col-lg-4 form-control-static font-error"
+                        ng-show="bankAccountForm.myBank.$dirty &&bankAccountForm.myBank.$invalid">
+                        <span ng-show="bankAccountForm.myBank.$error.required">我的银行不能为空</span>
+                    </span>
+                </div>
+                <div class="row form-group">
+                    <label class="col-lg-3 control-label"><span class="font-dot-circle"></span>对方银行信息：</label>
+                        <div class="col-lg-5">
+                            <input type="text" class="form-control" ng-model="transNameHx" placeholder="对方户名">
+                            <input type="text" class="form-control" ng-model="transNunberHx" placeholder="对方账号">
+                        </div>
+                </div>
+                <div class="row form-group">
+                    <label class="col-lg-3 control-label"><span class="font-dot-circle"></span>审核备注(选填)：</label>
+                        <div class="col-lg-5">
+                            <textarea type="text" class="form-control" ng-model="noteHx"></textarea>
+                        </div>
+                </div>
+                <div class="dialog-footer-box">
+                    <div class="footer-btn-box">
+                        <button class="btn btn-com dialog-confirm" ng-click="HXSure()"><i class="fa fa-check">&nbsp;</i>确定</button>
+                        <button class="btn btn-com dialog-confirm form-compile-btn btn-close" ng-click="closeConfirm()"><i class="fa fa-close">&nbsp;</i>取消</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> -->
+
+    <!-- 预览 -->
+    <div class="dialog-bg" ng-show="YlShow">
+        <div class="dialog-box-content">
+            <div class="dialog-header">
+                <span class="dialog-header-title"><i class="fa fa-user">&nbsp;</i>预览</span>
+            </div>
+            <div class="dialog-content">
+                <div class="table-responsive" style="height: 320px;overflow: auto;">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                            <th>摘要</th>
+                            <th>借方金额</th>
+                            <th>贷方金额</th>
+                            <th>科目</th>
+                            <!-- <th>日期</th> -->
+                            </tr>
+                            </thead>
+                            <tbody ng-repeat = "q in YlDatas">
+                                <tr style="background-color: #f0f0f0">
+                                    <td>日期：{{q.entity.addTime}}&nbsp&nbsp凭证号码：{{q.entity.voucherNum}}</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr ng-repeat = "j in q.entity.courseTrades">
+                                    <td>{{j.remark}}</td>
+                                    <td>{{j.gathMoney}}</td>
+                                    <td>{{j.payMoney}}</td>
+                                    <td>{{j.feeCourseId.courseNum}}/{{j.feeCourseId.courseName}}</td>
+                                    <!-- <td>{{j.addTime}}</td> -->
+                                </tr>
+                            </tbody>
+                    </table>
+                  </div>
+                 <!-- <div class="main-data-table" style="display: flex; margin: 0 auto; width: 800px;">
+                    <table border="1" style="width: 1000px; margin: 0;">
+                       <thead>
+                       <tr>
+                       <th>摘要</th>
+                       <th>借方金额</th>
+                       <th>贷方金额</th>
+                       <th>科目修改</th>
+                       </tr>
+                       </thead>
+                       <tbody>
+                       <tr>
+                           <div>时间</div>
+                           <td style="text-align: center; ">33</td>
+                           <td style="text-align: center;">44</td>
+                           <td style="text-align: center; ">55</td>
+                           <td style="width: 200px;">99</td>
+                       </tr>
+                       </tbody>
+                   </table>
+                    <div class="totle">合计：100000</div> 
+               </div>  -->
+                <div class="dialog-footer-box">
+                    <div class="footer-btn-box">
+                        <button class="btn btn-com dialog-confirm form-compile-btn btn-close" ng-click="closeConfirmYl()"><i class="fa fa-close">&nbsp;</i>取消</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,104 @@
+<div class="body-content-container">
+    <div class="tab-content-header">
+        <ul class="bread-crumb-nav">
+            <li class="crumb-nav-left">科目明细</li>
+        </ul>
+    </div>
+    <div class="data-content-body">
+        <div class="search-form-content">
+            <form class="search-form">
+                <!-- <ul class="menu">
+                    <li class="list"><a>List 4</a> 
+                       <ul class="items">
+                          <li> <a > Item 4-1 </a></li>
+                          <li> <a  > Item 4-2 </a></li>
+                          <li class="list"><a >List 4-1</a> 
+                             <ul  class="items">
+                                <li> <a  > Item 4-1-1</a></li>
+                                <li> <a  > Item 4-1-2</a></li>
+                                <li class="list"><a >List 4-2</a> 
+                                   <ul  class="items">
+                                      <li> <a  > Item 4-2-1</a></li>
+                                      <li> <a  > Item 4-2-2</a></li>
+                                   </ul>
+                                </li>
+                             </ul>
+                          </li>
+                       </ul>
+                    </li>
+                 </ul> -->
+                <div class="form-group-items">
+                    <div class="select-group">
+                        <!-- <div id="tree"></div>  -->
+                        <select class="selectpicker form-control" ng-model="courseId" data-live-search="true" title="请选择科目" multiple>
+                            <option  value="">请选择科目</option>
+                            <option ng-repeat="i in feeCourseList" value="{{i.id}}"> {{i.parentCourseId.parentCourseId.courseName}} {{i.parentCourseId.courseName}} {{i.courseName}}</option>
+                         </select>
+                    </div>
+                </div>
+                <div class="seach-btn-box">
+                    <button type="button" class="btn btn-com" ng-click="searchKey()"><i class="fa fa-search">&nbsp;</i>搜索</button>
+                </div>
+            </form>
+            
+            <!-- <div class="action-right-box">
+                <button type="button" class="btn btn-com" ng-click="openBankManage()">启用</button>
+                <button type="button" class="btn btn-com" ng-click="compileBankManage('add')"><i class="fa fa-plus">&nbsp;</i>新增</button>
+                <button type="button" class="btn btn-com" ng-click="compileBankManage('edit')"><i class="fa fa-pencil-square-o">&nbsp;</i>修改</button>
+                <button type="button" class="btn btn-com" ng-click="deleteBankManage()"><i class="fa fa-trash">&nbsp;</i>删除</button>
+            </div> -->
+        </div>
+        <div class="body-table">
+            <!-- <div style="display: flex; justify-content: space-between;"> -->
+                <div class="commonGrid" ng-class="{'emptyGrid': model.empty || model.error}" ui-grid="gridOptions" ui-grid-resize-columns ui-grid-move-columns ui-grid-pinning ui-grid-auto-resize ui-grid-selection></div>
+                <!-- <div>
+                    <div class="search-form-content">
+                        <form class="search-form">
+                            <div class="form-group-items">
+                                <div class="select-group">
+                                   
+                                    <select class="selectpicker form-control" ng-model="courseId" data-live-search="true" title="请选择科目" multiple>
+                                        <option  value="">请选择科目</option>
+                                        <option ng-repeat="i in feeCourseList" value="{{i.id}}"> {{i.parentCourseId.parentCourseId.courseName}} {{i.parentCourseId.courseName}} {{i.courseName}}</option>
+                                     </select>
+                                </div>
+                            </div>
+                            <div class="seach-btn-box">
+                                <button type="button" class="btn btn-com" ng-click="searchKey()"><i class="fa fa-search">&nbsp;</i>搜索</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div style="height: 450px; overflow: auto;">
+                        <ul class="menu">
+                            
+                                <li class="list" ng-repeat="i in feeCourseList" data-ng-init="load()"><a>{{i.courseName}}</a> 
+                                    <ul class="items">
+                                        <li> <a>{{i.parentCourseId.courseName}}</a></li>
+                                        <li> <a>{{i.parentCourseId.parentCourseId.courseName}}</a></li>
+                                           <ul  class="items">
+                                              <li> <a> Item 4-1-1</a></li>
+                                              <li> <a> Item 4-1-2</a></li>
+                                              <li class="list"><a>List 4-2</a> 
+                                                 <ul  class="items">
+                                                    <li> <a> Item 4-2-1</a></li>
+                                                    <li> <a> Item 4-2-2</a></li>
+                                                 </ul>
+                                              </li>
+                                           </ul>
+                                        </li>
+                                     </ul>
+                                </li>
+                           
+                        
+                    </ul>
+                </div>
+            </div>
+            </div> -->
+            
+             <mis-pagination record-total="model.totalCount" page-index="model.pageNo"
+                            page-size="model.pageSize" page-total="model.totalPage"
+                            page-state="model.pageState" empty-status="model.empty"
+                            error-status="model.error"></mis-pagination> 
+        </div>
+    </div>
+</div>

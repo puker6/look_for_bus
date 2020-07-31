@@ -1,0 +1,701 @@
+<div class="body-content-container owner-containe-body">
+    <div class="tab-content-header">
+        <ul class="bread-crumb-nav">
+            <li class="crumb-nav-left crumb-nav-action" ui-sref="aep.loc.order_list">订单列表</li>
+            <li class="crumb-nav-interval">/</li>
+            <li class="crumb-nav-title" ng-bind="title"></li>
+        </ul>
+    </div>
+    <div class="data-content-body row">
+        <div class="tab-nav-box">
+            <ul>
+                <li ng-click="checkTab()" ng-class="{active: showTabOne === true}"><a>单程接送</a></li>
+                <li ng-click="checkTab()" ng-class="{active: showTabOne === false}"><a>包车订单</a></li>
+            </ul>
+        </div>
+        <div class="oneway-content-box" ng-show="showTabOne">
+            <form class="form-horizontal" name="orderForm">
+                <div class="title-items">基本信息</div>
+                <div class="form-group">
+                    <label class="col-lg-3 control-label order-compile-label"><span class="font-dot-circle"></span>客户：</label>
+                    <div class="col-lg-5">
+                        <select class="form-control" name="clientId" ng-model="clientId" ng-change="selectClient()" required>
+                            <option value="">请选择客户</option>
+                            <option ng-repeat="c in clientList" value="{{c.id}}">{{c.baseUserId.realName}} 【 {{c.baseUserId.phone}} 】</option>
+                        </select>
+                    </div>
+                    <span class="col-lg-4 form-control-static font-error"
+                        ng-messages="orderForm.clientId.$dirty && orderForm.clientId.$error">
+                        <span ng-message="required">客户不能为空</span>
+                    </span>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-3 control-label order-compile-label"><span class="font-dot-circle"></span>业务负责人：</label>
+                    <div class="col-lg-2">
+                        <select class="form-control" name="ownerPerson" ng-model="ownerPerson" required>
+                            <option value="">请选择业务负责人</option>
+                            <option ng-repeat="c in ownerPersonList" value="{{c.name}}">{{c.name}} 【 {{c.phone}} 】</option>
+                        </select>
+                    </div>
+                    <label class="col-lg-1 control-label order-compile-label"><span class="font-dot-circle"></span>业务员：</label>
+                    <div class="col-lg-2">
+                        <select class="form-control" name="serviceMan" ng-model="serviceMan" required>
+                            <option value="">请选择业务员</option>
+                            <option ng-repeat="c in serviceManList" value="{{c.realName}}">{{c.realName}} 【 {{c.phone}} 】</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="title-items">去程信息</div>
+                <div class="form-group">
+                    <label class="col-lg-3 control-label order-compile-label"><span class="font-dot-circle"></span>去程类型：</label>
+                    <div class="col-lg-2">
+                        <select class="form-control" name="tripWay" ng-model="tripWay" ng-change="getStationList('go')" required>
+                            <option value="pickupAirport">接飞机</option>
+                            <option value="dropAirport">送飞机</option>
+                            <option value="pickupTrain">接火车</option>
+                            <option value="dropTrain">送火车</option>
+                            <option value="otherWay">其它</option>
+                        </select>
+                    </div>
+                    <label ng-if="wayNumShow" class="col-lg-1 control-label order-compile-label">航班/车次号：</label>
+                    <div ng-if="wayNumShow" class="col-lg-2">
+                            <input type="text" class="form-control" name="wayNum" ng-model="wayNum"
+                            placeholder="航班/车次号" ng-maxlength="16" maxlength="16" required>
+                    </div>
+                    <!-- <label class="col-lg-1 control-label order-compile-label"><span class="font-dot-circle"></span>所在城市：</label>
+                    <div class="col-lg-2">
+                            <input type="text" id="citySelect" class="form-control" name="citySelectName" ng-model="citySelectName" ng-blur="getStationList()"
+                            placeholder="选择所在城市" ng-maxlength="12" maxlength="12" required>
+                    </div> -->
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-3 control-label"><span class="font-dot-circle"></span>出行时间：</label>
+                    <div class="col-lg-5">
+                        <input type="text" id="goTime" class="form-control work-order-time" name="goTime" ng-model="goTime" 
+                            placeholder="请选择出行时间" required>
+                    </div>
+                    <span class="col-lg-4 form-control-static font-error"
+                        ng-show="employeeForm.entryTime.$dirty &&employeeForm.entryTime.$invalid">
+                        <span ng-show="employeeForm.entryTime.$error.required">出行时间不能为空</span>
+                    </span>
+                </div>
+                <div class="form-group" ng-show="!startAddressShow">
+                    <label class="col-lg-3 control-label order-compile-label"><span class="font-dot-circle"></span>去程起点：</label>
+                    <div class="col-lg-5">
+                        <select class="form-control" name="startAddressSec" ng-model="startAddressSec" required>
+                            <option value="">请选择去程起点</option>
+                            <option ng-repeat="s in stationList" value="{{s.id}}">{{s.name}}</option>
+                        </select>
+                    </div>
+                    <span class="order-other-operation" ng-click="passAdressAction()"><i class="fa fa-plus-circle">&nbsp;</i>添加途经点</span>
+                </div>
+                <div class="form-group" ng-show="startAddressShow">
+                    <label class="col-lg-3 control-label"><span class="font-dot-circle"></span>去程起点：</label>
+                    <div class="col-lg-5">
+                        <div id="r-result-1">
+                            <input type="text" class="form-control" id="startSuggestId" size="20"  placeholder="请输入起点位置"
+                                name="startAddress" ng-model="startAddress" ng-blur="consoleAdress()" required/></div>
+                        <div id="startSearchResultPanel" style="border:1px solid #C0C0C0;width:150px;height:auto; display:none;"></div>
+                    </div>
+                    <span class="order-other-operation" ng-click="passAdressAction()"><i class="fa fa-plus-circle">&nbsp;</i>添加途经点</span>
+                </div>
+                <div class="form-group" ng-repeat="p in passAddressInputArr">
+                    <label class="col-lg-3 control-label"><span class="font-dot-circle"></span>途经点：</label>
+                    <div class="col-lg-5">
+                        <div id="r-result-2">
+                            <input type="text" class="form-control" id="{{p.suggestId}}" size="20"  placeholder="请输入途经点位置"
+                                 required/></div>
+                        <div id="{{p.passId}}" style="border:1px solid #C0C0C0;width:150px;height:auto; display:none;"></div>
+                    </div>
+                    <span class="order-other-operation" ng-click="cancelPassAdressAction($index,p)"><i class="fa fa-times-circle-o">&nbsp;</i>取消途经点</span>
+                </div>
+                <div class="form-group" ng-show="endAddressShow">
+                    <label class="col-lg-3 control-label order-compile-label"><span class="font-dot-circle"></span>去程终点：</label>
+                    <div class="col-lg-5">
+                        <select class="form-control" name="endAddressSec" ng-model="endAddressSec" required>
+                            <option value="">请选择去程终点</option>
+                            <option ng-repeat="s in stationList" value="{{s.id}}">{{s.name}}</option>
+                        </select>
+                    </div>
+                    <span class="col-lg-4 form-control-static font-error"
+                        ng-messages="orderForm.endAddressSec.$dirty && orderForm.endAddressSec.$error">
+                        <span ng-message="required">终点位置不能为空</span>
+                    </span>
+                </div>
+                <div class="form-group" ng-show="!endAddressShow">
+                    <label class="col-lg-3 control-label"><span class="font-dot-circle"></span>去程终点：</label>
+                    <div class="col-lg-5">
+                        <div id="r-result-2">
+                            <input type="text" class="form-control" id="endSuggestId" size="20"  placeholder="请输入终点位置"
+                                name="endAddress" ng-model="endAddress" ng-blur="consoleAdress()" required/></div>
+                        <div id="endSearchResultPanel" style="border:1px solid #C0C0C0;width:150px;height:auto; display:none;"></div>
+                    </div>
+                    <span class="col-lg-4 form-control-static font-error"
+                        ng-show="orderForm.endAddress.$error && orderForm.endAddress.$invalid">
+                        <span ng-show="orderForm.endAddress.$error.required">终点位置不能为空</span>
+                    </span>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-3 control-label"><span class="font-dot-circle"></span>联系人信息：</label>
+                    <div class="col-lg-5">
+                        <input type="text" class="form-control name-control" name="linkName" ng-model="linkName"
+                            placeholder="联系人姓名" ng-maxlength="10" maxlength="10" required>
+                        <input type="text" class="form-control phone-control" name="linkPhone" ng-model="linkPhone"
+                            ng-pattern="/^1[3|4|5|6|7|8|9][0-9]{9}$/" maxlength="11" placeholder="联系人手机号码" oninput = "value=value.replace(/[^\d]/g,'')" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-3 control-label"><span class="font-dot-circle"></span>是否走收费高速：</label>
+                    <div class="col-lg-5">
+                        <label class="control-radio-label" for=""><input type="radio" class="form-control-radio" ng-model="isHighSpeed" value="1">&nbsp;&nbsp;是</label>
+                        <label class="control-radio-label radio-label-right" for=""><input type="radio" class="form-control-radio" ng-model="isHighSpeed" value="0">&nbsp;&nbsp;否</label>    
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="col-lg-3 control-label"><span class="font-dot-circle"></span>选择类型：</label>
+                    <div class="col-lg-2">
+                        <select class="form-control" name="goType" ng-model="goType" required>
+                            <option value="1">单个车辆（座）</option>
+                            <option value="2">团队人数（位）</option>
+                        </select>
+                    </div>
+                    <label class="col-lg-1 control-label"><span class="font-dot-circle"></span>人数/座位：</label>
+                    <div class="col-lg-2">
+                        <input type="text" class="form-control" name="seatNumber" ng-model="seatNumber" oninput = "value=value.replace(/[^\d]/g,'')" ng-blur="changeSeat('go')"
+                            placeholder="请输入数量" ng-maxlength="6" maxlength="6" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-3 control-label"><span class="font-dot-circle"></span>车辆数：</label>
+                    <div class="col-lg-2">
+                        <input type="text" class="form-control" name="carNumber" ng-model="carNumber" ng-blur="imputedPrice()" oninput = "value=value.replace(/[^\d]/g,'')"
+                            placeholder="请输入车辆数" ng-maxlength="6" maxlength="6" required>
+                    </div>
+                        <label class="col-lg-1 control-label"><span class="font-dot-circle"></span>单价：</label>
+                    <div class="col-lg-2">
+                        <input type="text" class="form-control" name="unitPrice" ng-model="unitPrice" ng-blur="imputedPrice()" oninput = "value=value.replace(/[^0-9\.]/g,'')"
+                            placeholder="请输入单价（元）" ng-maxlength="6" maxlength="6" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-3 control-label">途中用餐或其他原因增加时间：</label>
+                    <div class="col-lg-2">
+                        <input type="text" class="form-control" name="reasonTime" ng-model="reasonTime"
+                            placeholder="请输入增加小时数" ng-maxlength="3" maxlength="3" required>
+                    </div>
+                    <label class="col-lg-1 control-label">师傅现收：</label>
+                    <div class="col-lg-2">
+                        <input type="text" class="form-control" name="masterMoney" ng-model="masterMoney" oninput = "value=value.replace(/[^0-9\.]/g,'')"
+                            placeholder="师傅收款金额（元）" ng-maxlength="6" maxlength="6" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-3 control-label">限号：</label>
+                    <div class="col-lg-2">
+                        <select class="form-control" name="triffic" ng-model="triffic" required>
+                            <option value="">无</option>
+                            <option value="1,6">1和6</option>
+                            <option value="2,7">2和7</option>
+                            <option value="3,8">3和8</option>
+                            <option value="4,9">4和9</option>
+                            <option value="5,0">5和0</option>
+                        </select>
+                    </div>
+                    <label class="col-lg-1 control-label"><span class="font-dot-circle"></span>去程总价：</label>
+                    <div class="col-lg-2">
+                        <input type="text" class="form-control" name="totalPrice" ng-model="totalPrice"
+                            placeholder="去程总价（元）" ng-maxlength="20" maxlength="20" disabled>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="col-lg-3 control-label">其它费用：</label>
+                    <div class="col-lg-2">
+                        <input type="text" class="form-control" name="otherPrice" ng-model="otherPrice" oninput = "value=value.replace(/[^0-9\.]/g,'')"
+                            placeholder="请输入其它费用（元）" ng-maxlength="6" maxlength="6">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-3 control-label">其它费用说明：</label>
+                    <div class="col-lg-5">
+                        <input type="text" class="form-control" name="otherPriceNote" ng-model="otherPriceNote"
+                            placeholder="请输入其它费用说明，提交后自动添加到详情" ng-maxlength="100" maxlength="100" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-3 control-label"><span class="font-dot-circle"></span>行程详情：</label>
+                    <div class="col-lg-5">
+                        <textarea name="" class="form-control textarea-control order-remark" ng-model="routeDetail"
+                            placeholder="行程详情：如订单为接送机或火车订单，请填写航班号或车次号(120字内)" maxlength="120"></textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-3 control-label">备注：</label>
+                    <div class="col-lg-5">
+                        <textarea name="" class="form-control textarea-control order-remark" ng-model="goRemark"
+                            placeholder="备注(120字内)" maxlength="120"></textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-3 control-label">其它操作：</label>
+                    <div class="col-lg-5">
+                        <!-- <span class="order-other-operation" ng-click="linkManAction('add')" ng-show="!linkManShow"><i class="fa fa-user-plus">&nbsp;</i>添加联系人</span>
+                        <span class="order-other-operation" ng-click="linkManAction('cancel')" ng-show="linkManShow"><i class="fa fa-user-times">&nbsp;</i>取消联系人</span> -->
+                        <!-- <span class="order-other-operation" ng-click="passAdressAction('add')" ng-show="!passAdressShow"><i class="fa fa-send">&nbsp;</i>添加途经点</span>
+                        <span class="order-other-operation" ng-click="passAdressAction('cancel')" ng-show="passAdressShow"><i class="fa fa-send-o">&nbsp;</i>取消途经点</span> -->
+                        <span class="order-other-operation" ng-click="backTarckAction('add')" ng-show="!backTarckShow"><i class="fa fa-plus-circle">&nbsp;</i>添加返程</span>
+                        <span class="order-other-operation" ng-click="backTarckAction('cancel')" ng-show="backTarckShow"><i class="fa fa-close">&nbsp;</i>取消返程</span>
+                    </div>
+                </div> 
+            </form>
+        </div>
+        <div class="oneway-content-box" ng-show="backTarckShow">
+            <form class="form-horizontal" name="orderForm">
+                <div class="title-items">返程信息</div>
+                <div class="form-group">
+                    <label class="col-lg-3 control-label order-compile-label"><span class="font-dot-circle"></span>返程类型：</label>
+                    <div class="col-lg-2">
+                        <select class="form-control" name="backTripWay" ng-model="backTripWay" ng-change="checkBackStation('back')" required>
+                            <option value="pickupAirport">接飞机</option>
+                            <option value="dropAirport">送飞机</option>
+                            <option value="pickupTrain">接火车</option>
+                            <option value="dropTrain">送火车</option>
+                            <option value="otherWay">其它</option>
+                        </select>
+                    </div>
+                    <label ng-if="backWayNumShow" class="col-lg-1 control-label order-compile-label">航班/车次号：</label>
+                    <div ng-if="backWayNumShow" class="col-lg-2">
+                            <input type="text" class="form-control" name="backWayNum" ng-model="backWayNum"
+                            placeholder="航班/车次号" ng-maxlength="16" maxlength="16" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-3 control-label"><span class="font-dot-circle"></span>返程时间：</label>
+                    <div class="col-lg-5">
+                        <input type="text" id="backGoTime" class="form-control work-order-time" name="backGoTime" ng-model="backGoTime" ng-change="compareGoTime()"
+                            placeholder="请选择返程时间" required>
+                    </div>
+                    <span class="col-lg-4 form-control-static font-error"
+                        ng-show="employeeForm.entryTime.$dirty &&employeeForm.entryTime.$invalid">
+                        <span ng-show="employeeForm.entryTime.$error.required">返程时间不能为空</span>
+                    </span>
+                </div>
+                <div class="form-group" ng-show="backStartAddressShow">
+                    <label class="col-lg-3 control-label order-compile-label"><span class="font-dot-circle"></span>返程起点：</label>
+                    <div class="col-lg-5">
+                        <select class="form-control" name="backStartAddressSec" ng-model="backStartAddressSec" required>
+                            <option value="">请选择返程起点</option>
+                            <option ng-repeat="s in stationList" value="{{s.id}}">{{s.name}}</option>
+                        </select>
+                    </div>
+                    <span class="order-other-operation" ng-click="backPassAdressAction()"><i class="fa fa-plus-circle">&nbsp;</i>添加途经点</span>
+                </div>
+                <div class="form-group" ng-show="!backStartAddressShow">
+                    <label class="col-lg-3 control-label"><span class="font-dot-circle"></span>返程起点：</label>
+                    <div class="col-lg-5">
+                        <div id="r-result-1">
+                            <input type="text" class="form-control" id="backStartSuggestId" size="20"  placeholder="请输入起点位置"
+                                name="backStartAddress" ng-model="backStartAddress" required/></div>
+                        <div id="backStartSearchResultPanel" style="border:1px solid #C0C0C0;width:150px;height:auto; display:none;"></div>
+                    </div>
+                    <span class="order-other-operation" ng-click="backPassAdressAction()"><i class="fa fa-plus-circle">&nbsp;</i>添加途经点</span>
+                </div>
+                <div class="form-group" ng-repeat="b in backPassAddressInputArr">
+                    <label class="col-lg-3 control-label"><span class="font-dot-circle"></span>途经点：</label>
+                    <div class="col-lg-5">
+                        <div id="r-result-2">
+                            <input type="text" class="form-control" id="{{b.suggestId}}" ng-model="b.backPassModal" size="20"  placeholder="请输入途经点位置" required/>
+                        </div>
+                        <div id="{{b.passId}}" style="border:1px solid #C0C0C0;width:150px;height:auto; display:none;"></div>
+                    </div>
+                    <span class="order-other-operation" ng-click="backCancelPassAdressAction($index,b)"><i class="fa fa-times-circle-o">&nbsp;</i>取消途经点</span>
+                </div>
+                <div class="form-group" ng-show="!backEndAddressShow">
+                    <label class="col-lg-3 control-label order-compile-label"><span class="font-dot-circle"></span>返程终点：</label>
+                    <div class="col-lg-5">
+                        <select class="form-control" name="backEndAddressSec" ng-model="backEndAddressSec" required>
+                            <option value="">请选择返程终点</option>
+                            <option ng-repeat="s in stationList" value="{{s.id}}">{{s.name}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group" ng-show="backEndAddressShow">
+                    <label class="col-lg-3 control-label"><span class="font-dot-circle"></span>返程终点：</label>
+                    <div class="col-lg-5">
+                        <div id="r-result-2">
+                            <input type="text" class="form-control" id="backEndSuggestId" size="20"  placeholder="请输入终点位置"
+                                name="backEndAddress" ng-model="backEndAddress" required/></div>
+                        <div id="backEndSearchResultPanel" style="border:1px solid #C0C0C0;width:150px;height:auto; display:none;"></div>
+                    </div>
+                </div>
+                
+                <!-- <div class="form-group">
+                    <label class="col-lg-3 control-label"><span class="font-dot-circle"></span>联系人信息：</label>
+                    <div class="col-lg-5">
+                        <input type="text" class="form-control name-control" name="backLinkName" ng-model="backLinkName"
+                            placeholder="联系人姓名" ng-maxlength="10" maxlength="10" required>
+                        <input type="text" class="form-control phone-control" name="backLinkPhone" ng-model="backLinkPhone"
+                            ng-pattern="/^1[3|4|5|6|7|8|9][0-9]{9}$/" maxlength="11" placeholder="联系人手机号码" oninput = "value=value.replace(/[^\d]/g,'')" required>
+                    </div>
+                </div> -->
+                <div class="form-group">
+                    <label class="col-lg-3 control-label"><span class="font-dot-circle"></span>是否走高速：</label>
+                    <div class="col-lg-5">
+                        <label class="control-radio-label" for=""><input type="radio" class="form-control-radio" ng-model="backIsHighSpeed" value="1">&nbsp;&nbsp;是</label>
+                        <label class="control-radio-label radio-label-right" for=""><input type="radio" class="form-control-radio" ng-model="backIsHighSpeed" value="0">&nbsp;&nbsp;否</label>    
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="col-lg-3 control-label"><span class="font-dot-circle"></span>选择类型：</label>
+                    <div class="col-lg-2">
+                        <select class="form-control" name="backGoType" ng-model="backGoType" required>
+                            <option value="1">单个车辆（座）</option>
+                            <option value="2">团队人数（位）</option>
+                        </select>
+                    </div>
+                    <label class="col-lg-1 control-label"><span class="font-dot-circle"></span>人数/座位：</label>
+                    <div class="col-lg-2">
+                        <input type="text" class="form-control" name="backSeatNumber" ng-model="backSeatNumber" ng-blue="changeSeat('back')"
+                            placeholder="请输入数量" ng-maxlength="20" maxlength="20" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-3 control-label"><span class="font-dot-circle"></span>车辆数：</label>
+                    <div class="col-lg-2">
+                        <input type="text" class="form-control" name="backCarNumber" ng-model="backCarNumber"
+                            placeholder="请输入车辆数" ng-maxlength="20" maxlength="20" ng-blur="backImputedPrice()" required>
+                    </div>
+                        <label class="col-lg-1 control-label"><span class="font-dot-circle"></span>单价：</label>
+                    <div class="col-lg-2">
+                        <input type="text" class="form-control" name="backUnitPrice" ng-model="backUnitPrice"
+                            placeholder="请输入单价（元）" ng-maxlength="20" maxlength="20" ng-blur="backImputedPrice()" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-3 control-label">途中用餐或其他原因增加时间：</label>
+                    <div class="col-lg-2">
+                        <input type="text" class="form-control" name="backReasonTime" ng-model="backReasonTime"
+                            placeholder="请输入增加小时数" ng-maxlength="20" maxlength="20" required>
+                    </div>
+                    <label class="col-lg-1 control-label">师傅现收：</label>
+                    <div class="col-lg-2">
+                        <input type="text" class="form-control" name="backMasterMoney" ng-model="backMasterMoney"
+                            placeholder="师傅收款金额（元）" ng-maxlength="20" maxlength="20" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-3 control-label">限号：</label>
+                    <div class="col-lg-2">
+                        <select class="form-control" name="backTriffic" ng-model="backTriffic" required>
+                            <option value="">无</option>
+                            <option value="1,6">1和6</option>
+                            <option value="2,7">2和7</option>
+                            <option value="3,8">3和8</option>
+                            <option value="4,9">4和9</option>
+                            <option value="5,0">5和0</option>
+                        </select>
+                    </div>
+                    <label class="col-lg-1 control-label"><span class="font-dot-circle"></span>返程价格：</label>
+                    <div class="col-lg-2">
+                        <input type="text" class="form-control" name="backTotalPrice" ng-model="backTotalPrice"
+                            placeholder="返程价格（元）" ng-maxlength="20" maxlength="20" disabled required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-3 control-label">其它费用：</label>
+                    <div class="col-lg-2">
+                        <input type="text" class="form-control" name="otherPrice" ng-model="backOtherPrice" oninput = "value=value.replace(/[^0-9\.]/g,'')"
+                            placeholder="请输入其它费用（元）" ng-maxlength="6" maxlength="6">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-3 control-label">其它费用说明：</label>
+                    <div class="col-lg-5">
+                        <input type="text" class="form-control" name="otherPriceNote" ng-model="backOtherPriceNote"
+                            placeholder="请输入其它费用说明" ng-maxlength="100" maxlength="100" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-3 control-label"><span class="font-dot-circle"></span>返程详情：</label>
+                    <div class="col-lg-5">
+                        <textarea name="" class="form-control textarea-control order-remark" ng-model="backRouteDetail"
+                            placeholder="返程详情：如订单为接送机或火车订单，请填写航班号或车次号(120字内)" maxlength="120"></textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-3 control-label">备注：</label>
+                    <div class="col-lg-5">
+                        <textarea name="" class="form-control textarea-control" ng-model="backGoRemark"
+                            placeholder="备注(200字内)" maxlength="200"></textarea>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="chartered-container-box" ng-show="!showTabOne">
+            <form class="form-horizontal" name="orderForm">
+                <div class="title-items">基本信息</div>
+                <div class="form-group">
+                    <label class="col-lg-3 control-label order-compile-label"><span class="font-dot-circle"></span>客户：</label>
+                    <div class="col-lg-5">
+                        <select class="form-control" name="clientId" ng-model="clientId" ng-change="selectClient()" required>
+                            <option value="">请选择客户</option>
+                            <option ng-repeat="c in clientList" value="{{c.id}}">{{c.baseUserId.realName}} 【 {{c.baseUserId.phone}} 】</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-3 control-label order-compile-label"><span class="font-dot-circle"></span>业务负责人：</label>
+                    <div class="col-lg-2">
+                        <select class="form-control" name="ownerPerson" ng-model="ownerPerson" required>
+                            <option value="">请选择业务负责人</option>
+                            <option ng-repeat="c in ownerPersonList" value="{{c.name}}">{{c.name}} 【 {{c.phone}} 】</option>
+                        </select>
+                    </div>
+                    <label class="col-lg-1 control-label order-compile-label"><span class="font-dot-circle"></span>业务员：</label>
+                    <div class="col-lg-2">
+                        <select class="form-control" name="serviceMan" ng-model="serviceMan" required>
+                            <option value="">请选择业务员</option>
+                            <option ng-repeat="c in serviceManList" value="{{c.realName}}">{{c.realName}} 【 {{c.phone}} 】</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-3 control-label"><span class="font-dot-circle"></span>联系人信息：</label>
+                    <div class="col-lg-5">
+                        <input type="text" class="form-control name-control" ng-model="chartLinkName"
+                            placeholder="联系人姓名" ng-maxlength="10" maxlength="10" required>
+                        <input type="text" class="form-control phone-control" ng-model="chartLinkPhone"
+                            ng-pattern="/^1[3|4|5|6|7|8|9][0-9]{9}$/" maxlength="11" placeholder="联系人手机号码" oninput = "value=value.replace(/[^\d]/g,'')" required>
+                    </div>
+                </div>
+                <div class="title-items">行程信息</div>
+                <div class="travel-items-box">
+                    <div class="travel-header-box">
+                        <div class="form-group traver-item-group item-first">
+                            <label class="control-label"><span class="font-dot-circle"></span>出发地点：</label>
+                            <div class="control-input-box">
+                                <input type="text" class="form-control name-control" id="chartStartSuggestId" ng-model="chartStartAdress"
+                                    placeholder="出发地点" ng-maxlength="20" maxlength="20" required>
+                                <div id="chartStartSearchResultPanel" style="border:1px solid #C0C0C0;width:150px;height:auto; display:none;"></div>
+                            </div> 
+                        </div>
+                        <div class="form-group traver-item-group">
+                            <label class="control-label"><span class="font-dot-circle"></span>出发时间：</label>
+                            <div class="control-input-box">
+                                <!-- <input type="text" class="form-control name-control" id="chartStartTime" ng-model="chartStartTime"
+                                    placeholder="出发时间" ng-maxlength="20" maxlength="20" ng-change="computeTime('start')" required> -->
+                                <input type="text" class="form-control name-control chart-start-date" id="chartStartDate" ng-model="chartStartDate"
+                                    placeholder="出发日期" ng-maxlength="20" maxlength="20" required>
+                                <input type="text" class="form-control name-control chart-start-time" id="chartStartTimestamp" ng-model="chartStartTimestamp"
+                                     ng-maxlength="10" maxlength="10" required>
+                            </div> 
+                        </div>
+                        <div class="form-group traver-item-group">
+                            <label class="control-label"><span class="font-dot-circle"></span>返程时间：</label>
+                            <div class="control-input-box">
+                                <!-- <input type="text" class="form-control name-control" id="chartEndTime" ng-model="chartEndTime"
+                                    placeholder="返程时间" ng-maxlength="20" maxlength="20" ng-change="computeTime('end')" required> -->
+                                <input type="text" class="form-control name-control chart-start-date" id="chartEndDate" ng-model="chartEndDate"
+                                    placeholder="返程日期" ng-maxlength="20" maxlength="20" required>
+                                <input type="text" class="form-control name-control chart-start-time" id="chartEndTimestamp" ng-model="chartEndTimestamp"
+                                     ng-maxlength="10" maxlength="10" required>
+                            </div> 
+                        </div>
+                        <!-- <div class="form-group traver-item-group col-lg-4">
+                            <label class="control-label"><span class="font-dot-circle"></span>游玩天数：</label>
+                            <div class="control-input-box">
+                                <input type="text" class="form-control name-control" id="chartDays" ng-model="chartDays"
+                                    placeholder="游玩天数" ng-maxlength="3" maxlength="3" ng-change="computeTime('days')" required>
+                            </div> 
+                        </div> -->
+                    </div>
+                    <div class="days-title-box" ng-show="chartDays!==0">共游玩 （ <span>{{chartDays}}</span> ） 天</div>
+                    <div class="action-travel-content">
+                        <div class="action-left-content">
+                            <ul>
+                                <li ng-repeat="d in daysListArr track by $index" ng-class="{classClick:$index == isActive}" ng-click="actionIndex($index,d)">
+                                    <span class="days-name">{{d.name}}&nbsp;</span>
+                                    <span class="days-days">{{d.day}}</span>
+                                    <span class="days-info" ng-if="d.scenicListMsg===''">{{d.type}}</span>
+                                    <span class="days-msg" ng-if="d.scenicListMsg!==''">{{d.scenicListMsg}}</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="action-center-content">
+                            <ul>
+                                <li ng-repeat="t in travelType" ng-class="{activeClick:$index == isActiveInfo}" ng-click="actionInfoIndex($index,t)">
+                                    <span class="days-name">{{t.name}}</span>
+                                    <span class="days-days">{{t.arrow}}</span>
+                                    <span class="days-info">{{t.msg}}</span>
+                                </li>
+                                <div class="adress-input-box" id="r-result-3">
+                                    <i class="fa fa-map-marker"></i>
+                                    <input type="text" placeholder="请输入终点位置" id="chartEndSuggestId" ng-model="chartEndAdress">
+                                    <div id="chartEndSearchResultPanel" style="border:1px solid #C0C0C0;width:150px;height:auto; display:none;"></div>
+                                </div>
+                            </ul>
+                        </div>
+                        <div class="action-right-content">
+                            <div class="choose-address-box">
+                                <div class="form-item-group">
+                                    <select ng-model="recommendArea" ng-change="chooseScenic()">
+                                        <option value="">请选择区域</option>
+                                        <option ng-repeat="c in countyList" value="{{c.countyName}}">{{c.countyName}}</option>
+                                    </select>
+                                </div>
+                                <div class="form-item-group">
+                                     <!-- <select id="driveType_select" class="selectpicker form-control" ng-model="chartScenicName" ng-change="chooseScenicSure()" 
+                                        title="请选择景点" multiple>
+                                    </select>  -->
+                                    <select ng-model="chartScenicName" ng-change="chooseScenicSure()">
+                                        <option value="">请选择景点</option>
+                                         <option ng-repeat="c in countyJdList" value="{{c.id}}">{{c.mapAddr}}</option> 
+                                    </select>  
+                                </div>
+                                <div class="form-item-group item-second">
+                                    <input type="text" placeholder="输入景点地址" id="chartScenicSuggestId" ng-model="chartScenicAdress">
+                                    <span class="fa fa-plus-circle" title="确定景点" ng-click="confirmScenic()"></span>
+                                    <div id="chartScenicSearchResultPanel" style="border:1px solid #C0C0C0;width:150px;height:auto; display:none;"></div>
+                                </div>
+                            </div>
+                            <div class="scenic-gather-box">
+                                <div class="items-list" ng-repeat="s in scenicGatherArr">
+                                    <span class="items-user-icon"><i class="fa fa-paper-plane-o"></i></span>
+                                    <span>{{s.addressDetail}}</span>&nbsp;&nbsp;
+                                    <span class="gather-icon-close" title="删除" ng-click="deleteScenic(s)"><i class="fa fa-close"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="action-route-content">
+                            <p ng-repeat="r in routeMsgArr">第<span>{{r.curDay}}</span>天，<span>{{r.stime}}</span> 从<span>{{r.spoint}}</span>出发，
+                                <span>{{r.etime}}</span> 到达<span>{{r.epoint}}</span>
+                            </p>
+                        </div>
+                        <div style="clear:both"></div>
+                        <div class="action-bottom-content">
+                            <div class="form-group traver-item-group">
+                                <label class="control-label"><span class="font-dot-circle"></span>车辆数：</label>
+                                <div class="control-input-box">
+                                    <input type="text" class="form-control" ng-model="chartCars"
+                                        placeholder="车辆数" ng-maxlength="3" maxlength="3"required>
+                                </div> 
+                            </div>
+                            <div class="form-group traver-item-group">
+                                <label class="control-label"><span class="font-dot-circle"></span>座位数：</label>
+                                <div class="control-input-box">
+                                    <input type="text" class="form-control" ng-model="chartSeats "
+                                        placeholder="座位数" ng-maxlength="3" maxlength="3"required>
+                                </div> 
+                            </div>
+                            <div class="form-group traver-item-group">
+                                <label class="control-label"><span class="font-dot-circle"></span>行程价格：</label>
+                                <div class="control-input-box">
+                                    <input type="text" class="form-control" ng-model="chartRoutePrice"
+                                        placeholder="行程价格" ng-maxlength="6" maxlength="6"required>
+                                </div> 
+                            </div>
+                            <!-- <div class="form-group traver-item-group">
+                                <label class="control-label"><span class="font-dot-circle"></span>联系人姓名：</label>
+                                <div class="control-input-box">
+                                    <input type="text" class="form-control" ng-model="chartItemLinkName"
+                                        placeholder="乘车人姓名" ng-maxlength="12" maxlength="12">
+                                </div> 
+                            </div>
+                            <div class="form-group traver-item-group">
+                                <label class="control-label"><span class="font-dot-circle"></span>联系人手机号：</label>
+                                <div class="control-input-box">
+                                    <input type="text" class="form-control" ng-model="chartItemLinkPhone"
+                                        placeholder="乘车人姓名" ng-maxlength="11" maxlength="11">
+                                </div> 
+                            </div> -->
+                            <div class="form-group traver-item-group">
+                                <label class="control-label">限号：</label>
+                                <div class="control-input-box">
+                                    <select class="form-control" ng-model="chartLimitNum">
+                                        <option value="">无</option>
+                                        <option value="1,6">1和6</option>
+                                        <option value="2,7">2和7</option>
+                                        <option value="3,8">3和8</option>
+                                        <option value="4,9">4和9</option>
+                                        <option value="5,0">5和0</option>
+                                    </select>
+                                </div> 
+                            </div>
+                            <div class="form-group traver-item-group">
+                                <label class="control-label">师傅现收：</label>
+                                <div class="control-input-box">
+                                    <input type="text" class="form-control" ng-model="chartRemindRouteCash"
+                                        placeholder="师傅现收" ng-maxlength="6" maxlength="6">
+                                </div> 
+                            </div>
+                            <div class="form-group traver-item-group">
+                                <label class="control-label"><span class="font-dot-circle"></span>走高速：</label>
+                                <div class="control-input-box">
+                                    <input type="checkbox" class="form-control form-checkbox" ng-model="chartIsHighSpeed">
+                                </div> 
+                            </div>
+                            <div class="form-group traver-item-group">
+                                <label class="control-label">其他费用：</label>
+                                <div class="control-input-box">
+                                    <input type="text" class="form-control" ng-model="chartOtherPrice"
+                                        placeholder="其他费用" ng-maxlength="6" maxlength="6">
+                                </div> 
+                            </div>
+                            <div class="form-group traver-item-group other-price-note-group">
+                                <label class="control-label">其他费用说明：</label>
+                                <div class="control-input-box">
+                                    <input type="text" class="form-control" ng-model="chartOtherPriceNote"
+                                        placeholder="其他费用说明" ng-maxlength="100" maxlength="100"required>
+                                </div> 
+                            </div>
+                            <!-- <div class="form-group traver-item-group"></div>
+                            <div class="form-group traver-item-group"></div> -->
+                            <div class="form-group textarea-box">
+                                <label class="control-label"><span class="font-dot-circle"></span>行程详情：</label>
+                                <div class="control-input-box">
+                                    <textarea name="" class="form-control textarea-control order-remark" ng-model="chartRouteDetail"
+                                        placeholder="行程详情(120字内)" maxlength="120"></textarea>
+                                </div> 
+                            </div>
+                            <div class="form-group textarea-box">
+                                <label class="control-label">备注：</label>
+                                <div class="control-input-box">
+                                    <textarea name="" class="form-control textarea-control order-remark" ng-model="chartNote"
+                                        placeholder="备注(120字内)" maxlength="120"></textarea>
+                                </div> 
+                            </div>
+                            <div class="action-footer-box">
+                                <div class="footer-btn-box">
+                                    <button class="btn btn-com form-compile-btn btn-submit" 
+                                        click-Disable="chartSaveItems()"><i class="fa fa-floppy-o">&nbsp;</i>保存/下一程
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </form>
+        </div>
+        <div class="submit-btn-box">
+            <label class="col-lg-3"></label>
+            <div class="col-lg-5">
+                <div class="btn-content" ng-show="showTabOne">
+                    <button class="btn btn-com form-compile-btn btn-submit" 
+                        click-Disable="saveData()"><i class="fa fa-floppy-o">&nbsp;</i>提交
+                    </button>
+                    <button class="btn btn-com form-compile-btn btn-close" ng-click="backPage()"><i class="fa fa-close">&nbsp;</i>取消</button>
+                </div>
+                <div class="btn-content" ng-show="!showTabOne&&savaBtnShow">
+                    <button class="btn btn-com form-compile-btn btn-submit" 
+                        click-Disable="charteredSaveData()"><i class="fa fa-floppy-o">&nbsp;</i>提交
+                    </button>
+                    <button class="btn btn-com form-compile-btn btn-close" ng-click="backPage()"><i class="fa fa-close">&nbsp;</i>取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

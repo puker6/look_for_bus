@@ -1,0 +1,61 @@
+<div class="body-content-container">
+    <div class="tab-content-header">
+        <ul class="bread-crumb-nav">
+            <li class="crumb-nav-left">员工列表</li>
+        </ul>
+    </div>
+    <div class="data-content-body">
+        <div class="search-form-content">
+            <form class="search-form">
+                <div class="form-group-items">
+                    <div class="select-group">
+                        <input type="text" class="form-input" ng-model="keyword" ng-keyup="myKeyup($event)" placeholder="姓名/电话">
+                    </div>
+                </div>
+                <div class="seach-btn-box">
+                    <button type="button" class="btn btn-com" ng-click="searchKey()"><i class="fa fa-search">&nbsp;</i>搜索</button>
+                </div>
+            </form>
+            <div class="action-right-box">
+                <button type="button" class="btn btn-com" ng-click="compileEmployee('add')"><i class="fa fa-plus">&nbsp;</i>新增</button>
+                <button type="button" class="btn btn-com" ng-click="compileEmployee('edit')"><i class="fa fa-pencil-square-o">&nbsp;</i>修改</button>
+                <button type="button" class="btn btn-com" ng-click="leaveOffice()"><i class="fa fa-calendar">&nbsp;</i>员工离职</button>
+                <button type="button" class="btn btn-com" ng-click="deleteEmployee()"><i class="fa fa-trash">&nbsp;</i>删除</button>
+            </div>
+        </div>
+        <div class="body-table">
+            <div class="commonGrid" ng-class="{'emptyGrid': model.empty || model.error}" ui-grid="gridOptions" ui-grid-resize-columns ui-grid-move-columns ui-grid-pinning ui-grid-auto-resize ui-grid-selection></div>
+             <mis-pagination record-total="model.totalCount" page-index="model.pageNo"
+                            page-size="model.pageSize" page-total="model.totalPage"
+                            page-state="model.pageState" empty-status="model.empty"
+                            error-status="model.error"></mis-pagination> 
+        </div>
+    </div>
+    <div class="dialog-bg" ng-show="leaveOfficeShow">
+        <div class="dialog-box-content choose-car-content leave-office-content">
+            <div class="dialog-header">
+                <span class="dialog-header-title"><i class="fa fa-newspaper-o">&nbsp;&nbsp;</i>提示信息</span>
+                <span class="fa fa-remove close-icon" ng-click="closeConfirm()"></span>
+            </div>
+            <div class="dialog-content">
+                    <span>离职日期：</span>
+                    <div class="money-action-form">
+                        <input type="text" id="leaveTime" ng-model="leaveTime" placeholder="选择离职日期">
+                    </div>
+                    <span>备注：</span>
+                    <div class="money-action-form">
+                        <textarea type="text" ng-model="leaveRemark" placeholder="请输入备注"></textarea>
+                    </div>
+                    
+                <div class="dialog-footer-box">
+                </div>
+                <div class="dialog-footer-box">
+                    <div class="footer-btn-box">
+                        <button class="btn btn-com dialog-confirm" ng-click="saveLeaveDate()"><i class="fa fa-check">&nbsp;</i>确定</button>
+                        <button class="btn btn-com dialog-confirm form-compile-btn btn-close" ng-click="closeConfirm()"><i class="fa fa-close">&nbsp;</i>取消</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

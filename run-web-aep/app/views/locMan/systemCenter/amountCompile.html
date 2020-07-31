@@ -1,0 +1,33 @@
+<div class="body-content-container">
+    <div class="tab-content-header">
+        <ul class="bread-crumb-nav">
+            <li class="crumb-nav-left crumb-nav-action" ui-sref="aep.loc.amount_list">金额类型列表</li>
+            <li class="crumb-nav-interval">/</li>
+            <li class="crumb-nav-title" ng-bind="title"></li>
+        </ul>
+    </div>
+    <div class="data-content-body row">
+        <form class="form-horizontal" name="amountForm">
+            <div class="form-group">
+                <label class="col-lg-3 control-label"><span class="font-dot-circle"></span>类型名称：</label>
+                <div class="col-lg-5">
+                    <input type="text" class="form-control name-control" ng-model="typeName" placeholder="请填写类型名称" ng-blur="checkName()" required >
+                </div>
+                <span class="col-lg-4 form-control-static font-error"
+                    ng-messages="amountForm.typeName.$dirty && amountForm.typeName.$error">
+                <span ng-message="required">类型名称不能为空</span>
+                </span>
+            </div>
+        </form>
+        <div class="submit-btn-box">
+            <label class="col-lg-3"></label>
+            <div class="col-lg-5">
+                <div class="btn-content">
+                    <button class="btn btn-com form-compile-btn btn-submit" ng-disabled="amountForm.$invalid ||errorTimeMsg" click-Disable="saveData()"><i class="fa fa-floppy-o">&nbsp;</i>提交</button>
+                    <button class="btn btn-com form-compile-btn btn-close" ng-click="backPage()"><i class="fa fa-close">&nbsp;</i>取消</button>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>

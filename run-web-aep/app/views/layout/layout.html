@@ -1,0 +1,25 @@
+<div class="main-layout">
+    <header class="main-header" ng-class="{'header-minimized':minimized}">
+        <div class="header-container">
+             <div class="logo-panel">
+                <div class="logo" title="{{ 'TOP_LINK_HOMEPAGE' | translate }}">
+                    <img src="./src/images/logo-2.png" alt="">
+                    <span>巴士好找</span>
+                    <!-- <h1 title="{{ 'TOP_LINK_HOMEPAGE' | translate }}"></h1> -->
+                </div>
+            </div> 
+             <!-- <p class="layout-title-white">巴士好找管理系统</p>  -->
+            <div class="layout-user-box">
+                <img src="./src/images/user-default-base.png">
+                 <span>{{nickName}}</span> 
+                <!-- <span>管理员</span> -->
+                <a ng-click="logoutWeb()"><i class="fa fa-power-off fa-fw font-error"></i></a>
+            </div>
+        </div>
+    </header>
+    <div class="main-content">
+        <div class="page-container">
+            <div ui-view="layout"></div>
+        </div>
+    </div>
+</div>

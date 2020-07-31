@@ -1,0 +1,196 @@
+<div class="main-reim body-content-container ">
+    <div class="tab-content-header">
+        <ul class="bread-crumb-nav">
+            <li class="crumb-nav-left crumb-nav-action" ui-sref="aep.loc.main_reim">凭证记录列表</li>
+            <li class="crumb-nav-interval">/</li>
+            <li class="crumb-nav-title" ng-bind="title"></li>
+        </ul>
+    </div>
+
+    <div class="data-content-body row">
+        <!-- <form class="form-horizontal" name="reimForm">
+            <div class="form-group">
+                <label class="col-lg-3 control-label"><span class="font-dot-circle"></span>科目：</label>
+                <div class="col-lg-5" style="display: flex;">
+                    <select class="form-control" ng-model="feeCourseId" required>
+                        <option disabled value="">请选择科目类型</option>
+                        <option ng-repeat="i in feeCourseList" value="{{i.id}}">{{i.courseName}}</option>
+
+                    </select>
+                </div>
+                <span class="col-lg-4 form-control-static font-error"
+                    ng-show="reimForm.feeCourseId.$dirty &&reimForm.feeCourseId.$invalid">
+                    <span ng-show="reimForm.feeCourseId.$error.required">科目不能为空</span>
+                </span>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-3 control-label"><span class="font-dot-circle"></span>记账时间：</label>
+                <div class="col-lg-5">
+                    <input type="text" class="form-control" id="gainTime" ng-model="gainTime" placeholder="记账时间">
+                </div>
+
+            </div>
+            <div class="form-group">
+                <label class="col-lg-3 control-label"><span class="font-dot-circle"></span>摘要：</label>
+                <div class="col-lg-5">
+                    <input type="text" 
+                            class="form-control" 
+                            ng-model="remark"
+                            ng-focus="focusRemark()"
+                            ng-change="changeKeyValue(remark)">
+                    <div ng-show="remarkSelectShow">
+                        <select style="height: auto;max-height: 100px; position: absolute;
+                        z-index: 999;" class="form-control" ng-model="remarkSelectList" ng-change="remarkSelect1()" multiple="multiple">
+                            <option ng-click="optionClick()" ng-repeat="remark1 in remarksList track by $index" value="{{remark1}}">{{remark1}}</option>
+                        </select>
+                    </div>
+                    <div class="div">
+                        <input type="text" name="makeupCo" id="makeupCo" class="makeinp" ng-focus='setfocus()' oninput='setinput(this,"#typenum");' placeholder="请选择或输入匹配文字" />
+                        <select style=" height: 200px;
+                        margin: 0px;
+                        padding: 2px 0px;" name="makeupCoSe" id="typenum" onchange='changeF(this,"#typenum","makeupCo","#search-button")' size="10" ng-show="reimShow">
+                            <option ng-repeat="remark1 in remarksList track by $index" value="{{remark1}}">{{remark1}}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-3 control-label"><span class="font-dot-circle"></span>摘要：</label>
+                <div class="col-lg-5">
+                    <input type="text" class="form-control" ng-model="remark">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-3 control-label"><span class="font-dot-circle"></span>金额：</label>
+                <div class="col-lg-5">
+                    <input type="text" class="form-control" ng-model="totalMoney" required >
+                </div>
+                <span class="col-lg-4 form-control-static font-error"
+                ng-show="reimForm.totalMoney.$dirty &&reimForm.totalMoney.$invalid">
+                <span ng-show="reimForm.totalMoney.$error.required">金额不能为空</span>
+            </span>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-3 control-label"><span class="font-dot-circle"></span>报销人账号：</label>
+                <div class="col-lg-5" style="display: flex;">
+                    <select class="form-control" ng-model="uname" required>
+                        <option disabled value="">请选择报销人账号</option>
+                        <option ng-repeat="i in unameList" value="{{i.uname}}">{{i.realName}}</option>
+                    </select>
+                </div>
+                <span class="col-lg-4 form-control-static font-error"
+                    ng-show="reimForm.uname.$dirty &&reimForm.uname.$invalid">
+                    <span ng-show="reimForm.uname.$error.required">报销人账号不能为空</span>
+                </span>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-3 control-label">照片：</label>
+                <div class="col-lg-5">
+                    <div class="form-image-box">
+                        <span class="icon icon-add-pic image-add" ng-click="addPic('idCardFrontImg')"></span>
+                        <input type="file" id="idCardFrontImg" accept="image/jpeg,image/jpg,image/png"  multiple="multiple"  onchange="angular.element(this).scope().multipleFileUpload(this,'idCardFrontImg')" ng-show="false">
+                        <img class="image-box-show" ng-click="addPic('idCardFrontImg')" ng-repeat="i in imgUrlArr.idCardFrontImgUrl" ng-src="{{i}}" alt="">
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="submit-btn-box">
+            <label class="col-lg-3"></label>
+            <div class="col-lg-5">
+                <div class="btn-content">
+                    <button class="btn btn-com form-compile-btn btn-submit" ng-disabled="bankManageForm.$invalid ||errorTimeMsg" click-Disable="saveData()"><i class="fa fa-floppy-o">&nbsp;</i>提交</button>
+                    <button class="btn btn-com form-compile-btn btn-close" ng-click="backPage()"><i class="fa fa-close">&nbsp;</i>取消</button>
+                </div>
+            </div>
+            
+        </div> -->
+
+            <form class="form-horizontal" name="reimForm">
+                <div class="main-content-reim">
+                    <div class="main-header-click">
+                        <div ng-click="saveData()">保存</div>
+                        <div>打印</div>
+                    </div>
+                    <div class="main-data">
+                        <div class="main-data-input">
+                            <div>
+                                <label>记账日期：</label>
+                                <input type="text" id="gainTime" class="form-control name-control" ng-model="gainTime" placeholder="请选择记账时间">
+                            </div>
+                            <!-- <div>
+                                <div>
+                                    <label>附单据</label>
+                                    <input class="form-control name-control" type="text">
+                                    <label>张</label>
+                                </div>
+                                <div>附件</div>
+                                <div>备注</div>
+                            </div> -->
+                        </div>
+                        <div class="main-data-table" style="display: flex; margin: 0 auto; width: 800px;">
+                             <table border="1" style="width: 600px; margin: 0;">
+                                <thead>
+                                <tr>
+                                <!-- <th>摘要</th> -->
+                                <th>摘要修改</th>
+                                <th>借方金额</th>
+                                <th>贷方金额</th>
+                                <th>科目</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="j in datasList">
+                                    <!-- <td style="text-align: center;">
+                                        {{j.remark}}
+                                    </td> -->
+                                    <td style="width: 120px;">
+                                        <input type="text" class="form-input" ng-model="j.remark" ng-keyup="myKeyup($event)" ng-change="remarkEdit(j)">
+                                    </td>
+                                    <td style="text-align: center;">{{j.gathMoney}}</td>
+                                    <td style="text-align: center;">{{j.payMoney}}</td>
+                                    <td style="text-align: center;">
+                                        {{j.feeCourseId.courseName}}
+                                        <!-- <select disabled="disabled"  class="form-control" ng-model="j.feeCourseId.id" required>
+                                            <option disabled value="">请选择科目类型</option>
+                                            <option ng-repeat="a in feeCourseList|filter:{courseType:'0',courseStatus:'0'}" value="{{a.id}}">{{a.courseName}}</option>
+                                        </select> -->
+                                        <!-- <select  class="form-control"  ng-model="$parent.conId[$index]" required>
+                                            <option disabled value="">请选择科目类型</option>
+                                            <option ng-repeat="a in feeCourseList|filter:{courseType:'0',courseStatus:'0'}" value="{{a.id}}">{{a.courseName}}</option>
+                                        </select> -->
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <!-- <table border="1" style="width: 200px; margin: 0;">
+                                <thead>
+                                <tr>
+                                <th>科目</th>
+                                
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="feeCourseIdL in feeCourseIds track by $index">
+                                    <td>
+                                        <select disabled="disabled"  class="form-control" ng-model="feeCourseIdL" required>
+                                        <option disabled value="">请选择科目类型</option>
+                                        <option ng-repeat="a in feeCourseList|filter:{courseType:'0',courseStatus:'0'}" value="{{a.id}}">{{a.courseName}}</option>
+                                    </select>
+                                </td>
+                                    
+                                </tr>
+                                </tbody>
+                            </table> -->
+                            <!-- <div class="totle">合计：100000</div> -->
+                        </div>
+                    </div>
+                    </div>
+
+                    <!-- <div class="people">
+                        <div>制单人：</div>
+                        <div>会计002</div>
+                    </div> -->
+        </form>
+        </div>
+        
+</div>

@@ -1,0 +1,151 @@
+<div class="body-content-container owner-containe-body">
+    <div class="tab-content-header">
+        <ul class="bread-crumb-nav">
+            <li class="crumb-nav-left crumb-nav-action" ui-sref="aep.loc.order_list">订单列表</li>
+            <li class="crumb-nav-interval">/</li>
+            <li class="crumb-nav-title">订单编辑</li>
+        </ul>
+    </div>
+    <div class="data-content-body row">
+        <div class="oneway-content-box">
+            <form class="form-horizontal" name="orderForm">
+                <div class="title-items">基本信息</div>
+                <div class="form-group">
+                    <label class="col-lg-3 control-label order-compile-label"><span class="font-dot-circle"></span>客户：</label>
+                    <div class="col-lg-5">
+                        <select class="form-control" name="clientId" ng-model="clientId" ng-change="selectClient()" required>
+                            <option value="">请选择客户</option>
+                            <option ng-repeat="c in clientList" value="{{c.id}}">{{c.baseUserId.realName}} 【 {{c.baseUserId.phone}} 】</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-3 control-label order-compile-label"><span class="font-dot-circle"></span>业务负责人：</label>
+                    <div class="col-lg-2">
+                        <select class="form-control" name="ownerPerson" ng-model="ownerPerson" required>
+                            <option value="">请选择业务负责人</option>
+                            <option ng-repeat="c in ownerPersonList" value="{{c.name}}">{{c.name}} 【 {{c.phone}} 】</option>
+                        </select>
+                    </div> 
+                    <label class="col-lg-1 control-label order-compile-label"><span class="font-dot-circle"></span>业务员：</label>
+                    <div class="col-lg-2">
+                        <select class="form-control" name="serviceMan" ng-model="serviceMan" required>
+                            <option value="">请选择业务员</option>
+                            <option ng-repeat="c in serviceManList" value="{{c.realName}}">{{c.realName}} 【 {{c.phone}} 】</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-3 control-label"><span class="font-dot-circle"></span>联系人姓名：</label>
+                    <div class="col-lg-2">
+                        <input type="text" class="form-control" name="linkName" ng-model="linkName"
+                            placeholder="联系人姓名" ng-maxlength="10" maxlength="10" required>
+                    </div>
+                    <label class="col-lg-1 control-label"><span class="font-dot-circle"></span>手机号：</label>
+                    <div class="col-lg-2">
+                        <input type="text" class="form-control" name="linkPhone" ng-model="linkPhone"
+                            ng-pattern="/^1[3|4|5|6|7|8|9][0-9]{9}$/" maxlength="11" placeholder="联系人手机号码" oninput = "value=value.replace(/[^\d]/g,'')" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-3 control-label"><span class="font-dot-circle"></span>出行时间：</label>
+                    <div class="col-lg-2">
+                        <input type="text" id="stime" class="form-control work-order-time" name="stime" ng-model="stime" 
+                            placeholder="请选择出发时间" required>
+                    </div>
+                    <label class="col-lg-1 control-label"><span class="font-dot-circle"></span>到达时间：</label>
+                    <div class="col-lg-2">
+                        <input type="text" id="etime" class="form-control work-order-time" name="etime" ng-model="etime" 
+                            placeholder="请选择到达时间" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-3 control-label"><span class="font-dot-circle"></span>车辆数：</label>
+                    <div class="col-lg-2">
+                        <input type="text" class="form-control work-order-time" name="needCars" ng-model="needCars" 
+                            placeholder="需要车辆数" ng-disabled="paramsIds.length>1" required>
+                    </div>
+                    <label class="col-lg-1 control-label"><span class="font-dot-circle"></span>座位数：</label>
+                    <div class="col-lg-2">
+                        <input type="text" class="form-control work-order-time" name="needSeats" ng-model="needSeats" 
+                            placeholder="需要座位数" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-3 control-label"><span class="font-dot-circle"></span>收款价格：</label>
+                    <div class="col-lg-2">
+                        <input type="text" class="form-control work-order-time" name="price" ng-model="price" 
+                            placeholder="收款价格" ng-disabled="params.mainStatue!=='NOT_CONFIRM'" required>
+                    </div>
+                    <label class="col-lg-1 control-label"><span class="font-dot-circle"></span>派单价格：</label>
+                    <div class="col-lg-2">
+                        <input type="text" class="form-control work-order-time" name="disPrice" ng-model="disPrice" 
+                            placeholder="派单价格" ng-disabled="params.mainStatue!=='NOT_CONFIRM'" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-3 control-label">提醒师傅现收：</label>
+                    <div class="col-lg-2">
+                        <input type="text" class="form-control work-order-time" name="remDriverCharge" ng-model="remDriverCharge" 
+                            placeholder="提醒师傅现收" required>
+                    </div>
+                    <label class="col-lg-1 control-label">其他费用：</label>
+                    <div class="col-lg-2">
+                        <input type="text" class="form-control work-order-time" name="otherPrice" ng-model="otherPrice" 
+                            placeholder="其他费用" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-3 control-label">其他费用说明：</label>
+                    <div class="col-lg-5">
+                        <input type="text" class="form-control work-order-time" name="otherPriceNote" ng-model="otherPriceNote" 
+                            placeholder="其他费用说明" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-3 control-label">其他原因增加时间：</label>
+                    <div class="col-lg-2">
+                        <input type="text" class="form-control" name="reasonTime" ng-model="reasonTime"
+                            placeholder="其他原因增加时间" ng-maxlength="20" maxlength="20">
+                    </div>
+                    <label class="col-lg-1 control-label" ng-show="limitNumShow">限号：</label>
+                    <div class="col-lg-2" ng-show="limitNumShow">
+                        <select class="form-control" name="limitNum" ng-model="limitNum" required>
+                            <option value="">无</option>
+                            <option value="1,6">1和6</option>
+                            <option value="2,7">2和7</option>
+                            <option value="3,8">3和8</option>
+                            <option value="4,9">4和9</option>
+                            <option value="5,0">5和0</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-3 control-label"><span class="font-dot-circle"></span>行程详情：</label>
+                    <div class="col-lg-5">
+                        <textarea name="" class="form-control textarea-control order-remark" ng-model="routeDetail"
+                            placeholder="行程详情：如订单为接送机或火车订单，请填写航班号或车次号(120字内)" maxlength="120"></textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-3 control-label">备注：</label>
+                    <div class="col-lg-5">
+                        <textarea name="" class="form-control textarea-control order-remark" ng-model="note"
+                            placeholder="备注(120字内)" maxlength="120"></textarea>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="submit-btn-box">
+            <label class="col-lg-3"></label>
+            <div class="col-lg-5">
+                <div class="btn-content">
+                    <button class="btn btn-com form-compile-btn btn-submit" 
+                        click-Disable="saveUpdateOrderMsg()"><i class="fa fa-floppy-o">&nbsp;</i>提交
+                    </button>
+                    <button class="btn btn-com form-compile-btn btn-close" ng-click="backPage()"><i class="fa fa-close">&nbsp;</i>取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

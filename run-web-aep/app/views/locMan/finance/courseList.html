@@ -1,0 +1,182 @@
+<div class="course_list body-content-container">
+    <div class="tab-content-header">
+        <ul class="bread-crumb-nav">
+            <li class="crumb-nav-left">科目表</li>
+        </ul>
+    </div>
+    <div class="data-content-body">
+        <div class="search-form-content">
+            <form class="search-form">
+                <div class="form-group-items">
+                    <div class="select-group">
+                        <input type="text" class="form-input" ng-model="keyword" ng-keyup="myKeyup($event)" placeholder="科目名称/科目编码/科目简称">
+                    </div>
+                </div>
+                <div class="form-group-items">
+                    <div class="select-group">
+                        <select class="form-input" ng-model="courseCategory">
+                            <option value="">科目类别</option>
+                            <option value="PROPERTY">资产类</option>
+                            <option value="DEBT">负债类</option>
+                            <option value="LEGAL">权益类</option>
+                            <option value="LOSSES">损益类</option>
+                            <option value="COST">成本类</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group-items">
+                    <div class="select-group">
+                        <select class="form-input" ng-model="courseStatus">
+                            <option value="">使用状态</option>
+                            <option value="0">启用</option>
+                            <option value="1">停用</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group-items">
+                    <div class="select-group">
+                        <select class="form-input" ng-model="courseType">
+                            <option value="">收支状态</option>
+                            <option value="0">收入</option>
+                            <option value="1">支出</option>
+                        </select>
+                    </div>
+                </div>
+                <!-- <div class="form-group-items">
+                    <div class="select-group">
+                        <input type="text" class="form-input" id="sTime" ng-model="sTime" ng-keyup="myKeyup($event)"  placeholder="开始时间">
+                    </div>
+                </div>
+                <div class="form-group-items">
+                    <div class="select-group">
+                        <input type="text" class="form-input" id="eTime" ng-model="eTime" ng-keyup="myKeyup($event)" placeholder="结束时间">
+                    </div>
+                </div> -->
+                <div class="seach-btn-box">
+                    <button type="button" class="btn btn-com" ng-click="searchKey()"><i class="fa fa-search">&nbsp;</i>搜索</button>
+                </div>
+            </form>
+            
+            <div class="action-right-box">
+                <!-- <button type="button" class="btn btn-com" ng-click="lookCourseOne()">第一层</button>
+                <button type="button" class="btn btn-com" ng-click="lookCourse(2)">第二层</button>
+                <button type="button" class="btn btn-com" ng-click="lookCourse(3)">第三层</button> -->
+                <button type="button" class="btn btn-com" ng-click="compileCourse('add')"><i class="fa fa-plus">&nbsp;</i>新增</button>
+                <!-- <button type="button" class="btn btn-com" ng-click="compileCourse('edit')"><i class="fa fa-pencil-square-o">&nbsp;</i>修改</button> -->
+                <!-- <button type="button" class="btn btn-com" ng-click="deleteCourse()"><i class="fa fa-trash">&nbsp;</i>删除</button> -->
+                <button type="button" class="btn btn-com" ng-click="userCourse()">启用/停用</button>
+            </div>
+        </div>
+        <div class="body-table sub-order-box">
+            <div class="commonGrid" ng-class="{'emptyGrid': model.empty || model.error}" ui-grid="gridOptions" ui-grid-resize-columns ui-grid-move-columns ui-grid-pinning ui-grid-auto-resize ui-grid-selection></div> 
+              <mis-pagination record-total="model.totalCount" page-index="model.pageNo"
+                           page-size="model.pageSize" page-total="model.totalPage"
+                           page-state="model.pageState" empty-status="model.empty"
+                           error-status="model.error"></mis-pagination>   
+       </div>
+    </div>
+
+    <div class="dialog-bg" ng-show="lookTwoShow">
+        <div class="dialog-box-content order-action-content">
+            <div class="dialog-header">
+                <span class="dialog-header-title"><i class="fa fa-file-text-o">&nbsp;&nbsp;</i>第二层</span>
+            </div>
+            <div class="dialog-content">
+                <div>
+                    <div class="table-content">
+                        <table border="1" style="width: 1055px;">
+                            <thead>
+                                <tr>
+                                    <th>操作</th>
+                                    <th>科目编码</th>
+                                    <th>科目名称</th>
+                                    <th>科目简拼</th>
+                                    <th>科目类别</th>
+                                    <th>状态</th>
+                                    <th>收支</th>
+                                    <th>添加时间</th>
+                                    
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="s in courseTwoList">
+                                    
+                                    <td style="width: 220px;">
+                                        <a class="handle-click-a" ng-click="lookCourseThree(s)">查看第三级</a>
+                                        <a class="handle-click-a" ng-click="addThreeCourse(s)">新增</a>
+                                        <a class="handle-click-a" ng-click="delectTwoCourse(s)">删除</a>
+                                        <a class="handle-click-a" ng-click="userTwoCourse(s)">可用/不可用</a>
+                                        <a class="handle-click-a" ng-click="editTwoCourse(s)">修改</a>
+                                    </td>
+                                    <td>{{s.courseNum}}</td>
+                                    <td>{{s.courseName}}</td>
+                                    <td>{{s.pinyinSimple}}</td>
+                                    <td>{{s.courseCategory}}</td>
+                                    <td>{{s.courseStatus}}</td>
+                                    <td>{{s.courseType}}</td>
+                                    <td>{{s.addTime}}</td>
+                                </tr>
+                            </tbody>
+                            
+                        </table>
+                    </div>
+                </div>
+                <div class="dialog-footer-box">
+                    <div class="footer-btn-box">
+                        <button class="btn btn-com dialog-confirm form-compile-btn btn-close" ng-click="twoCloseConfirm()"><i class="fa fa-close">&nbsp;</i>关闭</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="dialog-bg" ng-show="lookThreeShow">
+        <div class="dialog-box-content order-action-content">
+            <div class="dialog-header">
+                <span class="dialog-header-title"><i class="fa fa-file-text-o">&nbsp;&nbsp;</i>第三层</span>
+            </div>
+            <div class="dialog-content">
+                <div>
+                    <div class="table-content">
+                        <table border="1" style="width: 1055px;">
+                            <thead>
+                                <tr>
+                                    <th>操作</th>
+                                    <th>科目编码</th>
+                                    <th>科目名称</th>
+                                    <th>科目简拼</th>
+                                    <th>科目类别</th>
+                                    <th>状态</th>
+                                    <th>收支</th>
+                                    <th>添加时间</th>
+                                    
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="i in  courseThreeList">
+                                    <td style="width: 150px;">
+                                        <a class="handle-click-a" ng-click="editThreeCourse(i)">修改</a>
+                                        <a class="handle-click-a" ng-click="delectThreeCourse(i)">删除</a>
+                                        <a class="handle-click-a" ng-click="userThreeCourse(i)">可用/不可用</a>
+                                    </td>
+                                    <td>{{i.courseNum}}</td>
+                                    <td>{{i.courseName}}</td>
+                                    <td>{{i.pinyinSimple}}</td>
+                                    <td>{{i.courseCategory}}</td>
+                                    <td>{{i.courseStatus}}</td>
+                                    <td>{{i.courseType}}</td>
+                                    <td>{{i.addTime}}</td>
+                                </tr>
+                            </tbody>
+                            
+                        </table>
+                    </div>
+                </div>
+                <div class="dialog-footer-box">
+                    <div class="footer-btn-box">
+                        <button class="btn btn-com dialog-confirm form-compile-btn btn-close" ng-click="threeCloseConfirm()"><i class="fa fa-close">&nbsp;</i>关闭</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,43 @@
+<div class="tree-container">
+    <div class="tree-header-search">
+        <form class="search-form" role="form" ng-submit="treeQuery()">
+            <input type="text" name="search" ng-model="treeName" placeholder=" 组织名称">
+            <span class="search-flag" ng-click="treeQuery()">
+                <i class="fa fa-search" aria-hidden="true"></i>
+            </span>
+        </form>
+    </div>
+    <div class="tree-items">
+        <div class="tree-root-node">
+            <span class="tree-root-title tree-root-list-length" ng-if="accessInfo.accessTenementName.length<=16"
+                  ng-click="topNodeTree(accessInfo)">{{accessInfo.accessTenementName}}</span>
+            <span class="tree-root-title tree-root-list-length" ng-if="accessInfo.accessTenementName>16"
+                  tooltip-placement="bottom" uib-tooltip="{{accessInfo.accessTenementName}}"
+                  tooltip-class="customTooltip">{{accessInfo.accessTenementName}}</span>
+            <div class="tree-node" ng-repeat="t in treeLists">
+                <div class="tree-list {{t.className}}">
+                    <span class="fa fa-plus-square-o" aria-hidden="true"
+                          ng-click=" t.children.length === 0 || firstFold($event)"></span>
+                    <span class="tree-list-title" ng-click="treeNodeQuery(t._id)" ng-if="t.sourceName.length <= 14">{{t.sourceName}}</span>
+                    <span class="tree-list-title" ng-click="treeNodeQuery(t._id)" ng-if="t.sourceName.length > 14"
+                          tooltip-placement="bottom" uib-tooltip="{{t.sourceName}}" tooltip-class="customTooltip">{{t.sourceName}}</span>
+                </div>
+                <div class="tree-second-node tree-second-node-show" ng-repeat="tc in t.children">
+                    <div class="tree-list">
+                        <span class="fa fa-plus-square-o" aria-hidden="true"
+                              ng-click="tc.children.length === 0 || secondFold($event)"></span>
+                        <span class="tree-list-title" ng-click="treeNodeQuery(tc._id)"
+                              ng-if="tc.sourceName.length <= 12">{{tc.sourceName}}</span>
+                        <span class="tree-list-title" ng-click="treeNodeQuery(t._id)" ng-if="tc.sourceName.length > 12"
+                              tooltip-placement="bottom" uib-tooltip="{{tc.sourceName}}" tooltip-class="customTooltip">{{tc.sourceName}}</span>
+                    </div>
+                    <ul class="tree-second-node-sub">
+                        <li ng-repeat="tcc in tc.children">
+                            <a ng-click="treeNodeQuery(tcc._id)">{{tcc.sourceName}}</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

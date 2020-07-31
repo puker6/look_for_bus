@@ -1,0 +1,63 @@
+<div class="course-setting body-content-container">
+    <div class="tab-content-header">
+        <ul class="bread-crumb-nav">
+            <li class="crumb-nav-left">科目期初金额设置</li>
+        </ul>
+    </div>
+    <div class="data-content-body">
+        <div class="search-form-content">
+            <div class="change-tab">
+                <ul>
+                    <li ng-class="{'active':focusIndexZ}" ng-click="tab('PROPERTY')">资产</li>
+                    <li ng-class="{'active':focusIndexF}" ng-click="tab('DEBT')">负债</li>
+                    <li ng-class="{'active':focusIndexQ}" ng-click="tab('LEGAL')">权益</li>
+                    <li ng-class="{'active':focusIndexC}" ng-click="tab('COST')">成本</li>
+                    <li ng-class="{'active':focusIndexS}" ng-click="tab('LOSSES')">损益</li>
+                </ul>
+                <div>
+                    <button type="button" class="btn btn-com" ng-click="balanceLook()">试算平衡</button>
+                </div>
+            </div>
+
+            
+            <!-- <div class="action-right-box">
+                <button type="button" class="btn btn-com" ng-click="openBankManage()">启用</button>
+                <button type="button" class="btn btn-com" ng-click="compileBankManage('add')"><i class="fa fa-plus">&nbsp;</i>新增</button>
+                <button type="button" class="btn btn-com" ng-click="compileBankManage('edit')"><i class="fa fa-pencil-square-o">&nbsp;</i>修改</button>
+                <button type="button" class="btn btn-com" ng-click="deleteBankManage()"><i class="fa fa-trash">&nbsp;</i>删除</button>
+            </div> -->
+        </div>
+        <div class="body-table">
+            <div class="commonGrid" ng-class="{'emptyGrid': model.empty || model.error}" ui-grid="gridOptions" ui-grid-resize-columns ui-grid-move-columns ui-grid-pinning ui-grid-auto-resize ui-grid-selection></div>
+             <!-- <mis-pagination record-total="model.totalCount" page-index="model.pageNo"
+                            page-size="model.pageSize" page-total="model.totalPage"
+                            page-state="model.pageState" empty-status="model.empty"
+                            error-status="model.error"></mis-pagination>  -->
+        </div>
+    </div>
+    <!-- 试算平衡 -->
+    <div class="dialog-bg" ng-show="balanceShow">
+        <div class="dialog-box-content" style="width: 1000px;">
+            <div class="dialog-header" style="display: flex; justify-content: space-between;">
+                <div class="dialog-header-title"><i class="fa fa-user">&nbsp;</i>期初试算结果</div>
+                <div class="btn btn-com dialog-confirm" ng-click="closeConfirm()"><i class="fa fa-close">&nbsp;</i></div>
+            </div>
+            <div class="balance-list dialog-content">
+                <ul>
+                    <li>
+                        <div>期初余额</div>
+                        <div><img src="/src/images/photo1.jpg"></div>
+                    </li>
+                    <li>
+                        <div>累计发生</div>
+                        <div><img src="/src/images/photo2.jpg"></div>
+                    </li>
+                    <li>
+                        <div>资产负债表期初</div>
+                        <div><img src="/src/images/photo4.jpg"></div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

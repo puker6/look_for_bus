@@ -1,0 +1,100 @@
+{
+  "success": true,
+  "status": 200,
+  "list": [
+    {
+      "sourceUI": "fa fa-address-book",
+      "sourceName": "业务部",
+      "children": [
+        {
+          "sourceUrl": "aep.loc.client_list",
+          "sourceName": "客户列表"
+        },
+        {
+          "sourceUrl": "aep.loc.order_list",
+          "sourceName": "订单列表"
+        }
+      ]
+    },
+    {
+      "sourceUI": "fa fa-bus",
+      "sourceName": "后勤部",
+      "children": [
+        {
+          "sourceUrl": "aep.loc.vehicle_list",
+          "sourceName": "车辆列表"
+        },
+        {
+          "sourceUrl": "aep.loc.group_list",
+          "sourceName": "小组列表"
+        }
+      ]
+    },
+    {
+      "sourceUI": "fa fa-file-text",
+      "sourceName": "财务部",
+      "children": [
+        {
+          "sourceUrl": "aep.loc.bank_account",
+          "sourceName": "银行日记账"
+        },
+        {
+          "sourceUrl": "aep.loc.bank_manage",
+          "sourceName": "银行管理"
+        },
+        {
+          "sourceUrl": "aep.loc.course_list",
+          "sourceName": "科目表"
+        },
+        {
+          "sourceUrl": "aep.loc.course_setting",
+          "sourceName": "科目期初金额设置"
+        },
+        {
+          "sourceUrl": "aep.loc.reim_list",
+          "sourceName": "员工报账"
+        },
+        {
+          "sourceUrl": "aep.loc.main_reim",
+          "sourceName": "凭证记录表"
+        },
+        {
+          "sourceUrl": "aep.loc.course_trades",
+          "sourceName": "明细表"
+        },
+        {
+          "sourceUrl": "aep.loc.collection_list",
+          "sourceName": "应收款"
+        },
+        {
+          "sourceUrl":"aep.loc.payment_list",
+          "sourceName": "应付款"
+        }
+      ]
+    },
+    {
+      "sourceUI": "fa fa-ils",
+      "sourceName": "办公室",
+      "children": [
+        {
+          "sourceUrl": "aep.loc.employee_list",
+          "sourceName": "员工列表"
+        }
+      ]
+    },
+    {
+      "sourceUI": "fa fa-ils",
+      "sourceName": "系统功能",
+      "children": [
+        {
+          "sourceUrl": "aep.loc.amount_list",
+          "sourceName": "金额类型"
+        },
+        {
+          "sourceUrl": "aep.loc.customer_list",
+          "sourceName": "客户类型"
+        }
+      ]
+    }
+  ]
+}

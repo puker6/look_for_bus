@@ -1,0 +1,56 @@
+<div class="bankAccount body-content-container">
+    <div class="tab-content-header">
+        <ul class="bread-crumb-nav">
+            <li class="crumb-nav-left crumb-nav-action" ui-sref="aep.loc.bank_account">银行日记账</li>
+            <li class="crumb-nav-interval">/</li>
+            <li class="crumb-nav-title" ng-bind="title"></li>
+        </ul>
+    </div>
+    <div class="data-content-body">
+        <div class="search-form-content">
+            <form class="search-form" style="width:70%;">
+                <div class="form-group-items">
+                    <div class="select-group">
+                        <input type="text" class="form-input" ng-model="courseName" ng-keyup="myKeyup($event)" placeholder="科目名称">
+                    </div>
+                </div>
+                <div class="form-group-items">
+                    <div class="select-group short-select-form">
+                        <select class="form-input" ng-model="reimZy">
+                            <option value="">摘要</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group-items">
+                    <div class="select-group">
+                        <input type="text" class="form-input" id="sTime" ng-model="sTime" ng-keyup="myKeyup($event)" placeholder="添加开始时间">
+                    </div>
+                </div>
+                <div class="form-group-items" >
+                    <div class="select-group">
+                        <input type="text" class="form-input" id="eTime" ng-model="eTime" ng-keyup="myKeyup($event)" placeholder="添加结束时间">
+                    </div>
+                </div>
+                <div class="form-group-items">
+                    <div class="select-group">
+                        <input type="text" class="form-input" ng-model="vouNum" ng-keyup="myKeyup($event)" placeholder="凭证编号">
+                    </div>
+                </div>
+                <div class="seach-btn-box">
+                    <button type="button" class="btn btn-com" ng-click="searchKey()"><i class="fa fa-search">&nbsp;</i>搜索</button>
+                </div>
+            </form>
+            
+            <div class="action-right-box">
+                <button type="button" class="btn btn-com" ng-click="tjLinkReim()">提交报销</button>
+        </div>
+        <div class="body-table">
+            <div class="commonGrid" ng-class="{'emptyGrid': model.empty || model.error}" ui-grid="gridOptions" ui-grid-resize-columns ui-grid-move-columns ui-grid-pinning ui-grid-auto-resize ui-grid-selection></div>
+             <mis-pagination record-total="model.totalCount" page-index="model.pageNo"
+                            page-size="model.pageSize" page-total="model.totalPage"
+                            page-state="model.pageState" empty-status="model.empty"
+                            error-status="model.error"></mis-pagination> 
+        </div>
+    </div>
+
+</div>

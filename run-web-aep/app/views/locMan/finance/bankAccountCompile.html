@@ -1,0 +1,163 @@
+<div class="body-content-container">
+    <div class="tab-content-header">
+        <ul class="bread-crumb-nav">
+            <li class="crumb-nav-left crumb-nav-action" ui-sref="aep.loc.bank_account">银行日记账列表</li>
+            <li class="crumb-nav-interval">/</li>
+            <li class="crumb-nav-title" ng-bind="title"></li>
+        </ul>
+    </div>
+    <div class="data-content-body row">
+        <form class="form-horizontal" name="bankAccountForm">
+            <!-- <div class="form-group">
+                <label class="col-lg-3 control-label"><span class="font-dot-circle"></span>对方户名搜索：</label>
+                <div class="col-lg-5" style="display: flex;">
+                    <select class="form-control selectpicker" data-live-search="true" ng-model="transNameSelect" ng-change="transNameInput()" ng-disabled="params.flag==='edit'">
+                        <option disabled value="">请选择户名</option>
+                        <option ng-repeat=" transName in transNamesList" value="{{transName}}">{{transName.split("/")[0]}}</option>
+                    </select>
+                </div>
+            </div> -->
+            <div class="form-group">
+                <label class="col-lg-3 control-label"></span>摘要搜索：</label>
+                <div class="col-lg-5" style="display: flex;">
+                    <select class="selectpicker form-control" data-live-search="true" ng-model="remarkSelect" ng-change="remarkInput()">
+                        <option disabled value="">请选择摘要</option>
+                        <option ng-repeat="remark1 in remarksList" value="{{remark1}}">{{remark1}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-3 control-label"><span class="font-dot-circle"></span>我的银行：</label>
+                <div class="col-lg-5" style="display: flex;">
+                    <select class="selectpicker form-control" ng-model="myBank" ng-change="myBankSelect()" ng-disabled="params.flag==='edit'" data-live-search="true" title="请选择我的银行"  required>
+                        <option disabled value="">请选择我的银行</option>
+                        <option ng-repeat="i in myBankList" value="{{i.bankName}}/{{i.cardNo}}">{{i.bankName}}/{{i.cardNo}}</option>
+                    </select>
+                </div>
+                <span class="col-lg-4 form-control-static font-error"
+                    ng-show="bankAccountForm.myBank.$dirty &&bankAccountForm.myBank.$invalid">
+                    <span ng-show="bankAccountForm.myBank.$error.required">我的银行不能为空</span>
+                </span>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-3 control-label"><span class="font-dot-circle"></span>金额类型：</label>
+                <div class="col-lg-5">
+                    <!-- <input type="text" class="form-control" ng-model="moneyType" placeholder="请填写金额类型" required> -->
+                    <select class="selectpicker form-control" ng-model="moneyType" data-live-search="true" title="请选择金额类型" required>
+                        <option disabled value="">请选择金额类型</option>
+                        <option ng-repeat="i in findMtypesList" value="{{i.id}}">{{i.typeName}}</option>
+                    </select>
+                </div>
+              <span class="col-lg-4 form-control-static font-error"
+                    ng-show="bankAccountForm.moneyType.$dirty && bankAccountForm.moneyType.$invalid">
+                    <span ng-show="bankAccountForm.moneyType.$error.required">金额类型不能为空</span>
+                </span>
+            </div>
+            <!-- <div class="form-group">
+                <label class="col-lg-3 control-label"><span class="font-dot-circle"></span>对方户名：</label>
+                <div class="col-lg-5">
+                    <input type="text" class="form-control" ng-model="transName" ng-disabled="params.flag==='edit'" required >
+                </div>
+                <span class="col-lg-4 form-control-static font-error"
+                ng-messages="bankAccountForm.transName.$dirty && bankAccountForm.transName.$error">
+              <span ng-message="required">对方户名不能为空</span>
+            </span>
+            </div> -->
+            <div class="form-group">
+                <label class="col-lg-3 control-label"><span class="font-dot-circle"></span>对方户名：</label>
+                <div class="col-lg-5">
+                    <input type="text" class="form-control" ng-model="transName" placeholder="请选择或者输入对方户名"
+                            ng-disabled="params.flag==='edit'"  
+                            ng-focus="focusName()"  
+                            ng-blur="blurName()"
+                            ng-change="changeKeyValue(transName)" required>
+                    <div ng-show="transNameSelectShow">
+                    <select style="height: auto;max-height: 100px; position: absolute;
+                    z-index: 999;" class="form-control" id="search-form transNameInput"  ng-change="transNameInput()" ng-model="transNameSelect"  multiple="multiple">
+                        <option ng-click="optionClick()"  ng-repeat=" transName in transNamesList" value="{{transName}}">{{transName.split("/")[0]}}</option>
+                    </select>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-3 control-label"><span class="font-dot-circle"></span>对方账号：</label>
+                <div class="col-lg-5">
+                    <input type="text" class="form-control" ng-model="transNum" placeholder="请填写对方账号" ng-disabled="params.flag==='edit'" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-3 control-label"><span class="font-dot-circle"></span>收支状态：</label>
+                <div class="col-lg-5" style="display: flex;">
+                    <select class="form-control" ng-model="tradeStatus" ng-change="tradeStatusSelect()" ng-disabled="params.flag==='edit'" required>
+                        <option disabled value="">请选择收支状态</option>
+                        <option value="0">收入</option>
+                        <option value="1">支出</option>
+                    </select>
+                </div>
+                <span class="col-lg-4 form-control-static font-error"
+                    ng-show="bankAccountForm.tradeStatus.$dirty &&bankAccountForm.tradeStatus.$invalid">
+                    <span ng-show="bankAccountForm.tradeStatusk.$error.required">收支状态不能为空</span>
+                </span>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-3 control-label"><span class="font-dot-circle"></span>交易时间：</label>
+                <div class="col-lg-5">
+                    <input type="text" class="form-control" id="tradeTime" ng-model="tradeTime" placeholder="请选择交易时间" ng-disabled="params.flag==='edit'" required>
+                </div>
+              <span class="col-lg-4 form-control-static font-error"
+                    ng-show="bankAccountForm.tradeTime.$dirty && bankAccountForm.tradeTime.$invalid">
+                    <span ng-show="bankAccountForm.tradeTime.$error.required">交易时间不能为空</span>
+                </span>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-3 control-label"><span class="font-dot-circle"></span>交易金额：</label>
+                <div class="col-lg-5">
+                    <input type="text" class="form-control" ng-model="tradeMoney" 
+                    placeholder="请填写交易金额" 
+                    ng-blur="tradeMoneyInput()" 
+                    ng-pattern="/^(?!0$|0\.00|0\.0|0\d+$)([1-9]?\d+(\.\d*)|(\\s&&[^\\f\\n\\r\\t\\v])|([1-9]*[1-9][0-9]*)?)$/"
+                    ng-disabled="params.flag==='edit'" required>
+                </div>
+              <span class="col-lg-4 form-control-static font-error"
+                    ng-show="bankAccountForm.tradeMoney.$dirty && bankAccountForm.tradeMoney.$invalid">
+                    <span ng-show="bankAccountForm.tradeMoney.$error.required">交易金额不能为空</span>
+                    <span ng-show="bankAccountForm.tradeMoney.$error.pattern">请输入正确的交易金额</span>
+                </span>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-3 control-label"><span class="font-dot-circle"></span>余额：</label>
+                <div class="col-lg-5">
+                    <input type="text" class="form-control" ng-model="balance" ng-disabled="true" required>
+                </div>
+              <span class="col-lg-4 form-control-static font-error"
+                    ng-show="bankAccountForm.balance.$dirty && bankAccountForm.balance.$invalid">
+                    <span ng-show="bankAccountForm.balance.$error.required">余额不能为空</span>
+                    <!-- <span ng-show="bankAccountForm.balance.$error.pattern">余额不能为负</span> -->
+                </span>
+                <!-- <span class="col-lg-4 form-control-static font-error"
+                      ng-messages="bankAccountForm.balance.$dirty && bankAccountForm.balance.$error">
+                    <span ng-message="required">余额不能为空</span>
+                    <span ng-message="pattern">余额不能为负</span>
+                </span> -->
+            </div>
+            <div class="form-group">
+                <label class="col-lg-3 control-label">摘要：</label>
+                <div class="col-lg-5">
+                    <!-- <textarea type="text" class="form-control" ng-model="remark"></textarea> -->
+                    <input type="text" class="form-control" ng-model="remark" ng-maxlength="200" maxlength="200">
+                </div>
+            </div>
+        </form>
+        <div class="submit-btn-box">
+            <label class="col-lg-3"></label>
+            <div class="col-lg-5">
+                <div class="btn-content">
+                    <button class="btn btn-com form-compile-btn btn-submit" ng-disabled="bankAccountForm.$invalid" click-Disable="saveData(1)"><i class="fa fa-floppy-o">&nbsp;</i>提交</button>
+                    <button class="btn btn-com form-compile-btn btn-submit" ng-show="params.flag==='add'" ng-disabled="bankAccountForm.$invalid" click-Disable="saveData(2)">继续添加</button>
+                    <button class="btn btn-com form-compile-btn btn-close" ng-click="backPage()"><i class="fa fa-close">&nbsp;</i>取消</button>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>

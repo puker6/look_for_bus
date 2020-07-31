@@ -1,0 +1,123 @@
+@charset "UTF-8";
+//
+// Variables
+// --------------------------------------------------
+
+//== Width and Height
+//
+//## header hegiht and content width.
+@page-header-height: 50px;
+@page-content-width: 1200px;
+
+//== Colors
+//
+//## Gray and brand colors.
+@gray-base: #000;
+@gray-darker: lighten(@gray-base, 13.5%); // #222
+@gray-dark: lighten(@gray-base, 20%); // #333
+@gray: lighten(@gray-base, 33.5%); // #555
+@gray-light: lighten(@gray-base, 46.7%); // #777
+@gray-lighter: lighten(@gray-base, 93.5%); // #eee
+
+@brand-primary: #428bca;
+@brand-success: #5cb85c;
+@brand-info: #5bc0de;
+@brand-warning: #f0ad4e;
+@brand-danger: #f54745;
+
+//== Scaffolding
+//
+//## Settings for some of the most global styles.
+
+//** Background color for `<body>`.
+@body-bg: #EEEEEE;
+//** Global text color on `<body>`.
+@text-color: #252525;
+@text-white-color: #FEF3AC;
+@text-help-color: #A8A8A8;
+//** Global button color on `<body>`.
+@btn-bg: #F76800;
+@btn-highlight-bg: #FFB432;
+//** Global split line color.
+@split-line-color: #dddddd;
+//** Global navigate bg.
+@navigate-bg: #17252D;
+
+//** Global textual link color.
+@link-color: @brand-primary;
+//** Link hover color set via `darken()` function.
+@link-hover-color: darken(@link-color, 15%);
+//** Link hover decoration.
+@link-hover-decoration: underline;
+
+//== Typography
+//
+//## Font, line-height, and color for body text, headings, and more.
+@font-family-microsoft-yaHei: "Helvetica Neue", "Luxi Sans", "DejaVu Sans", Tahoma, "Hiragino Sans GB", STHeiti, "Microsoft YaHei";
+@font-family-base: @font-family-microsoft-yaHei;
+
+@font-size-base: 12px;
+
+//== Buttons
+//
+//## For each of platform buttons, define text, background and border color.
+
+@btn-default-color: #ffffff;
+@btn-default-bg:                 @btn-bg;
+@btn-default-border:             @btn-bg;
+
+//== Header
+//
+//## portal and login and main pages header of variations.
+@header-bg: @navigate-bg;
+@header-navBar-bg: #050505;
+@header-focus-bg: @btn-highlight-bg;
+@header-img-bg: #ACC3CE;
+
+//== Sidebar
+//
+//## main pages sidebar of variations.
+@sidebar-bg: @navigate-bg;
+@sidebar-hover-bg: #5a98de;
+@sidebar-list-bg: #17252D;
+@sidebar-active-bg: @btn-bg;
+
+//== Loader
+//
+//## ALL loader animation.
+@loader-color: @btn-highlight-bg;
+
+//== Labels
+//
+//## Customizes the `.label` component with basic values, each used across all table variations.
+@label-warning: @brand-warning;
+@label-error: @brand-danger;
+
+//== Tables
+//
+//## Customizes the `.table` component with basic values, each used across all table variations.
+
+//** Default background color used for all tables.
+@table-bg: transparent;
+@table-thread-bg: #f2f2f2;
+//** Border color for table and cell borders.
+@table-border-color: @split-line-color;
+@table-selected-bg: #EEF1F6;
+
+/*status*/
+@theme-warning: #fea223;
+@theme-error: #f54745;
+@theme-orange: #E06649;
+
+//== Tabs
+//
+//## Customizes the `.content-tabs` component with basic values, each used across all table variations.
+
+@theme-tab-bg: #F0F0F0;
+
+
+
+//== Content
+//
+//## Customizes the `.Content` component with basic values, each used across all Content variations.
+@content-border-color: #88B7E0;

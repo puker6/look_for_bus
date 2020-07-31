@@ -1,0 +1,103 @@
+<div class="body-content-container">
+    <div class="tab-content-header">
+        <ul class="bread-crumb-nav">
+            <li class="crumb-nav-left crumb-nav-action" ui-sref="aep.loc.course_list">科目列表</li>
+            <li class="crumb-nav-interval">/</li>
+            <li class="crumb-nav-title" ng-bind="title"></li>
+        </ul>
+    </div>
+    <div class="data-content-body row">
+        <form class="form-horizontal" name="courseForm">
+            <!-- <div class="form-group" ng-show="levelSelectShow">
+                <label class="col-lg-3 control-label"><span class="font-dot-circle"></span>父层科目名称：</label>
+                <div class="col-lg-5">
+                    <input type="text" class="form-control" ng-model="levelName" ng-disabled="true" >
+                </div>
+                <span class="col-lg-4 form-control-static font-error"
+                ng-messages="courseForm.levelSelect.$dirty && courseForm.levelSelect.$error">
+              <span ng-message="required">层级不能为空</span>
+            </span>
+            </div> -->
+            <!-- <div class="form-group">
+                <label class="col-lg-3 control-label"><span class="font-dot-circle"></span>科目编码：</label>
+                <div class="col-lg-5">
+                    <input type="text" class="form-control" ng-model="courseNum" placeholder="请填写科目编码" required >
+                </div>
+                <span class="col-lg-4 form-control-static font-error"
+                ng-messages="courseForm.courseNum.$dirty && courseForm.courseNum.$error">
+              <span ng-message="required">科目编码不能为空</span>
+            </span>
+            </div> -->
+            <div class="form-group">
+                <label class="col-lg-3 control-label"><span class="font-dot-circle"></span>科目名称：</label>
+                <div class="col-lg-5">
+                    <input type="text" class="form-control" ng-model="courseName" placeholder="科目名称" ng-change="jc()" ng-maxlength="30" maxlength="30" required >
+                </div>
+
+              <span class="col-lg-4 form-control-static font-error"
+                    ng-show="courseForm.courseName.$dirty &&courseForm.courseName.$invalid">
+                    <span ng-show="courseForm.courseName.$error.required">科目名称不能为空</span>
+                    <!-- <span ng-show="bankManageForm.bankName.$error.maxlength">联系人姓名最大长度不超过16位</span> -->
+                </span> 
+
+            </div>
+ 
+            <div class="form-group">
+                <label class="col-lg-3 control-label"><span class="font-dot-circle"></span>科目简拼：</label>
+                <div class="col-lg-5">
+                    <input type="text" class="form-control" ng-model="pinyinSimple" placeholder="科目简拼" ng-maxlength="30" maxlength="30" readonly="readonly" required >
+                </div>
+              <span class="col-lg-4 form-control-static font-error"
+                    ng-show="courseForm.pinyinSimple.$dirty &&courseForm.pinyinSimple.$invalid">
+                    <span ng-show="courseForm.pinyinSimple.$error.required">科目简拼不能为空</span>
+                    <!-- <span ng-show="bankManageForm.bankName.$error.maxlength">联系人姓名最大长度不超过16位</span> -->
+                </span> 
+            </div>
+
+            <div class="form-group">
+                <label class="col-lg-3 control-label"><span class="font-dot-circle"></span>科目类别：</label>
+                <div class="col-lg-5">
+                    <select class="form-control" ng-model="courseCategory" ng-disabled="params.flag==='edit' || params.level==='2' || params.level==='3'"  required>
+                        <option value="">科目类别</option>
+                        <option value="PROPERTY">资产类</option>
+                        <option value="DEBT">负债类</option>
+                        <option value="LEGAL">权益类</option>
+                        <option value="LOSSES">损益类</option>
+                        <option value="COST">成本类</option>
+                    </select>
+                </div>
+              <span class="col-lg-4 form-control-static font-error"
+                    ng-show="courseForm.courseCategory.$dirty &&courseForm.courseCategory.$invalid">
+                    <span ng-show="courseForm.courseCategory.$error.required">科目简拼不能为空</span>
+                    <!-- <span ng-show="bankManageForm.bankName.$error.maxlength">联系人姓名最大长度不超过16位</span> -->
+                </span> 
+            </div>
+
+            <div class="form-group">
+                <label class="col-lg-3 control-label"><span class="font-dot-circle"></span>状态：</label>
+                <div class="col-lg-5">
+                    <label class="control-radio-label"><input type="radio" class="form-control-radio" ng-model="courseStatus" value="0">&nbsp;&nbsp;可用</label>
+                    <label class="control-radio-label radio-label-right"><input type="radio" class="form-control-radio" ng-model="courseStatus" value="1">&nbsp;&nbsp;不可用</label> 
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-lg-3 control-label"><span class="font-dot-circle"></span>收支：</label>
+                <div class="col-lg-5">
+                    <label class="control-radio-label"><input type="radio" class="form-control-radio" ng-model="courseType" ng-disabled="params.flag==='edit'" value="0">&nbsp;&nbsp;收入</label>
+                    <label class="control-radio-label radio-label-right"><input type="radio" class="form-control-radio" ng-disabled="params.flag==='edit'" ng-model="courseType" value="1">&nbsp;&nbsp;支出</label> 
+            </div>
+            </div>
+        </form>
+        <div class="submit-btn-box">
+            <label class="col-lg-3"></label>
+            <div class="col-lg-5">
+                <div class="btn-content">
+                    <button class="btn btn-com form-compile-btn btn-submit" ng-disabled="courseForm.$invalid ||errorTimeMsg" click-Disable="saveData()"><i class="fa fa-floppy-o">&nbsp;</i>提交</button>
+                    <button class="btn btn-com form-compile-btn btn-close" ng-click="backPage()"><i class="fa fa-close">&nbsp;</i>取消</button>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>

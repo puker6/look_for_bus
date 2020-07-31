@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title translate="巴士好找"></title>
+    <link href="src/images/favicon-1.ico" rel="shortcut icon" type="image/x-icon">
+    <link rel="stylesheet" type="text/css" href="src/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="src/libs/font-ali/iconfont.css">
+    <link rel="stylesheet" type="text/css" href="src/libs/bootstrap/css/bootstrap.min.css"> 
+    <link rel="stylesheet" type="text/css" href="src/css/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="src/libs/angular-scroll/nanoscroller.css">
+    <link rel="stylesheet" type="text/css" href="src/libs/angular-ui/ui-grid.min.css">
+    <!--<link href="https://cdn.bootcss.com/angular-ui-grid/4.0.7/ui-grid.css" rel="stylesheet">-->
+    <link rel="stylesheet" type="text/css" href="src/libs/datetimepicker/jquery.datetimepicker.css">
+    <link rel="stylesheet" type="text/css" href="src/libs/bootstrap-select-1.13.9/dist/css/bootstrap-select.min.css">
+    <link rel="stylesheet" type="text/css" href="src/libs/select-city/cityselect.css">  
+    <link rel="stylesheet" type="text/css" href="src/libs/photoView/viewer.css"> 
+    <link rel="stylesheet" type="text/css" href="src/libs/bootstrap-treeview20161102/dist/bootstrap-treeview.min.css"> 
+    <link rel="stylesheet" type="text/css" href="src/libs/bootstrap-select-1.13.9/style.css"> 
+</head>
+
+<body>
+
+<div class="framework" ng-class="{'framework-clear': $state.current.name === 'print'}" ui-view="aep"></div>
+
+<!--load outside libs start-->
+<!--<script defer type="text/javascript" src="https://js.arcgis.com/3.17compact"></script>-->
+<!--<script defer type="text/javascript" src="src/libs/arcgis/3.17compact/init.js"></script>-->
+
+<script type="text/javascript" src="src/libs/jquery/jquery-3.1.1.min.js"></script>
+<script type="text/javascript" src="src/libs/angular/angular.min.js"></script>
+<script type="text/javascript" src="src/libs/angular/angular-route.min.js"></script>
+<script type="text/javascript" src="src/libs/angular/angular-animate.min.js"></script>
+<script type="text/javascript" src="src/libs/angular/angular-cookies.min.js"></script>
+<script type="text/javascript" src="src/libs/angular/angular-messages.min.js"></script>
+<script type="text/javascript" src="src/libs/angular/angular-locale_zh.js"></script>
+<script type="text/javascript" src="src/libs/angular/angular-clipboard.js"></script>
+<script type="text/javascript" src="src/libs/angular-ui/angular-ui-router.min.js"></script>
+<script type="text/javascript" src="src/libs/angular-ui/ui-bootstrap-tpls-2.5.0.min.js"></script>
+<script type="text/javascript" src="src/libs/angular-ui/ui-grid.min.js"></script>
+<script type="text/javascript" src="src/libs/jquery/wangEditor.min.js"></script>
+<script type="text/javascript" src="src/libs/jquery/bootstrap-3.3.4.js"></script>
+<script type="text/javascript" src="src/libs/bootstrap-select-1.13.9/dist/js/bootstrap-select.min.js"></script>
+<script type="text/javascript" src="src/libs/jquery/defaults-zh_CN.js"></script>
+<script type="text/javascript" src="src/libs/jquery/jQuery.print.js"></script>
+<!-- <script type="text/javascript" src="src/libs/angular-ui/custom-cell-select.js"></script> -->
+
+<!--<script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/angular@1.5.9/angular.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/angular-route@1.5.9/angular-route.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/angular-animate@1.5.9/angular-animate.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/angular-cookies@1.5.9/angular-cookies.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/angular-messages@1.5.9/angular-messages.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/angular-i18n@1.5.9/angular-locale_zh.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/angular-ui-router@0.4.3/release/angular-ui-router.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/angular-ui-bootstrap@2.5.0/dist/ui-bootstrap-tpls.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/angular-ui-grid@4.0.7/ui-grid.min.js"></script>-->
+
+<script type="text/javascript" src="src/libs/angular-ui/ui-switch.min.js"></script>
+<script type="text/javascript" src="src/libs/angular/angular-tree-control.min.js"></script>
+<script type="text/javascript" src="src/libs/angular-translate/angular-translate.js"></script>
+<script type="text/javascript" src="src/libs/angular-translate/angular-translate-loader-static-files.js"></script>
+<script type="text/javascript" src="src/libs/angular-scroll/jquery.nanoscroller.min.js"></script>
+<script type="text/javascript" src="src/libs/angular-scroll/scrollable.js"></script>
+<script type="text/javascript" src="src/libs/angular-qrcode/qrcode.js"></script>
+<script type="text/javascript" src="src/libs/angular-qrcode/qrcode_UTF8.js"></script>
+<script type="text/javascript" src="src/libs/angular-qrcode/angular-qrcode.js"></script>
+<script type="text/javascript" src="src/libs/angular-esri/angular-esri-map.js"></script>
+<script type="text/javascript" src="src/libs/angular-esri/angular-esri-core.min.js"></script>
+<script type="text/javascript" src="src/libs/lodash/lodash.min.js"></script>
+<script type="text/javascript" src="src/libs/md5/spark-md5.min.js"></script>
+<script type="text/javascript" src="src/libs/image-compress/lrz.all.bundle.js"></script>
+<script type="text/javascript" src="src/libs/baidu/echarts.js"></script>
+<script type="text/javascript" src="src/libs/laydate/laydate.js"></script>
+<script type="text/javascript" src="src/libs/pinyin/pinyin.js"></script>
+<script type="text/javascript" src="src/libs/pinyin/chinesePY.js"></script>
+<script type="text/javascript" src="src/libs/photoView/viewer.js"></script>
+<script type="text/javascript" src="src/libs/bootstrap-treeview20161102/dist/bootstrap-treeview.min.js"></script>
+<!-- <script type="text/javascript" src="src/libs/photoView/main.js"></script> -->
+
+<!-- <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts-gl/echarts-gl.min.js"></script>
+<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts-stat/ecStat.min.js"></script>
+<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/extension/dataTool.min.js"></script>
+<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/map/js/china.js"></script>
+<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/extension/bmap.min.js"></script> -->
+<!-- <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/simplex.js"></script> -->
+<!--<script type="text/javascript" src="src/libs/socket.io/socket.io.js"></script>-->
+<script type="text/javascript" src="src/libs/rabbitmq/sockjs-0.3.js"></script>
+<script type="text/javascript" src="src/libs/rabbitmq/stomp.js"></script>
+<script type="text/javascript" src="src/libs/datetimepicker/jquery.datetimepicker.full.min.js"></script>
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=3.0&ak=x9mIiLLIl9qYijcZXVXrpWrMsDKrW4fY"></script>
+<script type="text/javascript" src="http://api.map.baidu.com/library/TextIconOverlay/1.2/src/TextIconOverlay_min.js"></script>
+<!--<script type="text/javascript" src="http://api.map.baidu.com/library/MarkerClusterer/1.2/src/MarkerClusterer_min.js"></script>-->
+<script type="text/javascript" src="src/libs/baidu/MarkerClusterer_min.js"></script>
+<!--<script type="text/javascript" src="http://cdn-hangzhou.goeasy.io/goeasy.js"></script>-->
+
+<!-- new plug -->
+<script type="text/javascript" src="src/libs/select-city/cityselect.js"></script>
+<!-- new plug -->
+
+<!--load outside libs end-->
+
+<!--load custom plugins start-->
+<script type="text/javascript" src="app/shared/plugin/messagePrompt.js"></script>
+<script type="text/javascript" src="app/shared/plugin/dateOption.js"></script>
+<!--load custom plugins end-->
+
+<!--load launcher and router script start-->
+<script type="text/javascript" src="config/config_server_url.dev.js"></script>
+<script type="text/javascript" src="app/launcher.js"></script>
+<script type="text/javascript" src="app/router.js"></script>
+<!--load launcher and router script end-->
+
+<!--load common service or filter or directive script start-->
+<script type="text/javascript" src="app/shared/directive/comDirective.js"></script>
+<script type="text/javascript" src="app/shared/filter/comFilter.js"></script>
+<script type="text/javascript" src="app/shared/service/comService.js"></script>
+<!--load common service or filter or directive script end-->
+
+<!--load common action such as login and layout and error script start-->
+<script type="text/javascript" src="app/components/portal/portalController.js"></script>
+<script type="text/javascript" src="app/components/login/loginController.js"></script>
+<script type="text/javascript" src="app/components/login/loginService.js"></script>
+<script type="text/javascript" src="app/components/register/registerController.js"></script>
+<script type="text/javascript" src="app/components/error/errorController.js"></script>
+<script type="text/javascript" src="app/components/layout/layoutController.js"></script>
+<!-- <script type="text/javascript" src="app/components/overview/overviewController.js"></script> -->
+<!--load common action such as login and layout and error script end-->
+
+
+
+<!--load components aep scripts start-->
+<script type="text/javascript" src="app/components/aep/layout/iotLayoutController.js"></script>
+<!--load components aep scripts end-->
+
+<!--load components locMan scripts start-->
+<script type="text/javascript" src="app/components/locMan/layout/locLayoutService.js"></script>
+<script type="text/javascript" src="app/components/locMan/layout/locLayoutController.js"></script>
+
+
+<script type="text/javascript" src="app/components/locMan/dashboard/dashboardService.js"></script>
+<script type="text/javascript" src="app/components/locMan/dashboard/dashboardController.js"></script>
+
+<!--业务-->
+<script type="text/javascript" src="app/components/locMan/business/businessService.js"></script>
+<script type="text/javascript" src="app/components/locMan/business/clientListController.js"></script>
+<script type="text/javascript" src="app/components/locMan/business/clientCompileController.js"></script>
+<script type="text/javascript" src="app/components/locMan/business/modalOwnerController.js"></script>
+<script type="text/javascript" src="app/components/locMan/business/orderListController.js"></script>
+<script type="text/javascript" src="app/components/locMan/business/orderCompileController.js"></script>
+<script type="text/javascript" src="app/components/locMan/business/orderUpdateController.js"></script>
+
+<!--后勤-->
+<script type="text/javascript" src="app/components/locMan/logistics/logisticsService.js"></script>
+<script type="text/javascript" src="app/components/locMan/logistics/vehicleListController.js"></script>
+<script type="text/javascript" src="app/components/locMan/logistics/vehicleCompileController.js"></script>
+<script type="text/javascript" src="app/components/locMan/logistics/groupListController.js"></script>
+<script type="text/javascript" src="app/components/locMan/logistics/groupCompileController.js"></script>
+
+<!--办公室-->
+<script type="text/javascript" src="app/components/locMan/office/officeService.js"></script>
+<script type="text/javascript" src="app/components/locMan/office/employeeListController.js"></script>
+<script type="text/javascript" src="app/components/locMan/office/employeeCompileController.js"></script>
+
+<!--财务-->
+<script type="text/javascript" src="app/components/locMan/finance/financeService.js"></script>
+<script type="text/javascript" src="app/components/locMan/finance/cashBillsController.js"></script>
+<script type="text/javascript" src="app/components/locMan/finance/bankManageController.js"></script>
+<script type="text/javascript" src="app/components/locMan/finance/bankManageCompileController.js"></script>
+<script type="text/javascript" src="app/components/locMan/finance/bankAccountController.js"></script>
+<script type="text/javascript" src="app/components/locMan/finance/bankAccountCompileController.js"></script>
+<script type="text/javascript" src="app/components/locMan/finance/reimListController.js"></script>
+<script type="text/javascript" src="app/components/locMan/finance/reimCompileController.js"></script>
+<script type="text/javascript" src="app/components/locMan/finance/reimListSelectController.js"></script>
+<script type="text/javascript" src="app/components/locMan/finance/courseListController.js"></script>
+<script type="text/javascript" src="app/components/locMan/finance/courseCompileController.js"></script>
+<script type="text/javascript" src="app/components/locMan/finance/collectionListController.js"></script>
+<script type="text/javascript" src="app/components/locMan/finance/paymentListController.js"></script>
+<script type="text/javascript" src="app/components/locMan/finance/mainReimListController.js"></script>
+<script type="text/javascript" src="app/components/locMan/finance/mainReimCompileController.js"></script>
+<script type="text/javascript" src="app/components/locMan/finance/courseTradesController.js"></script>
+<script type="text/javascript" src="app/components/locMan/finance/courseSettingController.js"></script>
+
+<!--系统中心-->
+<script type="text/javascript" src="app/components/locMan/systemCenter/systemCenterService.js"></script>
+<script type="text/javascript" src="app/components/locMan/systemCenter/amountListController.js"></script>
+<script type="text/javascript" src="app/components/locMan/systemCenter/amountCompileController.js"></script>
+<script type="text/javascript" src="app/components/locMan/systemCenter/customerListController.js"></script>
+
+
+
+
+<script type="text/javascript" src="app/components/locMan/statistic/statisticService.js"></script>
+<script type="text/javascript" src="app/components/locMan/statistic/statisticOneController.js"></script>
+
+<!--load components locMan scripts end-->
+</body>
+
+</html>

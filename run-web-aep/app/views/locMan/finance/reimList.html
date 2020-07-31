@@ -1,0 +1,422 @@
+<div class="bankAccount body-content-container">
+    <div class="tab-content-header">
+        <ul class="bread-crumb-nav">
+            <li class="crumb-nav-left">员工报账表</li>
+        </ul>
+    </div>
+    <div class="data-content-body">        
+        <div class="search-form-content">
+            <form class="search-form" style="width: 55%;">
+                <div class="form-group-items">
+                    <div class="select-group">
+                        <select class="selectpicker form-control" ng-keyup="myKeyup($event)" ng-model="uname" data-live-search="true" title="请选择经办人">
+                            <option  value="">请选择经办人</option>
+                            <option ng-repeat="i in employeeListAll" ng-if="!(i.staffState ==='LEAVE')" value="{{i.baseUserId.uname}}" ng-class="{'red':'{{i.staffState}}'==='LEAVE'}">
+                                {{i.baseUserId.realName}}
+                            </option>
+                            <option ng-repeat="i in employeeListAll" ng-if="i.staffState ==='LEAVE'" value="{{i.baseUserId.uname}}" ng-class="{'red':'{{i.staffState}}'==='LEAVE'}">
+                                {{i.baseUserId.realName}}（离职）
+                            </option>
+                         </select>
+                    </div>
+                </div>
+                <div class="form-group-items">
+                    <div class="select-group">
+                        <select class="selectpicker form-control" ng-model="plateNum" ng-keyup="myKeyup($event)" data-live-search="true">
+                            <option value="">请选择车牌号</option>
+                            <option ng-repeat="i in carNumberList" ng-if="!(i.status ===3)" value="{{i.plateNumber}}" ng-class="{'red':{{i.status}}===3}">
+                                {{i.plateNumber}}
+                            </option>
+                            <option ng-repeat="i in carNumberList" ng-if="i.status ===3" value="{{i.plateNumber}}" ng-class="{'red':{{i.status}}===3}">
+                                {{i.plateNumber}}（下线）
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group-items">
+                    <div class="select-group">
+                        <select class="form-input" ng-model="reimZy">
+                            <option value="">摘要</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group-items">
+                    <div class="select-group">
+                        <input type="text" class="form-input" ng-model="money" ng-keyup="myKeyup($event)" placeholder="报账金额" required>
+                    </div>
+                </div>
+                <div class="form-group-items">
+                    <div class="select-group">
+                        <select class="form-input" ng-model="isCheck">
+                            <option value="">审核状态</option>
+                            <option value="-1">已驳回</option>
+                            <option value="0">未审核</option>
+                            <option value="1">已审核</option>
+                            <option value="2">生成凭证</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group-items" ng-show="searchFlagShow">
+                    <div class="select-group">
+                        <input type="text" class="form-input" id="sTime" ng-model="sTime" ng-keyup="myKeyup($event)" placeholder="订单时间">
+                    </div>
+                </div>
+                <div class="form-group-items" ng-show="searchFlagShow">
+                    <div class="select-group">
+                        <input type="text" class="form-input" id="eTime" ng-model="eTime" ng-keyup="myKeyup($event)" placeholder="结束时间">
+                    </div>
+                </div>
+                <div class="form-group-items" ng-show="searchFlagShow">
+                    <div class="select-group">
+                        <input type="text" class="form-input" ng-model="addMark" ng-keyup="myKeyup($event)" placeholder="凭证号">
+                    </div>
+                </div>
+                <div class="form-group-items" ng-show="searchFlagShow">
+                    <div class="select-group">
+                        <select class="form-input" ng-model="deptId">
+                            <option value="">部门</option>
+                            <option value="0">后勤中心</option>
+                            <option value="1">财务中心</option>
+                            <option value="2">客服中心</option>
+                            <option value="3">交付中心</option>
+                            <option value="4">运营中心</option>
+                            <option value="5">技术中心</option>
+                            <option value="6">办公室中心</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group-items" ng-show="searchFlagShow">
+                    <div class="select-group">
+                        <input type="text" class="form-input" ng-model="addMark" ng-keyup="myKeyup($event)" placeholder="操作标识">
+                    </div>
+                </div>
+                <div class="seach-btn-box">
+                    <button type="button" class="btn btn-com" ng-click="searchKey()"><i class="fa fa-search">&nbsp;</i>搜索</button>
+                </div>
+                <div class="seach-btn-box more-search" ng-show="!searchFlagShow" ng-click="moreSearchAction()">
+                    <span class="fa fa-angle-double-right" title="更多搜索条件"></span>
+                </div>
+                <div class="seach-btn-box more-search" ng-show="searchFlagShow" ng-click="moreSearchAction()">
+                    <span class="fa fa-angle-double-left" title="隐藏搜索条件"></span>
+                </div>
+            </form>
+            
+            <div class="action-right-box">
+                <button type="button" class="btn btn-com" ng-click="createReim()"><i class="fa fa-plus">&nbsp;</i>生成凭证</button>
+                <button type="button" class="btn btn-com" ng-click="compileReimList('add')"><i class="fa fa-plus">&nbsp;</i>新增</button>
+                <button type="button" class="btn btn-com" ng-click="compileReimList('edit')"><i class="fa fa-pencil-square-o">&nbsp;</i>修改</button>
+                <button type="button" class="btn btn-com" ng-click="deleteReim()"><i class="fa fa-trash">&nbsp;</i>删除</button>
+                <button type="button" class="btn btn-com" ng-click="bankGl()">关联银行日记账</button>
+                <button type="button" class="btn btn-com" ng-click="checkReim()">审核</button>
+                <!-- <button type="button" class="btn btn-com" ng-click="HxReim()">核销</button> -->
+                <button type="button" class="btn btn-com" ng-click="refuseReim()">驳回</button>
+                <!-- <button type="button" class="btn btn-com" ng-click="backReim()">撤销</button> -->
+        </div>
+        <div class="body-table">
+            <div class="commonGrid" ng-class="{'emptyGrid': model.empty || model.error}" ui-grid="gridOptions" ui-grid-resize-columns ui-grid-move-columns ui-grid-pinning ui-grid-auto-resize ui-grid-selection></div>
+             <mis-pagination record-total="model.totalCount" page-index="model.pageNo"
+                            page-size="model.pageSize" page-total="model.totalPage"
+                            page-state="model.pageState" empty-status="model.empty"
+                            error-status="model.error"></mis-pagination> 
+        </div>
+    </div>
+
+    <!-- 审核 -->
+    <div class="dialog-bg" ng-show="checkShow">
+        <div class="dialog-box-content">
+            <div class="dialog-header">
+                <span class="dialog-header-title"><i class="fa fa-user">&nbsp;</i>审核</span>
+            </div>
+            <div class="dialog-content">
+                <div class="row form-group">
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label">审核后通知人账号(选填)：</label>
+                        <div class="col-lg-5">
+                            <!-- <input type="text" class="form-control" ng-model="alNoticeChoice"> -->
+                            <select class="selectpicker" ng-model="alNoticeChoice" data-live-search="true" multiple required>
+                                <option value="" disabled>请选择科报销人</option>
+                                <option ng-repeat="a in employeeListAllFilter " value="{{a.baseUserId.uname}}">{{a.baseUserId.realName}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label">审核备注(选填)：</label>
+                        <div class="col-lg-5">
+                            <textarea type="text" class="form-control" ng-model="note" maxlength="200"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="dialog-footer-box">
+                    <div class="footer-btn-box">
+                        <button class="btn btn-com dialog-confirm" ng-click="shSure()"><i class="fa fa-check">&nbsp;</i>确定</button>
+                        <button class="btn btn-com dialog-confirm form-compile-btn btn-close" ng-click="closeCheckShow()"><i class="fa fa-close">&nbsp;</i>取消</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 生成凭证 -->
+    <div class="dialog-bg" ng-show="createReimShow">
+        <div class="dialog-box-content">
+            <div class="dialog-header">
+                <span class="dialog-header-title"><i class="fa fa-user">&nbsp;</i>生成凭证</span>
+            </div>
+            <div class="dialog-content">
+                <div class="main-data-input">
+                    <div>
+                        <label>日期：</label>
+                        <input type="text" id="gainTime" class="form-control name-control" ng-model="gainTime" placeholder="请选择开始时间">
+                    </div>
+                    <!-- <div>
+                        <label>经办人：</label>
+                        <input type="text" class="form-control name-control" ng-model="gainTime">
+                    </div>
+                    <div>
+                        <label>往来客户：</label>
+                        <input type="text" class="form-control name-control" ng-model="gainTime"> -->
+                    </div>
+                </div>
+                <div class="main-data-table">
+                    <table border="1">
+                       <thead>
+                       <tr>
+                       <th>摘要</th>
+                       <th>科目</th>
+                       <th>借方金额</th>
+                       <th>贷方金额</th>
+                       <th>操作</th>
+                       </tr>
+                       </thead>
+                       <tbody>
+                       <tr ng-repeat = "i in dataLists">
+                           <td>{{i.entity.remark}}</td>
+                           <td>
+                            <select class="selectpicker" ng-model="$parent.feeCourseMy[$index]" data-live-search="true" required>
+                                <option value="">请选择科目类型</option>
+                                <option ng-repeat="a in feeCourseList|filter:{courseType:'0',courseStatus:'0'}" value="{{a.id}}">{{a.courseName}}</option>
+                            </select>
+                           </td>
+                           <td>{{i.entity.gathMoney}}</td>
+                           <td>{{i.entity.payMoney}}</td>
+                           <td style="text-align: center;"><span class="order-other-operation" ng-click="passAdressAction()"><i class="fa fa-plus-circle">&nbsp;</i>添加</span></td>
+                       </tr>
+                       <!-- <tr ng-repeat="p in passAddressInputArr">
+                           <td><input type="text" ng-model="$parent.remarkDf[$index]"></td>
+                           <td>
+                            <select  ng-model="$parent.feeCourseListDf[$index]">
+                                <option ng-repeat="e in feeCourseList|filter:{courseType:'0',courseStatus:'0'}" value="{{e.id}}">{{e.courseName}}</option>
+                              </select>
+                           </td>
+                           <td><input type="text" ng-model="$parent.jieMonenyDf[$index]"  ng-change="jsJie()" ng-blur="jsJieBlur()"></td>
+                           <td><input type="text" ng-model="$parent.daiMonenyDf[$index]"  ng-change="daiJie()"></td>
+                           <div id="{{p.passId}}" style="border:1px solid #C0C0C0;width:150px;height:auto; display:none;"></div>
+                           <td style="text-align: center;">
+                               <span class="order-other-operation" ng-click="passAdressAction()"><i class="fa fa-plus-circle">&nbsp;</i>添加</span>
+                               <span class="order-other-operation order-other-operation-qu" ng-click="cancelPassAdressAction($index,p)"><i class="fa fa-times-circle-o">&nbsp;</i>取消</span>
+                           </td>
+                       </tr> -->
+                       <tr ng-repeat="p in addReimListArr">
+                        <td><input type="text" ng-model="p.modal.remark"></td>
+                        <td>
+                            <select class="selectpicker" ng-model="p.modal.feeCourse" data-live-search="true" required>
+                                <option value="">请选择科目类型</option>
+                                <option ng-repeat="a in feeCourseList|filter:{courseType:'0',courseStatus:'0'}" value="{{a.id}}">{{a.courseName}}</option>
+                            </select>
+                           </td>
+                        <td><input type="text" ng-model="p.modal.incomeMoney" ng-change="jsJie()"></td>
+                        <td><input type="text" ng-model="p.modal.payMoney" ng-change="daiJie()"></td>
+                        <!-- <div id="{{p.passId}}" style="border:1px solid #C0C0C0;width:150px;height:auto; display:none;"></div> -->
+                        <td style="text-align: center;">
+                            <span class="order-other-operation" ng-click="addItem()"><i class="fa fa-plus-circle">&nbsp;</i>添加</span>
+                            <span class="order-other-operation order-other-operation-qu" ng-click="cancelItem($index,p)"><i class="fa fa-times-circle-o">&nbsp;</i>取消</span>
+                        </td>
+                    </tr>
+                       </tbody>
+                   </table>
+                   <div class="totle">
+                       <!-- 合计：100000 -->
+                       <div>合计：<input type="text"  ng-model="totleMoney" style="width: 320px;"></div>
+                       <div><input type="text" disabled='disabled' ng-model="jieMoneyTotle" style="width: 144px;" ></div>
+                       <div><input type="text" disabled='disabled' ng-model="daiMoneyTotle" style="width: 144px;"></div>
+                    </div>
+               </div>
+                <div class="dialog-footer-box">
+                    <div class="footer-btn-box">
+                        <button class="btn btn-com dialog-confirm" ng-click="createReimSure()"><i class="fa fa-check">&nbsp;</i>确定</button>
+                        <button class="btn btn-com dialog-confirm form-compile-btn btn-close" ng-click="closeCreateShow()"><i class="fa fa-close">&nbsp;</i>取消</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- 拒绝 -->
+    <div class="dialog-bg" ng-show="refuseShow">
+        <form name="refuseForm">
+        <div class="dialog-box-content">
+            <div class="dialog-header">
+                <span class="dialog-header-title"><i class="fa fa-user">&nbsp;</i>驳回</span>
+            </div>
+            <div class="dialog-content">
+                <div class="row form-group">
+                    <label class="col-lg-3 control-label">拒绝原因(必填)：</label>
+                        <div class="col-lg-5">
+                            <textarea type="text" class="form-control" ng-model="reason" maxlength="200" required></textarea>
+                        </div>
+                </div>
+                <div class="dialog-footer-box">
+                    <div class="footer-btn-box">
+                        <button class="btn btn-com dialog-confirm" ng-disabled="refuseForm.$invalid"  ng-click="refuseSure()"><i class="fa fa-check">&nbsp;</i>确定</button>
+                        <button class="btn btn-com dialog-confirm form-compile-btn btn-close" ng-click="refuseCloseConfirm()"><i class="fa fa-close">&nbsp;</i>取消</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    </div>
+
+
+    <!-- 员工报账关联银行日记账 -->
+    <div class="dialog-bg" ng-show="bankLinkShow">
+        <div class="dialog-box-content" style="height: 800px;">
+            <div class="data-content-body">        
+                <div class="search-form-content">
+                    <form class="search-form" style="width: 100%; margin-top: 10px;">
+                        <div class="form-group-items">
+                            <div class="select-group">
+                                <input type="text" class="form-input" ng-model="cusNameLink" ng-keyup="myKeyup($event)" placeholder="客户名称">
+                            </div>
+                        </div>
+                        <div class="form-group-items">
+                            <div class="select-group">
+                                <select class="form-input" ng-model="timeTypeLink">
+                                    <option value="">时间查询类型</option>
+                                    <option value="0">添加时间</option>
+                                    <option value="1">交易时间</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group-items">
+                            <div class="select-group">
+                                <input type="text" class="form-input" id="sTime" ng-model="sTimeLink" ng-keyup="myKeyup($event)"  placeholder="开始时间">
+                            </div>
+                        </div>
+                        <div class="form-group-items">
+                            <div class="select-group">
+                                <input type="text" class="form-input" id="eTime" ng-model="eTimeLink" ng-keyup="myKeyup($event)" placeholder="结束时间">
+                            </div>
+                        </div>
+                        <div class="form-group-items">
+                            <div class="select-group">
+                                <input type="text" class="form-input" name="findMoney" ng-model="findMoneyLink" ng-keyup="myKeyup($event)" placeholder="交易金额" required>
+                            </div>
+                        </div>
+                        <div class="form-group-items" ng-show="searchFlagLinkShow">
+                            <div class="select-group">
+                                <select class="form-input" ng-model="isCheckLink">
+                                    <option value="">报销状态</option>
+                                    <option value="-2">已锁定</option>
+                                    <option value="-1">已报销完成</option>
+                                    <option value="0">未操作 </option>
+                                    <option value="1">待审核</option>
+                                    <option value="2">已审核</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group-items" ng-show="searchFlagLinkShow">
+                            <div class="select-group">
+                                <!-- <input type="text" class="form-input" ng-model="moneyType" ng-keyup="myKeyup($event)" placeholder="金额类型"> -->
+                                <select class="selectpicker form-control" ng-model="moneyTypeLink" ng-keyup="myKeyup($event)" data-live-search="true" title="请选择金额类型"  multiple>
+                                    <option ng-repeat="i in findMtypesList" value="{{i.id}}">{{i.typeName}}</option>
+                                 </select>
+                            </div>
+                        </div>
+                        <div class="form-group-items" ng-show="searchFlagLinkShow">
+                            <div class="select-group">
+                                <select class="form-input" ng-model="openRoleLink">
+                                    <option value="">开放查询角色</option>
+                                    <option value="0/@业务总监">业务总监</option>
+                                    <option value="1/@销售部负责人">销售部负责人</option>
+                                    <option value="2/@客户经理">客户经理</option>
+                                    <option value="3/@报账员核">报账员核</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group-items" ng-show="searchFlagLinkShow">
+                            <div class="select-group">
+                                <select class="form-input" ng-model="openSelLink">
+                                    <option value="">是否开放查询</option>
+                                    <option value="0">未开发</option>
+                                    <option value="1">已开放</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group-items" ng-show="searchFlagLinkShow">
+                            <div class="select-group">
+                                <input type="text" class="form-input" name="operMark" ng-model="operMarkLink" ng-keyup="myKeyup($event)" placeholder="操作编号" required>
+                            </div>
+                        </div>
+                        <div class="form-group-items" ng-show="searchFlagLinkShow">
+                            <div class="select-group">
+                                <input type="text" class="form-input" ng-model="remarkLink" ng-keyup="myKeyup($event)" placeholder="摘要">
+                            </div>
+                        </div>
+                        <div class="form-group-items" ng-show="searchFlagLinkShow">
+                            <div class="select-group">
+                                <!-- <input type="text" class="form-input" ng-model="serviceName" ng-keyup="myKeyup($event)" placeholder="业务员名字"> -->
+                                <select class="selectpicker form-control" ng-keyup="myKeyup($event)" ng-model="serviceNameLink" data-live-search="true" title="请选择业务员名字" multiple>
+                                    <!-- <option  value="">请选择我的银行</option> -->
+                                    <option ng-repeat="i in employeeListFilter" value="{{i.baseUserId.uname}}">{{i.baseUserId.realName}}</option>
+                                 </select>
+                            </div>
+                        </div>
+                        <div class="form-group-items" ng-show="searchFlagLinkShow">
+                            <div class="select-group">
+                                <select class="form-input" ng-model="statusLink">
+                                    <option value="">收支情况</option>
+                                    <option value="0">收入</option>
+                                    <option value="1">支出</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group-items" ng-show="searchFlagLinkShow">
+                            <div class="select-group">
+                                <input type="text" class="form-input" ng-model="transNameLink" ng-keyup="myKeyup($event)" placeholder="对方户名">
+                            </div>
+                        </div>
+                        <div class="form-group-items" ng-show="searchFlagLinkShow">
+                            <div class="select-group">
+                                <input type="text" class="form-input" name="voucherNum" ng-model="voucherNumLink" ng-keyup="myKeyup($event)" placeholder="凭证号" required>
+                            </div>
+                        </div>
+                        <div class="seach-btn-box">
+                            <button type="button" class="btn btn-com" ng-click="searchLinkKey()"><i class="fa fa-search">&nbsp;</i>搜索</button>
+                            <button type="button" class="btn btn-com" ng-click="bankLink()">确定</button>
+                            <button type="button" class="btn btn-com" ng-click="closeLinkKey()">取消</button>
+                        </div>
+                        <div class="seach-btn-box more-search" ng-show="!searchFlagLinkShow" ng-click="moreSearchLinkAction()">
+                            <span class="fa fa-angle-double-right" title="更多搜索条件"></span>
+                        </div>
+                        <div class="seach-btn-box more-search" ng-show="searchFlagLinkShow" ng-click="moreSearchLinkAction()">
+                            <span class="fa fa-angle-double-left" title="隐藏搜索条件"></span>
+                        </div>
+                    </form>
+                    
+                </div>
+                <div class="body-table">
+                    <div class="commonGrid" ng-class="{'emptyGrid': modelLink.empty || modelLink.error}" ui-grid="gridOptionsLink" ui-grid-resize-columns ui-grid-move-columns ui-grid-pinning ui-grid-auto-resize ui-grid-selection></div>
+                     <mis-pagination record-total="modelLink.totalCount" page-index="modelLink.pageNo"
+                                    page-size="modelLink.pageSize" page-total="modelLink.totalPage"
+                                    page-state="modelLink.pageState" empty-status="modelLink.empty"
+                                    error-status="modelLink.error"></mis-pagination> 
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,103 @@
+@charset "UTF-8";
+.ui-grid{
+  border-color: @table-border-color;
+}
+.ui-grid-header{
+  border-color: @table-border-color;
+}
+.ui-grid-top-panel{
+  background: @table-bg;
+}
+.ui-grid-header-cell:last-child {
+  .ui-grid-column-resizer.right{
+    border-right: none;
+  }
+}
+.ui-grid-cell-contents{
+  padding: 8px;
+}
+.ui-grid-column-menu-button{
+  top: 5px;
+}
+.ui-grid-cell{
+  border-color: @table-border-color;
+}
+.ui-grid-menu-button{
+  border: 1px solid @table-border-color;
+  border-bottom: none;
+  border-right: none;
+  border-top: none;
+  height: 33px;
+  padding-top: 3px;
+  background-color: @table-bg;
+}
+.ui-grid-menu-button .ui-grid-icon-container{
+  font-size: 15px;
+}
+.ui-grid-menu {
+  .ui-grid-menu-inner{
+    background-color: white;
+    border-color: @table-border-color;
+  }
+}
+.ui-grid-pinned-container.ui-grid-pinned-container-left {
+    .ui-grid-header-cell,.ui-grid-cell{
+      &:last-child{
+        border-right-color: @table-border-color;
+      }
+    }
+}
+.ui-grid-row:nth-child(even) {
+  .ui-grid-cell{
+    // background-color: @table-bg;
+    // background-color: rgba(254,243,172,0.3);
+  }
+  // .ui-grid-cell-contents{
+  //   background-color: rgba(254,243,172,0.4);
+  // }
+}
+.ui-grid-row {
+  .ui-grid-cell{
+    border-bottom: 1px solid @table-border-color;
+  }
+  .ui-grid-cell.ui-grid-row-header-cell{
+    background-color: @table-bg;
+  }
+  &:last-child{
+    .ui-grid-cell{
+      border-bottom-color: transparent;
+    }
+  }
+}
+.ui-grid-row.ui-grid-row-selected {
+ &> [ui-grid-row] {
+   &> .ui-grid-cell{
+     background-color: @btn-highlight-bg;
+     }
+ }
+}
+.ui-grid-viewport{
+  .ui-grid-cell-contents{
+    padding: 12px 8px;
+  }
+  
+}
+.ui-grid-selection-row-header-buttons{
+  &::before{
+    opacity: 0.3;
+    font-size: 1.3em;
+    margin: 0;
+  }
+}
+.ui-grid-selection-row-header-buttons.ui-grid-row-selected::before, .ui-grid-selection-row-header-buttons.ui-grid-all-selected::before{
+  color: @text-color;
+}
+.ui-grid-render-container-body{
+  .ui-grid-viewport{
+    height: 540px !important;
+    // overflow: auto !important;
+  }
+}
+.ui-grid-row:last-child .ui-grid-cell{
+  border-bottom:1px solid #d4d4d4 !important;
+}

@@ -1,0 +1,105 @@
+@charset "UTF-8";
+
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .pagination_info {
+    display: flex;
+    padding: 5px 10px;
+    align-items: center;
+    margin-top: -550px;
+    .error-info {
+      color: @gray;
+      font-size: 16px;
+      //font-weight: 600;
+      text-align: center;
+      margin: 100px 0;
+      .fa {
+        cursor: pointer;
+        font-size: 20px;
+        color: @text-color;
+        &:hover{
+          color: @btn-highlight-bg;
+        }
+      }
+    }
+
+  }
+  .pagination_content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 14px;
+    .page-total, .page-number {
+      margin-right: 10px;
+      padding: 3px 0;
+      height: 29px;
+    }
+    .page-selected-size{
+      display: block;
+      width:auto;
+      height: 29px;
+      padding: 3px 12px;
+      line-height: 1.42857143;
+      color: @gray;
+      background-color: @text-white-color;
+      background-image: none;
+      border: 1px solid @split-line-color;
+      border-radius: 4px;
+      margin-right: 10px;
+      margin-bottom: 5px;
+    }
+    .redirect_page_info {
+      margin-left: 10px;
+      margin-bottom: 5px;
+      form {
+        display: flex;
+        align-items: center;
+        input {
+          display: block;
+          margin-left: 3px;
+          max-width: 80px;
+          height: 29px;
+          font-size: 14px;
+          line-height: 1.42857143;
+          color: @gray;
+          text-align: center;
+          // background-color: @text-white-color;
+          background-image: none;
+          border: 1px solid @split-line-color;
+          border-radius: 4px;
+          box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+          transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+        }
+      }
+    }
+  }
+  .pagination {
+    .disabled {
+      a {
+        &:hover {
+          background-color: @body-bg;
+          border-color: @split-line-color;
+          color: @text-help-color;
+        }
+      }
+    }
+    a {
+      color: @text-help-color;
+      &:hover {
+        border-color: @btn-highlight-bg;
+        color: @text-white-color;
+        background-color: @btn-highlight-bg;
+      }
+    }
+    .active a {
+      color: @text-white-color;
+      border-color: @btn-highlight-bg;
+      background-color: @btn-highlight-bg;
+    }
+  }
+}
+.pagination>.disabled>a, .pagination>.disabled>a:focus, .pagination>.disabled>a:hover, .pagination>.disabled>span, .pagination>.disabled>span:focus, .pagination>.disabled>span:hover{
+  cursor: pointer;
+}

@@ -1,0 +1,135 @@
+@charset "UTF-8";
+.reim{
+    .data-content-body{
+        .main-content-reim{
+            width: 1500px; 
+            margin: 0 auto; 
+            height: auto;
+            background-color: white;
+            border: 1px solid rgba(173,184,180,0.3);
+            overflow: auto;
+            .main-header-click{
+                display: flex;
+                margin-top: 10px;
+                margin-left: 15px;
+                margin-bottom: 15px;
+            }
+            .main-header-click>div{
+                width: 100px;
+                height: 30px;
+                background-color: #F76800;
+                margin-right: 15px;
+                line-height: 30px;
+                text-align: center;
+                color: white;
+                cursor:pointer;
+            }
+            .main-data-input{
+                margin-top: 15px;
+                margin-bottom: 15px;
+                display: flex;
+                margin-left: 15px;
+                justify-content: space-between;
+            }
+            .main-data-input>div:first-child>input{
+                width: 150px;
+            }
+            .main-data-input>div:last-child{
+                display: flex;
+                align-items: center;
+                margin-right: 15px;
+            }
+            .main-data-input>div:last-child>div:nth-child(2){
+                margin-right: 15px;
+            }
+            .main-data-table{
+                height: auto;
+                margin-bottom: 15px;
+            }
+            .main-data-table>table{
+                width: 1400px;
+                margin: 0 auto;
+            }
+            .main-data-table>table>thead>tr>th{
+                text-align: center;
+                height: 45px;
+            }
+            .main-data-table>table>tbody>tr>td{
+                height: 45px;
+                padding: 10px;
+           }
+           .main-data-table>table>tbody>tr>td>img{
+               width: 100px;
+            height: 60px;
+           }
+            .main-data-table>table>tbody>tr>td>input{
+                 border: none;
+                outline:none;
+                text-indent: 10px;
+            }
+            .clickRemark{
+              border: none;
+               outline:none;
+               box-shadow: none;
+           }
+            .order-other-operation{
+                display: inline-block;
+                cursor: pointer;
+                color: #F76800
+            }
+            .order-other-operation-qu{
+                margin-left: 4px;
+            }
+            .totle{
+                width: 800px;
+                margin: 0 auto;
+                height: 45px;
+                line-height: 45px;
+                border-right: 1px solid grey;
+                border-left: 1px solid grey;
+                border-bottom: 1px solid grey;
+                padding-left: 10px;
+                font-weight: 600;
+            }
+            .bootstrap-select .dropdown-menu {
+                top: 36px !important;
+            }
+
+        }
+        .people{
+            display: flex;
+            width: 1000px; 
+            margin: 20px auto; 
+        }
+        // 插件样式
+        .bootstrap-select.btn-group .dropdown-menu{
+            width: 140px !important;
+            // overflow-x: auto !important;
+            height: 230px !important;
+            
+        }
+        .bootstrap-select .dropdown-menu {
+            max-width: 100%;
+            min-width: 100%;
+            border: 1px solid cornflowerblue;
+            border-radius: 2px;
+            box-shadow: 0 2px 8px #888;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            }
+            
+            .bootstrap-select .dropdown-menu li a span.text {
+            display: inline-block;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            max-width: 100%;
+            }
+        .bootstrap-select:not([class*=col-]):not([class*=form-control]):not(.input-group-btn){
+            width: 140px !important;
+        }
+        .btn-group>.btn:first-child{
+            border: none;
+        }
+    }
+}

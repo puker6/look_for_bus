@@ -1,0 +1,241 @@
+.bankAccount{
+.dialog-bg{
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    .dialog-box-content{
+        width: 1000px;
+        height: 500px;
+        position: relative;
+        // position: absolute;
+        margin: 150px auto;
+        background: linear-gradient(to bottom,#fff 0,#F9FAFE 100%);
+        // border: 1px solid red;
+        box-shadow: 0 5px 15px rgba(0,0,0,.5);
+        border-radius: 5px;
+        .dialog-header{
+            width: 100%;
+            height: 40px;
+            // background: @btn-bg;
+            padding-left: 10px;
+            border-bottom: 1px solid @btn-bg;
+            .dialog-header-title{
+                color: @btn-bg;
+                line-height: 40px;
+                font-size: 14px;
+            }
+        }
+        .dialog-content{
+            margin-top: 15px;
+            margin-left: 20px;
+            .checkbox-dg label {
+                position: relative;
+                display: inline-block;
+                margin-right: 30px;
+                padding: 15px;
+                border: 1px solid #ccc;
+                box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+                vertical-align: middle;
+                cursor: pointer
+              }
+              
+              .checkbox-dg input[type=radio], .checkbox-dg input[type=checkbox] {
+                margin: 0;
+                opacity: 0;
+                display: none
+              }
+              
+              .checkbox-dg input[type=radio]:checked + label,
+              .checkbox-dg input[type=checkbox]:checked + label {
+                border: 1px solid white;
+                background-color: #ddd
+              }
+              
+              .round label {
+                border-radius: 50%
+              }
+        }
+
+        .main-data-input{
+            margin-top: 15px;
+            margin-bottom: 15px;
+            display: flex;
+            margin-left: 15px;
+            justify-content: space-between;
+        }
+        .main-data-input>div:first-child>input{
+            width: 150px;
+        }
+
+        .main-data-table{
+            height: 320px;
+            /* margin-bottom: 15px; */
+            overflow: auto;
+        }
+        .main-data-table>table{
+            width: 800px;
+            margin: 0 auto;
+        }
+        .main-data-table>table>thead>tr>th{
+            text-align: center;
+            height: 45px;
+        }
+        .main-data-table>table>tbody>tr>td{
+            height: 45px;
+            width: 150px;
+            text-align: center;
+       }
+       .main-data-table>table>tbody>tr>td:first-child,.main-data-table>table>tbody>tr>td:nth-child(3),.main-data-table>table>tbody>tr>td:nth-child(4){
+        text-align: center;
+       }
+        .main-data-table>table>tbody>tr>td>select{
+             border: none;
+            outline:none;
+            // text-indent: 10px;
+            height: 40px;
+            width: 100%;
+            // text-indent: 20px;
+            text-align: center;
+        }
+        .main-data-table>table>tbody>tr>td>input{
+           border: none;
+           outline:none;
+        //    text-indent: 20px;
+           height: 40px;
+           width: 100%;
+           text-align: center;
+       }
+        .order-other-operation{
+            display: inline-block;
+            cursor: pointer;
+            color: #F76800
+        }
+        .order-other-operation-qu{
+            margin-left: 4px;
+        }
+        .totle{
+            width: 800px;
+            margin: 0 auto;
+            height: 45px;
+            line-height: 45px;
+            border-right: 1px solid grey;
+            border-left: 1px solid grey;
+            border-bottom: 1px solid grey;
+            font-weight: 600;
+            display: flex;
+        }
+        .totle>div:first-child{
+            padding-left: 10px;
+        }
+        .totle>div:first-child>input{
+            border: none;
+            outline:none;
+            width: 273px;
+            height: 40px;
+            border-right: 1px solid grey;
+            text-align: center;
+
+        }
+        .totle>div:nth-child(2)>input{
+            width: 160px;
+            height: 40px;
+            border: none;
+            outline:none;
+            border-right: 1px solid grey;
+            // text-indent: 20px;
+            text-align: center;
+        }
+        .totle>div:last-child>input{
+            width: 160px;
+            height: 40px;
+            border: none;
+            outline:none;
+            border-right: 1px solid grey;
+            // text-indent: 20px;
+            text-align: center;
+        }
+        .dialog-footer-box{
+            position: absolute;
+            width: 100%;
+            height: 70px;
+            bottom: 0;
+            left: 0;
+            border-top:1px solid #ccc;
+            .footer-btn-box{
+                float: right;
+                margin-right: 40px;
+                margin-top: 20px;
+                .dialog-confirm{
+                    margin-right: 10px;
+                }
+            }
+        }
+        // 插件样式
+        .bootstrap-select.btn-group .dropdown-menu{
+            width: 130px !important;
+            // overflow-x: auto !important;
+            height: 230px !important;
+            
+        }
+        .bootstrap-select .dropdown-menu {
+            max-width: 100%;
+            min-width: 100%;
+            border: 1px solid cornflowerblue;
+            border-radius: 2px;
+            box-shadow: 0 2px 8px #888;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            }
+            
+            .bootstrap-select .dropdown-menu li a span.text {
+            display: inline-block;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            max-width: 100%;
+            }
+        // .bootstrap-select:not([class*=col-]):not([class*=form-control]):not(.input-group-btn){
+        //     width: 130px !important;
+        // }
+        // .btn-group>.btn:first-child{
+        //     border: none;
+        // }
+    }
+}
+
+
+.total-list{
+    // border: 1px solid #d4d4d4;
+    margin-bottom: 10px;
+    display: flex;
+    // justify-content: space-between;
+    align-items: center;
+}
+.total-list>ul{
+    display: flex;
+}
+.total-list>ul>li{
+    display: flex;
+    margin-right: 5px;
+    padding: 10px 10px;
+}
+.total-list>ul>li>span:first-child{
+    font-weight: bold;
+}
+.total-list>div:last-child{
+    display: flex;
+    margin-left: 20px;
+}
+.total-list>div:last-child>div:first-child{
+    margin-right: 10px;
+    width: 320px;
+    // max-width: 800px;
+}
+.total-list>div:last-child>div:nth-child(2)>button{
+    margin-right: 10px;
+}
+
+}

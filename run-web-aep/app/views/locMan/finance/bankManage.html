@@ -1,0 +1,39 @@
+<div class="body-content-container">
+    <div class="tab-content-header">
+        <ul class="bread-crumb-nav">
+            <li class="crumb-nav-left">银行管理</li>
+        </ul>
+    </div>
+    <div class="data-content-body">
+        <div class="search-form-content">
+            <form class="search-form">
+                <div class="form-group-items">
+                    <div class="select-group">
+                        <input type="text" class="form-input" ng-model="keyword" ng-keyup="myKeyup($event)" placeholder="银行名称/账户姓名/卡号">
+                        <!-- <select class="selectpicker form-control" ng-model="keyword" data-live-search="true" title="请选择我的银行" multiple>
+                            <option  value="">请选择我的银行</option>
+                            <option ng-repeat="i in myBankList" value="{{i.bankName}}/{{i.cardNo}}">{{i.bankName}}/{{i.cardNo}}</option>
+                         </select> -->
+                    </div>
+                </div>
+                <div class="seach-btn-box">
+                    <button type="button" class="btn btn-com" ng-click="searchKey()"><i class="fa fa-search">&nbsp;</i>搜索</button>
+                </div>
+            </form>
+            
+            <div class="action-right-box">
+                <button type="button" class="btn btn-com" ng-click="openBankManage()">启用</button>
+                <button type="button" class="btn btn-com" ng-click="compileBankManage('add')"><i class="fa fa-plus">&nbsp;</i>新增</button>
+                <button type="button" class="btn btn-com" ng-click="compileBankManage('edit')"><i class="fa fa-pencil-square-o">&nbsp;</i>修改</button>
+                <button type="button" class="btn btn-com" ng-click="deleteBankManage()"><i class="fa fa-trash">&nbsp;</i>删除</button>
+            </div>
+        </div>
+        <div class="body-table">
+            <div class="commonGrid" ng-class="{'emptyGrid': model.empty || model.error}" ui-grid="gridOptions" ui-grid-resize-columns ui-grid-move-columns ui-grid-pinning ui-grid-auto-resize ui-grid-selection></div>
+             <mis-pagination record-total="model.totalCount" page-index="model.pageNo"
+                            page-size="model.pageSize" page-total="model.totalPage"
+                            page-state="model.pageState" empty-status="model.empty"
+                            error-status="model.error"></mis-pagination> 
+        </div>
+    </div>
+</div>

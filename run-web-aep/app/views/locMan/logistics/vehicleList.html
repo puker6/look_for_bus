@@ -1,0 +1,109 @@
+<div class="body-content-container">
+    <div class="tab-content-header">
+        <ul class="bread-crumb-nav">
+            <li class="crumb-nav-left">车辆列表</li>
+        </ul>
+    </div>
+    <div class="data-content-body">
+        <div class="search-form-content">
+            <form class="search-form">
+                <div class="form-group-items">
+                    <div class="select-group">
+                        <input type="text" class="form-input" ng-model="phone " ng-keyup="myKeyup($event)" placeholder="电话">
+                    </div>
+                </div>
+                <div class="form-group-items" ng-show="searchFlagShow">
+                    <div class="select-group">
+                        <input type="text" class="form-input" ng-model="plateNumber" ng-keyup="myKeyup($event)" placeholder="车牌号">
+                    </div>
+                </div>
+                <div class="form-group-items" ng-show="searchFlagShow">
+                    <div class="select-group">
+                        <input type="text" class="form-input" ng-model="seats" ng-keyup="myKeyup($event)" placeholder="座位数">
+                    </div>
+                </div>
+                <div class="form-group-items" ng-show="searchFlagShow">
+                    <div class="select-group short-select-form">
+                        <select class="form-input" ng-model="carUsage">
+                            <option value="">车辆性质</option>
+                            <option value="TRAVELTRANS">旅游客运</option>
+                            <option value="TRAVELTRANSNET">旅游客运上网</option>
+                            <option value="HIGHWAYTRANS">公路客运</option>
+                            <option value="HIGHWAYTRANSNET">公路客运上网</option>
+                            <option value="LEASE">租赁</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group-items" ng-show="searchFlagShow">
+                    <div class="select-group">
+                        <input type="text" class="form-input" ng-model="belongCompany" ng-keyup="myKeyup($event)" placeholder="公司全称或者简称">
+                    </div>
+                </div>
+                <div class="form-group-items" ng-show="searchFlagShow">
+                    <div class="select-group">
+                        <input type="text" class="form-input" ng-model="groupName" ng-keyup="myKeyup($event)" placeholder="小组名称">
+                    </div>
+                </div>
+                <div class="form-group-items" ng-show="searchFlagShow">
+                    <div class="select-group">
+                        <input type="text" id="startTime" class="form-control" ng-model="startTime" placeholder="请选择开始时间">
+                    </div>
+                </div>
+                <div class="form-group-items" ng-show="searchFlagShow">
+                    <div class="select-group">
+                        <input type="text" id="endTime" class="form-control" ng-model="endTime" placeholder="请选择结束时间">
+                    </div>
+                </div>
+                <div class="seach-btn-box">
+                    <button type="button" class="btn btn-com" ng-click="searchKey()"><i class="fa fa-search">&nbsp;</i>搜索</button>
+                </div>
+                <div class="seach-btn-box more-search" ng-show="!searchFlagShow" ng-click="moreSearchAction()">
+                    <span class="fa fa-angle-double-right" title="更多搜索条件"></span>
+                </div>
+                <div class="seach-btn-box more-search" ng-show="searchFlagShow" ng-click="moreSearchAction()">
+                    <span class="fa fa-angle-double-left" title="隐藏搜索条件"></span>
+                </div>
+            </form>
+            
+            <div class="action-right-box">
+                <button type="button" class="btn btn-com" ng-click="compileVehicle('add')"><i class="fa fa-plus">&nbsp;</i>新增</button>
+                <button type="button" class="btn btn-com" ng-click="compileVehicle('edit')"><i class="fa fa-pencil-square-o">&nbsp;</i>修改</button>
+                <button type="button" class="btn btn-com" ng-click="deleteVehicle()"><i class="fa fa-trash">&nbsp;</i>删除</button>
+                <!-- <button type="button" class="btn btn-com" ng-click="setDriver()">设置主驾驶员</button> -->
+            </div>
+        </div>
+        <div class="body-table">
+            <div class="commonGrid" ng-class="{'emptyGrid': model.empty || model.error}" ui-grid="gridOptions" ui-grid-resize-columns ui-grid-move-columns ui-grid-pinning ui-grid-auto-resize ui-grid-selection></div>
+             <mis-pagination record-total="model.totalCount" page-index="model.pageNo"
+                            page-size="model.pageSize" page-total="model.totalPage"
+                            page-state="model.pageState" empty-status="model.empty"
+                            error-status="model.error"></mis-pagination> 
+        </div>
+    </div>
+
+    <!-- 驾驶员 -->
+    <div class="dialog-bg" ng-show="driverShow">
+        <div class="dialog-box-content" style="height: 400px; width: 600px;">
+            <div class="dialog-header" style="margin-bottom: 15px;">
+                <span class="dialog-header-title"><i class="fa fa-user">&nbsp;</i>选择驾驶员</span>
+            </div>
+            <div class="dialog-content">
+                <div class="row form-group">
+                    <label class="col-lg-3 control-label"><span class="font-dot-circle"></span>驾驶员选择：</label>
+                    <div class="col-lg-5" style="display: flex;">
+                        <select class="form-control" ng-model="driverSelect">
+                            <option value="">请选择驾驶员</option>
+                            <option ng-repeat="c in driverList" value="{{c.uname}}">{{c.phone}} 【 {{c.realName}} 】</option>
+                        </select>
+                    </div>
+                  </div>
+                <div class="dialog-footer-box">
+                    <div class="footer-btn-box">
+                        <button class="btn btn-com dialog-confirm" ng-click="setDriverBtn()"><i class="fa fa-check">&nbsp;</i>确定</button>
+                        <button class="btn btn-com dialog-confirm form-compile-btn btn-close" ng-click="closeConfirm()"><i class="fa fa-close">&nbsp;</i>取消</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,293 @@
+<div class="body-content-container">
+    <div class="vehicleCompile">
+    <div class="tab-content-header">
+        <ul class="bread-crumb-nav">
+            <li class="crumb-nav-left crumb-nav-action" ui-sref="aep.loc.vehicle_list">车辆列表</li>
+            <li class="crumb-nav-interval">/</li>
+            <li class="crumb-nav-title" ng-bind="title"></li>
+        </ul>
+    </div>
+    <div class="data-content-body row">
+        <form class="form-horizontal" name="vehicleForm">
+            <div class="form-group">
+                <label class="col-lg-3 control-label"><span class="font-dot-circle"></span>车牌号：</label>
+                <div class="col-lg-5" style="display: flex;">
+                    <select class="selectpicker" id="select" data-live-search="true" style="width: 200px;" ng-model="cityId" id="cityId" ng-change="selectCtiy()"  ng-show="selectShow">
+                        <option disabled value="">请选择城市</option>
+                        <option ng-repeat="i in cityList" value="{{i.id}}">{{i.cityName}}</option>
+                    </select>
+                    <select class="form-control" style="width: 100px;" ng-model="plateNumShort"  id="plateNumShort" ng-show="selectShow">
+                        <option ng-repeat="plateNumShort in plateNumShortList" value="{{plateNumShort}}">{{plateNumShort}}</option>
+                    </select>
+                    <input type="text"
+                           name="plateNumber"
+                           class="form-control name-control"
+                           ng-model="plateNumber"
+                           placeholder="请填写车牌号码"
+                           ng-disabled="params.flag==='edit'" 
+                           ng-minlength="5"
+                           required>
+                </div>
+                <!-- <span class="col-lg-4 form-control-static font-error"
+                    ng-show="vehicleForm.cityId.$dirty &&vehicleForm.cityId.$invalid">
+                    <span ng-show="vehicleForm.cityId.$error.required">城市不能为空</span>
+                    </span>
+                    <span class="col-lg-4 form-control-static font-error"
+                    ng-show="vehicleForm.plateNumShort.$dirty &&vehicleForm.plateNumShort.$invalid">
+                    <span ng-show="vehicleForm.plateNumShort.$error.required">车牌号前缀不能为空</span>
+                    </span> -->
+                <span class="col-lg-4 form-control-static font-error" id="pd"
+                    ng-show="vehicleForm.plateNumber.$dirty && vehicleForm.plateNumber.$error">
+                    <span ng-show="vehicleForm.plateNumber.$error.minlength">车牌号不能小于五</span>
+                    <span ng-show="required">车牌号不能为空</span>
+                </span>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-3 control-label"><span class="font-dot-circle"></span>车辆类型：</label>
+                <div class="col-lg-5" style="display: flex;">
+                    <select class="form-control" ng-model="vehicleType" ng-change="carBrand()" required>
+                        <option disabled value="">请选择车辆类型</option>
+                        <option value="0">中巴车</option>
+                        <option value="1">大巴车</option>
+                        <option value="2">商务车</option>
+                        <option value="3">越野车</option>
+                        <option value="4">轿车</option>
+                        <!-- <option value="5">其他</option> -->
+                    </select>
+                </div>
+                <span class="col-lg-4 form-control-static font-error"
+                    ng-show="vehicleForm.vehicleType.$dirty &&vehicleForm.vehicleType.$invalid">
+                    <span ng-show="vehicleForm.vehicleType.$error.required">车辆类型不能为空</span>
+                </span>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-3 control-label"><span class="font-dot-circle"></span>车辆品牌：</label>
+                <div class="col-lg-5">
+                    <select class="form-control" ng-model="brandId">
+                        <option disabled value="">请选择车辆品牌</option>
+                        <option ng-repeat="c in carBrandList" value="{{c.id}}">{{c.carBrand}}</option>
+                    </select>
+                </div>
+                <!-- <span class="col-lg-4 form-control-static font-error"
+                    ng-show="vehicleForm.brandId.$dirty &&vehicleForm.brandId.$invalid">
+                    <span ng-show="vehicleForm.brandId.$error.required">品牌不能为空</span>
+                </span> -->
+            </div>
+            <div class="form-group">
+                <label class="col-lg-3 control-label"><span class="font-dot-circle"></span>所属公司：</label>
+                <div class="col-lg-5">
+                    <select class="form-control selectpicker" data-live-search="true" ng-model="companyAll" required>
+                        <option disabled value="">请选择所属公司</option>
+                        <option ng-repeat="datas in list" value="{{datas.id}}|{{datas.unitSimple}}|{{datas.unitName}}">{{datas.unitName}}</option>
+                    </select>
+                </div>
+                <span class="col-lg-4 form-control-static font-error"
+                    ng-show="vehicleForm.companyAll.$dirty &&vehicleForm.companyAll.$invalid">
+                    <span ng-show="vehicleForm.companyAll.$error.required">所属公司不能为空</span>
+                </span>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-3 control-label"><span class="font-dot-circle"></span>续航里程：</label>
+                <div class="col-lg-5">
+                    <input 
+                    type="text" 
+                    name="mileage" 
+                    class="form-control name-control" 
+                    ng-model="mileage" 
+                    placeholder="请填写续航里程"
+                    required>
+                </div>
+                <span class="col-lg-4 form-control-static font-error"
+                      ng-messages="vehicleForm.mileage.$dirty && vehicleForm.mileage.$error">
+                    <span ng-message="required">续航里程不能为空</span>
+                </span>
+            </div>
+            <div class="form-group">
+                <div class="col-lg-3"></div>
+                <div class="col-lg-5">
+                    <div id="l-map" style="width: 100%; height: 300px;"></div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-3 control-label"><span class="font-dot-circle"></span>停靠地址：</label>
+                <div class="col-lg-5">
+                    <div id="r-result"><input type="text" class="form-control" id="suggestId" size="20"  placeholder="请输入地址" ng-model="dockedAddress"  required/></div>
+                    <div id="searchResultPanel" style="border:1px solid #C0C0C0;width:150px;height:auto; display:none;"></div>
+                </div>
+                <span class="col-lg-4 form-control-static font-error"
+                      ng-show="vehicleForm.dockedAddress.$error && vehicleForm.dockedAddress.$invalid">
+                    <span ng-show="vehicleForm.dockedAddress.$error.required">停靠地址不能为空</span>
+                </span>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-3 control-label"><span class="font-dot-circle"></span>驾照需求：</label>
+                <div class="col-lg-5">
+                    <select class="form-control name-control" ng-model="drivingType" required>
+                        <option disabled value="">请选择驾照需求</option>
+                        <option value="A1">A1</option>
+                        <option value="A2">A2</option>
+                        <option value="B1">B1</option>
+                        <option value="B2">B2</option>
+                        <option value="C">C</option>
+                    </select>
+                </div>
+                <span class="col-lg-4 form-control-static font-error"
+                      ng-show="vehicleForm.drivingType.$error && vehicleForm.drivingType.$invalid">
+                    <span ng-show="vehicleForm.drivingType.$error.required">驾照需求不能为空</span>
+                </span>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-3 control-label"><span class="font-dot-circle"></span>座位数：</label>
+                <div class="col-lg-5">
+                    <input 
+                    name="seats"
+                    type="text" 
+                    class="form-control name-control" 
+                    placeholder="请填写座位数" 
+                    ng-model="seats"
+                    required
+                    />
+                </div>
+                <span class="col-lg-4 form-control-static font-error"
+                      ng-messages="vehicleForm.seats.$dirty && vehicleForm.seats.$error">
+                    <span ng-message="required">座位数不能为空</span>
+                </span>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-3 control-label">购车日期：</label>
+                <div class="col-lg-5" >
+                    <input type="text" class="form-control" id="form_datetime" ng-model="purchaseDate" placeholder="请选择购车日期"/>
+                </div>
+                <span class="col-lg-4 form-control-static font-error"
+                      ng-show="vehicleForm.purchaseDate.$error && vehicleForm.purchaseDate.$invalid">
+                    <span ng-show="vehicleForm.purchaseDate.$error.required">购车日期不能为空</span>
+                </span>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-3 control-label"><span class="font-dot-circle"></span>车辆性质：</label>
+                <div class="col-lg-5">
+                    <select class="form-control name-control" ng-model="carUsage" required>
+                        <option disabled value="">请选择车辆性质</option>
+                        <option value="TRAVELTRANS">旅游客运</option>
+                        <option value="TRAVELTRANSNET">旅游客运上网</option>
+                        <option value="HIGHWAYTRANS">公路客运</option>
+                        <option value="HIGHWAYTRANSNET">公路客运上网</option>
+                        <option value="LEASE">租赁</option>
+                    </select>
+                </div>
+                <span class="col-lg-4 form-control-static font-error"
+                      ng-show="vehicleForm.carUsage.$error && vehicleForm.carUsage.$invalid">
+                    <span ng-show="vehicleForm.carUsage.$error.required">车辆性质不能为空</span>
+                </span>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-3 control-label"><span class="font-dot-circle"></span>可跑区域：</label>
+                <div class="col-lg-5">
+                    <select class="form-control name-control" ng-model="runningArea" required>
+                        <option disabled value="">请选择可跑区域</option>
+                        <option value="0">不限区域</option>
+                        <option value="1">省际包车</option>
+                        <option value="2">市际包车</option>
+                        <option value="3">县际包车</option>
+                    </select>  
+                </div>
+                <span class="col-lg-4 form-control-static font-error"
+                      ng-show="vehicleForm.runningAreae.$error && vehicleForm.runningArea.$invalid">
+                    <span ng-show="vehicleForm.runningArea.$error.required">可跑区域不能为空</span>
+                </span>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-3 control-label"><span class="font-dot-circle"></span>动力来源：</label>
+                <div class="col-lg-5">
+                    <select class="form-control name-control" ng-model="powerSource" required>
+                        <option disabled value="">请选择动力来源</option>
+                        <option value="GASOLINE">汽油</option>
+                        <option value="DIESEL">柴油</option>
+                        <option value="CNG">CNG</option>
+                        <option value="NEWENERGY">新能源</option>
+                    </select>
+                </div>
+                <span class="col-lg-4 form-control-static font-error"
+                      ng-show="vehicleForm.powerSource.$error && vehicleForm.powerSource.$invalid">
+                    <span ng-show="vehicleForm.powerSource.$error.required">动力来源不能为空</span>
+                </span>
+            </div>
+            <div class="form-group" style="display: flex;">
+                <label class="col-lg-3 control-label">正常油耗：</label>
+                <div class="col-lg-5" style="display: flex;">
+                    <div style="margin-right: 15px;">
+                        <input 
+                        style="width: 150px"
+                        type="text" 
+                        name="fule" 
+                        class="form-control name-control" 
+                        placeholder="请填写正常油耗" 
+                        ng-model="fuelPrice"
+                        >
+                        <span>L/百公里</span>
+                    </div>
+                    <div>
+                        <input 
+                        style="width: 150px;"
+                        type="text" 
+                        name="fule" 
+                        class="form-control name-control" 
+                        placeholder="请填写油耗单价" 
+                        ng-model="fuel"
+                        required
+                        >
+                        <span>元/百公里</span>
+                    </div>
+                    <span class="col-lg-1 form-control-static font-error"
+                        ng-messages="vehicleForm.fule.$dirty && vehicleForm.fule.$error">
+                        <span ng-message="required">正常油耗不能为空</span>
+                    </span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-3 control-label"><span class="font-dot-circle"></span>车辆状态：</label>
+                <div class="col-lg-5">
+                    <label class="control-radio-label" for=""><input type="radio" class="form-control-radio" ng-model="status" value="0" ng-change="timeSelect('0')">&nbsp;&nbsp;正常</label>
+                    <label class="control-radio-label radio-label-right" for=""><input type="radio" class="form-control-radio" ng-model="status" value="1" ng-change="timeSelect('1')">&nbsp;&nbsp;维修</label> 
+                    <label class="control-radio-label radio-label-right" for=""><input type="radio" class="form-control-radio" ng-model="status" value="2" ng-change="timeSelect('1')">&nbsp;&nbsp;报停</label> 
+                    <label class="control-radio-label radio-label-right" for=""><input type="radio" class="form-control-radio" ng-model="status" value="3" ng-change="timeSelect('2')">&nbsp;&nbsp;下线</label> 
+                </div>
+            </div>
+            <div class="form-group" ng-show="extendShow">
+                <label class="col-lg-3 control-label"><span class="font-dot-circle"></span>时间：</label>
+                <div class="col-lg-5">
+                    <input type="text" id="ksTime" class="form-control name-control" ng-model="ksTime" placeholder="请选择开始时间">
+                    <span>-</span>
+                    <input type="text" id="jsTime" class="form-control name-control" ng-model="jsTime" placeholder="请选择结束时间">
+                </div>
+            </div>
+            <div class="form-group" ng-show="downShow">
+                <label class="col-lg-3 control-label"><span class="font-dot-circle"></span>下线时间：</label>
+                <div class="col-lg-5">
+                    <input type="text" id="xTime" class="form-control name-control" ng-model="xTime" placeholder="请选择下线时间">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-3 control-label"><span class="font-dot-circle"></span>行驶证：</label>
+                <div class="col-lg-5">
+                    <div class="form-image-box">
+                        <span class="icon icon-add-pic image-add" ng-click="addPic('businessImg')" ng-show="imgUrlArr.businessImgUrl.length===0"></span>
+                        <input type="file" id="businessImg" accept="image/jpeg,image/jpg,image/png"  multiple="multiple"  onchange="angular.element(this).scope().multipleFileUpload(this,'businessImg')" ng-show="false">
+                        <img class="image-box-show" ng-click="addPic('businessImg')" ng-repeat="i in imgUrlArr.businessImgUrl" ng-src="{{i}}" alt="">
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="submit-btn-box">
+            <label class="col-lg-3"></label>
+            <div class="col-lg-5">
+                <div class="btn-content">
+                    <button class="btn btn-com form-compile-btn btn-submit" ng-disabled="vehicleForm.$invalid" click-Disable="saveData()"><i class="fa fa-floppy-o">&nbsp;</i>提交</button>
+                    <button class="btn btn-com form-compile-btn btn-close" ng-click="backPage()"><i class="fa fa-close">&nbsp;</i>取消</button>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+</div>

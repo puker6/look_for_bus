@@ -1,0 +1,282 @@
+<div class="aep-login-container-body">
+    <scrollable always-visible="true">
+        <header>
+            <div class="header">
+                <div>
+                    <img src="src/images/logo-2.png">
+                    <span>巴 士 好 找</span>
+                </div>
+            </div>
+        </header>
+        <form class="form-inline">
+            <div class="login-body-content">
+                <div class="login">
+                    <div class="head">
+                        <div ng-if="loginModeShow">手机号短信登录</div>
+                        <div ng-if="!loginModeShow">手机号密码登录</div>
+                        <div ng-if="loginModeShow" >
+                            <div ng-click="checkMode()" class="hover">手机号密码登录</div>
+                            <div class="sx-head"></div>
+                            <div ng-click="goRegister()">注册</div>
+                        </div>
+                        
+                        <div ng-if="!loginModeShow">
+                            <div ng-click="checkMode()" class="hover">手机号短信登录</div>
+                            <div class="sx-head"></div>
+                            <div ng-click="goRegister()">注册</div>
+                        </div>
+                        
+                    </div>
+                    <!--手机号短信登录-->
+                    <div class="login-phone" ng-show="loginModeShow">
+                        <div class="phone common-style" style="cursor: text;">
+                            <div>
+                                <div><img src="src/images/user-name.png"></div>
+                                <!-- <span class="glyphicon glyphicon-phone"></span> -->
+                                <input type="text" placeholder="请输入手机号码" id="login-phone" ng-model="model.account">
+                                <div class="delect delect-phone" ng-click="delPhone()"><img src="src/images/del.png"></div>
+                            </div>
+                            <div class="getValidCodeByCode">获取验证码</div>
+                            <div class="yzm_code" style="display:none">获取验证码</div>
+                        </div>
+                        <div class="error-tip error-phone">请输入正确手机号码</div>
+                        <div class="password-msg common-style" style="cursor: text;">
+                            <div>
+                                <div><img src="src/images/user-password.png"></div>
+                                <input type="text" placeholder="请输入验证码" id="phone-yan" ng-model="model.phoneAutnCode">
+                                <div class="delect delect-yan" ng-click="delYan()"><img src="src/images/del.png"></div>
+                            </div>
+                        </div>
+                        <div class="error-tip">请输入正确验证码</div>
+                        <div class="btn btn-com go-login" ng-click="login-pass()">
+                            立即登录
+                        </div>
+                    </div>
+                    <!--密码登录-->
+                    <div class="login-pass" ng-show="!loginModeShow">
+                        <div class="login-pass-phone common-style" style="cursor: text;">
+                            <div>
+                                <div><img src="src/images/user-name.png"></div>
+                                <input type="text" placeholder="请输入手机号码" id="phone-pass" ng-model="model.phoneNum"  ng-keyup="myKeyup($event)">
+                                <div class="delect delect-phone-pass"  ng-click="delPhonePass()"><img src="src/images/del.png"></div>
+                            </div>
+                        </div>
+                        <div class="error-tip error-tip-phone">请输入正确手机号码</div>
+                        <div class="password common-style" style="cursor: text;">
+                            <div>
+                                <div><img src="src/images/yzm.png"></div>
+                                <input type="password" placeholder="请输入密码" id="password" ng-model="model.password"  ng-keyup="myKeyup($event)">
+                                <div class="delect delect-password" ng-click="delpassword()"><img src="src/images/del.png"></div>
+                            </div>
+                            <!-- <div class="look glyphicon glyphicon-eye-open" onclick="show()"></div> -->
+                            <div class="look">
+                                <img src="src/images/close.png" onclick="show()" id="close">
+                                <img src="src/images/open.png" onclick="show()" id="open" style="display: none;">
+                            </div>
+                        </div>
+                        <div class="error-tip-pass" style="display: none;">密码错误</div>
+                        <!-- <div class="photo-password common-style">
+                            <div>
+                                <div><img src="src/images/user-password.png"></div>
+                                <input type="text" placeholder="请输入验证码" id="photo-password" ng-model="model.passAuthCode">
+                                <div class="delect delect-photo-yzm" onclick="delPhotoPassword()"><img src="src/images/del.png"></div>
+                            </div>
+                            <div><img src="http://cba360.cn/common/captchaImage"></div>
+                        </div>
+                        <div class="error-tip">请输入正确验证码</div> -->
+                        <div class="btn btn-com go-login" ng-click="login()" >
+                            立即登录
+                        </div>
+                        <div class="forget">
+                            <a>忘记密码？</a>
+                            <div><input type="checkbox" ng-model="model.remberMe">记住密码</div>
+                            <!-- ng-checked="model.remberMe" ng-click="jz($event)" -->
+                        </div>
+                    </div>
+                    <div class="other-login">
+                        <p>其他登录方式</p>
+                        <p><img src="src/images/weixin.png"></p>
+                    </div>
+                </div>
+            </div>
+            
+        </form>
+         <!--底部-->
+            <footer id="footer_height">
+                <div>
+                    <div>专业包车服务咨询</div>
+                    <div>
+                        <p>关于我们</p>
+                        <span class="sx"></span>
+                        <p>新闻中心</p>
+                        <span class="sx"></span>
+                        <p>加盟合作</p>
+                        <span class="sx"></span>
+                        <p>隐私保护</p>
+                        <span class="sx"></span>
+                        <p>网站导航</p>
+                        <span class="sx"></span>
+                        <p>联系我们</p>
+                    </div>
+                </div>
+                <div class="xian"></div>
+                <div>
+                    Copyright © 2016-2019 公司版权所有 蜀ICP备号
+                </div>
+            </footer>
+        <script>
+            $(".head>div:last-child").on("click",function () {
+                var text = $(this).html();
+                console.log(text);
+                if(text == '手机号密码登录'){
+                    $(this).html("手机号短信登录");
+                    $(".head>div:first-child").html("手机号密码登录");
+                    $(".login-pass").show();
+                    $(".login-phone").hide();
+                }else{
+                    $(this).html("手机号密码登录");
+                    $(".head>div:first-child").html("手机号短信登录");
+                    $(".login-pass").hide();
+                    $(".login-phone").show();
+                }
+            });
+            $(".hover").hover(function () {
+                $(this).css("color","#FF6600");
+            },function () {
+                $(this).css("color","#43474D");
+            });
+            
+            //input焦点-边框样式
+            $(".phone").on("click",function(){
+                $('#login-phone').focus();
+                $(this).css("border","1px solid #4ec99b");
+            })
+            $( '#login-phone' ).blur(function(){
+                $(this).parent().parent().css("border","1px solid rgb(248,248,248)");
+            });
+            $(".password-msg").on("click",function(){
+                $('#phone-yan').focus();
+                $(this).css("border","1px solid #4ec99b");
+            })
+            $( '#phone-yan' ).blur(function(){
+                $(this).parent().parent().css("border","1px solid rgb(248,248,248)");
+            });
+            $(".login-pass-phone").on("click",function(){
+                $( '#phone-pass' ).focus();
+                $(this).css("border","1px solid #4ec99b");
+            })
+            $( '#phone-pass' ).blur(function(){
+                let phonePass = $("#phone-pass").val();
+                if(phonePass != ""){
+                    $('.error-tip-phone').css("display","none").html("");
+                }
+                $(this).parent().parent().css("border","1px solid rgb(248,248,248)");
+            });
+            $(".password").on("click",function(){
+                $( '#password' ).focus();
+                $(this).css("border","1px solid #4ec99b");
+            })
+            $( '#password' ).blur(function(){
+                let password = $("#password").val();
+                if(password != ""){
+                    $('.error-tip-pass').css("display","none").html("");
+                }
+                $(this).parent().parent().css("border","1px solid rgb(248,248,248)");
+            });
+            $( '#photo-password' ).focus(function(){
+                $(this).parent().parent().css("border","1px solid #4ec99b");
+            });
+            $( '#photo-password' ).blur(function(){
+                $(this).parent().parent().css("border","1px solid rgb(248,248,248)");
+            });
+            //获取验证码
+            $(".getValidCodeByCode").on('click',function(){
+                console.log(11111)
+                var loginPhone = $("#login-phone").val();
+                console.log(loginPhone)
+                if (!(/^1(3|4|5|6|7|8|9)\d{9}$/.test(loginPhone))) {
+                    $('.error-phone').css("display","block");
+                } else {
+                    // $('.input-tip').html('请输入正确的手机号').fadeIn()
+                            var num = 60;
+                            //    请求成功时
+                            $(".getValidCodeByCode").css('display','none');
+                            $(".yzm_code").css('display','block');
+                            $(".yzm_code").html(num + '秒后重新获取');
+                            var timer = setInterval(function(){
+                                num--;
+                                $(".yzm_code").html(num + '秒后重新获取')
+                            },1000);
+    
+                            setTimeout(function () {
+                                clearInterval(timer);
+                                $(".getValidCodeByCode").css('display','block');
+                                $(".yzm_code").css('display','none');
+                            }, 60000);
+    
+                }
+            });
+            $("#login-phone").bind("input propertychange",function () {//监控输入框的变化
+                var a = $("#login-phone").val();
+                if(a !=''){
+                    $(".getValidCodeByCode").css("color","#4ec99b");
+                    $(".delect-phone").css("display","block");
+                }else{
+                    $(".getValidCodeByCode").css("color","#ccc");
+                    $(".delect-phone").css("display","none");
+                }
+            });
+            $("#phone-yan").bind("input propertychange",function () {//监控输入框的变化
+                var c = $("#phone-yan").val();
+                if(c !=''){
+                    $(".delect-yan").css("display","block");
+                }else{
+                    $(".delect-yan").css("display","none");
+                }
+            });
+            $("#phone-pass").bind("input propertychange",function () {//监控输入框的变化
+                var e = $("#phone-pass").val();
+                if(e !=''){
+                    $(".delect-phone-pass").css("display","block");
+                }else{
+                    $(".delect-phone-pass").css("display","none");
+                }
+                if((/^1(3|4|5|6|7|8|9)\d{9}$/.test(e))){
+                    $('.error-tip-phone').css("display","none").html("");
+                }
+            });
+            $("#password").bind("input propertychange",function () {//监控输入框的变化
+                var b = $("#password").val();
+                if(b !=''){
+                    $(".look").css("display","block");
+                    $(".delect-password").css("display","block");
+                }else{
+                    $(".look").css("display","none");
+                    $(".delect-password").css("display","none");
+                    let input=document.getElementById("password");
+                    input.type='password';
+                }
+            });
+            $("#photo-password").bind("input propertychange",function () {//监控输入框的变化
+                var f = $("#photo-password").val();
+                if(f !=''){
+                    $(".delect-photo-yzm").css("display","block");
+                }else{
+                    $(".delect-photo-yzm").css("display","none");
+                }
+            });
+            function show(){
+                let input=document.getElementById("password"); 
+                if(input.type=="password"){
+                    input.type='text';
+                    $("#open").show();
+                    $("#close").hide();
+                }else{
+                    input.type='password';
+                    $("#close").show();
+                    $("#open").hide();
+                }
+            }
+        </script>
+    </scrollable>
+</div>

@@ -1,0 +1,123 @@
+{
+  "success": true,
+  "status": 200,
+  "list": [
+    {
+      "sourceUI": "fa fa-address-book",
+      "sourceName": "业务部",
+      "children": [
+        {
+          "sourceUrl": "aep.loc.client_list",
+          "sourceName": "客户列表"
+        },
+        {
+          "sourceUrl": "aep.loc.order_list",
+          "sourceName": "订单列表"
+        },
+        {
+
+          "sourceName": "开发票列表"
+        },
+        {
+
+          "sourceName": "空车查询"
+        },
+        {
+
+          "sourceName": "包车价格设置"
+        }
+      ]
+    },
+    {
+      "sourceUI": "fa fa-bus",
+      "sourceName": "后勤部",
+      "children": [
+        {
+          "sourceUrl": "aep.loc.vehicle_list",
+          "sourceName": "车辆列表"
+        },
+        {
+          "sourceUrl": "aep.loc.group_list",
+          "sourceName": "小组列表"
+        },
+        {
+          "sourceName": "驾驶员请假"
+        },
+        {
+          "sourceName": "年审、保险、保养"
+        }
+      ]
+    },
+    {
+      "sourceUI": "fa fa-file-text",
+      "sourceName": "财务部",
+      "children": [
+        {
+          "sourceUrl": "aep.loc.cash_bills",
+          "sourceName": "现金日记账"
+        },
+        {
+          "sourceUrl": "aep.loc.bank_account",
+          "sourceName": "银行日记账"
+        },
+        {
+          "sourceUrl": "aep.loc.bank_manage",
+          "sourceName": "银行管理"
+        },
+        {
+          "sourceName": "固定资产表"
+        },
+        {
+          "sourceUrl": "aep.loc.course_list",
+          "sourceName": "科目表"
+        },
+        {
+          "sourceUrl": "aep.loc.reim_list",
+          "sourceName": "凭证记录表"
+        },
+        {
+          "sourceName": "预存费表"
+        },
+        {
+          "sourceName": "进销存表"
+        },
+        {
+          "sourceName": "盘点记录表"
+        },
+        {
+          "sourceName": "资产负债表"
+        },
+        {
+          "sourceName": "损益表"
+        },
+        {
+          "sourceName": "现金流量表"
+        },
+        {
+          "sourceUrl": "aep.loc.collection_list",
+          "sourceName": "应收款"
+        },
+        {
+          "sourceUrl":"aep.loc.payment_list",
+          "sourceName": "应付款"
+        }
+      ]
+    },
+    {
+      "sourceUI": "fa fa-ils",
+      "sourceName": "办公室",
+      "children": [
+        {
+          "sourceUrl": "aep.loc.employee_list",
+          "sourceName": "员工列表"
+        },
+        {
+          "sourceName": "统计分析"
+        },
+        {
+          "sourceName": "权限管理"
+        }
+      ]
+    }
+  ]
+}

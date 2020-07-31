@@ -1,0 +1,303 @@
+@charset "UTF-8";
+
+.tree-control-container{
+  display: flex;
+  flex: 1 0 auto;
+  position: relative;
+  flex-direction: column;
+  .tree-header-search{
+    width: 100%;
+    height: 34px;
+    padding: 15px 0;
+    margin-bottom: 30px;
+    .search-form {
+      width: 100%;
+      height: 34px;
+      display: flex;
+      input {
+        width: 200px;
+        height: 34px;
+        padding: 0 8px;
+        line-height: 25px;
+        border: 1px solid @split-line-color;
+        border-right: none;
+        color: @gray-dark;
+        border-radius: 6px 0 0 6px;
+      }
+      .search-flag {
+        width: 30px;
+        height: 34px;
+        display: flex;
+        border: 1px solid @split-line-color;
+        border-left: none;
+        border-radius: 0 6px 6px 0;
+        justify-content: center;
+        align-items: center;
+        text-decoration: none;
+        cursor: pointer;
+        .fa {
+          color: @split-line-color;
+          font-size: 16px;
+        }
+      }
+    }
+  }
+  .tree-items {
+    flex: 1 0 auto;
+    .tree-root-node{
+      font-size: 14px;
+      cursor: pointer;
+      color: @text-color;
+      width: 239px;
+      height: 415px;
+      overflow: auto;
+    }
+  }
+  .tree-root-list-length{
+    width:239px;
+    line-height: 30px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+    white-space:nowrap;
+    &:hover{
+      //font-weight: 600;
+      color: @text-help-color;
+    }
+    &.selected{
+      //font-weight: 600;
+      color: @text-help-color;
+    }
+  }
+}
+
+treecontrol {
+  /* prevent user selection */
+  user-select: none;
+  //font-family: Verdana, Helvetica, Arial, sans-serif;
+  font-size:14px;
+  color: @text-color;
+  text-decoration: none;
+}
+
+treecontrol ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border: none;
+}
+
+treecontrol li {
+  position: relative;
+  padding: 0 0 0 15px;
+  line-height: 30px;
+}
+
+treecontrol li.tree-expanded i.tree-leaf-head, treecontrol li.tree-collapsed i.tree-leaf-head {display:none;}
+treecontrol li.tree-expanded i.tree-branch-head, treecontrol li.tree-collapsed i.tree-branch-head {display:inline;}
+treecontrol li.tree-leaf i.tree-branch-head {display:none;}
+treecontrol li.tree-leaf i.tree-leaf-head {display:inline;}
+
+treecontrol li i.tree-branch-head {
+  cursor: pointer;
+}
+
+treecontrol li .tree-label {
+  cursor: pointer;
+  display: inline;
+  &:hover{
+    //font-weight: 600;
+    color: @btn-highlight-bg;
+  }
+}
+
+treecontrol li .tree-unselectable {
+  cursor: not-allowed;
+}
+
+treecontrol.tree-classic li.tree-expanded i.tree-branch-head {
+  padding: 1px 10px;
+  background: url("../../images/icon-node-folder.png") no-repeat;
+}
+
+treecontrol.tree-classic li.tree-collapsed i.tree-branch-head {
+  padding: 1px 10px;
+  background: url("../../images/icon-node-folder-closed.png") no-repeat;
+}
+
+treecontrol.tree-classic li.tree-leaf i.tree-leaf-head {
+  padding: 1px 10px;
+  background: url("../../images/icon-node-file.png") no-repeat;
+}
+
+treecontrol.tree-classic li .tree-selected {
+  background-color: @btn-highlight-bg;
+  //font-weight: 600;
+  color: @text-white-color;
+}
+
+treecontrol.tree-classic li .tree-unselectable {
+  color: @text-color;
+}
+
+treecontrol.tree-light li.tree-expanded i.tree-branch-head {
+  padding: 1px 10px;
+  background: url("../../images/icon_arrows_square_minus.png") no-repeat;
+}
+
+treecontrol.tree-light li.tree-collapsed i.tree-branch-head {
+  padding: 1px 10px;
+  background: url("../../images/icon_arrows_square_plus.png") no-repeat;
+}
+
+treecontrol.tree-light li.tree-leaf i.tree-leaf-head {
+  padding: 1px 10px;
+  width: 16px; height: 16px;
+  background: none no-repeat;
+}
+
+treecontrol.tree-light li {
+  .tree-selected{
+    //font-weight: 600;
+    color: @btn-highlight-bg;
+  }
+}
+
+treecontrol.tree-light li .tree-unselectable {
+  color: @text-color;
+}
+
+treecontrol.tree-dark li.tree-expanded i.tree-branch-head {
+  padding: 1px 10px;
+  background: url("../../images/icon-node-opened-light.png") no-repeat;
+}
+
+treecontrol.tree-dark li.tree-collapsed i.tree-branch-head {
+  padding: 1px 10px;
+  background: url("../../images/icon-node-closed-light.png") no-repeat;
+}
+
+treecontrol.tree-dark li.tree-leaf i.tree-leaf-head {
+  padding: 1px 10px;
+  width: 16px; height: 16px;
+  background: none no-repeat;
+}
+
+treecontrol.tree-dark li .tree-selected {
+  //font-weight: 600;
+  color: @btn-highlight-bg;
+}
+
+treecontrol.tree-dark li .tree-unselectable {
+  color: #777;
+}
+
+treecontrol.tree-dark {
+  color: @text-color;
+}
+
+[treecontrol] {
+  /* prevent user selection */
+  user-select: none;
+  font-family: Verdana, Helvetica, Arial, sans-serif;
+  font-size:14px;
+  color: @text-color;
+  text-decoration: none;
+}
+
+[treecontrol] ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border: none;
+}
+
+[treecontrol] li {
+  position: relative;
+  padding: 0 0 0 15px;
+  line-height: 30px;
+}
+
+[treecontrol] li.tree-expanded i.tree-leaf-head, [treecontrol] li.tree-collapsed i.tree-leaf-head {display:none;}
+[treecontrol] li.tree-expanded i.tree-branch-head, [treecontrol] li.tree-collapsed i.tree-branch-head {display:inline;}
+[treecontrol] li.tree-leaf i.tree-branch-head {display:none;}
+[treecontrol] li.tree-leaf i.tree-leaf-head {display:inline;}
+
+[treecontrol] li i {
+  cursor: pointer;
+}
+
+[treecontrol] li .tree-label {
+  cursor: pointer;
+  display: inline;
+}
+
+
+[treecontrol].tree-classic li.tree-expanded i.tree-branch-head {
+  padding: 1px 10px;
+  background: url("../../images/icon-node-folder.png") no-repeat;
+}
+
+[treecontrol].tree-classic li.tree-collapsed i.tree-branch-head {
+  padding: 1px 10px;
+  background: url("../../images/icon-node-folder-closed.png") no-repeat;
+}
+
+[treecontrol].tree-classic li.tree-leaf i.tree-leaf-head {
+  padding: 1px 10px;
+  background: url("../../images/icon-node-file.png") no-repeat;
+}
+
+[treecontrol].tree-classic li .tree-selected {
+  background-color: @text-help-color;
+  font-size: 15px;
+  color: @text-white-color;
+}
+
+
+[treecontrol].tree-light li.tree-expanded i.tree-branch-head {
+  padding: 1px 10px;
+  background: url("../../images/icon_arrows_square_minus.png") no-repeat;
+}
+
+[treecontrol].tree-light li.tree-collapsed i.tree-branch-head {
+  padding: 1px 10px;
+  background: url("../../images/icon_arrows_square_plus.png") no-repeat;
+}
+
+[treecontrol].tree-light li.tree-leaf i.tree-leaf-head {
+  padding: 1px 10px;
+  width: 16px; height: 16px;
+  background: none no-repeat;
+}
+
+[treecontrol].tree-light li .tree-selected {
+  //font-weight: 600;
+  color: @text-help-color;
+}
+
+
+[treecontrol].tree-dark li.tree-expanded i.tree-branch-head {
+  padding: 1px 10px;
+  background: url("../../images/icon-node-opened-light.png") no-repeat;
+}
+
+[treecontrol].tree-dark li.tree-collapsed i.tree-branch-head {
+  padding: 1px 10px;
+  background: url("../../images/icon-node-closed-light.png") no-repeat;
+}
+
+[treecontrol].tree-dark li.tree-leaf i.tree-leaf-head {
+  padding: 1px 10px;
+  width: 16px; height: 16px;
+  background: none no-repeat;
+}
+
+[treecontrol].tree-dark li .tree-selected {
+  font-size: 15px;
+}
+
+[treecontrol].tree-dark {
+  color: @text-color;
+}
+

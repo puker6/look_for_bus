@@ -1,0 +1,142 @@
+<div class="reim body-content-container">
+    <div class="tab-content-header">
+        <ul class="bread-crumb-nav">
+            <li class="crumb-nav-left crumb-nav-action" ui-sref="aep.loc.reim_list">员工报账列表</li>
+            <li class="crumb-nav-interval">/</li>
+            <li class="crumb-nav-title" ng-bind="title"></li>
+        </ul>
+    </div>
+    <div class="data-content-body row">
+         <form class="form-horizontal" name="reimForm">
+                <div class="main-content-reim">
+                    <div class="main-header-click">
+                        <div ng-click="bc()" ng-disabled="reimForm.$invalid">保存</div>
+                        <div>打印</div>
+                        <!-- <div><select style="width: 150px;" class="form-control" ng-model="uname" required>
+                            <option disabled value="">请选择报销人账号</option>
+                            <option ng-repeat="i in unameList" value="{{i.uname}}">{{i.realName}}</option>
+                        </select></div> -->
+<!--                         
+                        <p class="form-image-box" style="margin-left:60px; margin-top: 7px;">
+                            <span class="icon icon-add-pic image-add" ng-click="addPic('businessImg')" ng-show="imgUrlArr.businessImgUrl.length===0"></span>
+                            <input type="file" id="businessImg" accept="image/jpeg,image/jpg,image/png"  multiple="multiple"  onchange="angular.element(this).scope().multipleFileUpload(this,'businessImg')" ng-show="false">
+                            <img class="image-box-show" ng-click="addPic('businessImg')" ng-repeat="i in imgUrlArr.businessImgUrl" ng-src="{{i}}" alt="">
+                        </p> -->
+                    </div>
+                    <div class="main-data">
+                        <div class="main-data-table">
+                             <table border="1"  ng-show="revise">
+                                <thead>
+                                <tr>
+                                    <th style="width: 120px;">经办人</th>
+                                    <th style="width: 120px;">往来客户</th>
+                                    <th style="width: 120px;">车牌号</th>
+                                    <!-- <th>摘要选择</th> -->
+                                    <th>摘要</th>
+                                    <!-- <th>报销人账号</th> -->
+                                    <th>收入金额</th>
+                                    <th>支出金额</th>
+                                    <th>图片</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>
+                                        <select class="selectpicker" ng-model="unameUser" data-live-search="true" required>
+                                            <option value="">请选择经办人</option>
+                                            <option ng-repeat="a in employeeList" value="{{a.baseUserId.uname}}">{{a.baseUserId.realName}}</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select class="selectpicker" ng-model="unameOpen" data-live-search="true" required>
+                                            <option value="">请选择往来客户</option>
+                                            <option ng-repeat="a in clientList" value="{{a.baseUserId.uname}}">{{a.baseUserId.realName}}-{{a.unitName}}</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select class="selectpicker" ng-model="plateNum" data-live-search="true">
+                                            <option value="">请选择车牌号</option>
+                                            <option ng-repeat="i in carNumberList" value="{{i.plateNumber}}">{{i.plateNumber}}</option>
+                                        </select>
+                                    </td>
+                                    <td><input type="text" ng-model="remark"></td>
+                                    <!-- <td>
+                                        <select style="width: 150px;" class="clickRemark"  ng-model="remark">
+                                            <option ng-repeat="remarkStaff in remarkStaffList">{{remarkStaff}}</option>
+                                        </select>
+                                    </td> -->
+                                    <td><input type="text" ng-model="incomeMoney"></td>
+                                    <td><input type="text" ng-model="payMoney"></td>
+                                    <td><span class="icon icon-add-pic image-add" ng-click="addPic('businessImg')" ng-show="true"></span>
+                                        <input type="file" id="businessImg" accept="image/jpeg,image/jpg,image/png"  multiple="multiple"  onchange="angular.element(this).scope().multipleFileUpload(this,'businessImg')" ng-show="false">
+                                        <img class="image-box-show" ng-click="addPic('businessImg')" ng-repeat="i in imgUrlArr.businessImgUrl" ng-src="{{i}}" alt=""></td>
+                                </tr> 
+                                </tbody>
+                            </table>
+                            <table border="1"  ng-show="add">
+                                <thead>
+                                <tr>
+                                <th style="width: 120px;">经办人</th>
+                                <th style="width: 120px;">往来客户</th>
+                                <th style="width: 120px;">车牌号</th>
+                                <!-- <th>摘要选择</th> -->
+                                <th>摘要</th>
+                                <!-- <th>报销人账号</th> -->
+                                <th>收入金额</th>
+                                <th>支出金额</th>
+                                <th>图片</th>
+                                <th>操作</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="p in addReimListArr">
+                                        <td>
+                                            <select class="selectpicker" ng-model="p.modal.unameS" data-live-search="true" required>
+                                                <option value="">请选择经办人</option>
+                                                <option ng-repeat="a in employeeList" value="{{a.baseUserId.uname}}">{{a.baseUserId.realName}}</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select class="selectpicker" ng-model="p.modal.unameW" data-live-search="true" required>
+                                                <option value="">请选择往来客户</option>
+                                                <option ng-repeat="a in clientList" value="{{a.baseUserId.uname}}">{{a.baseUserId.realName}}-{{a.unitName}}</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select class="selectpicker" ng-model="p.modal.carNumS" data-live-search="true">
+                                                <option value="">请选择车牌号</option>
+                                                <option ng-repeat="i in carNumberList" value="{{i.plateNumber}}">{{i.plateNumber}}</option>
+                                            </select>
+                                        </td>
+                                        <!-- <td>
+                                            <select style="width: 150px;" class="clickRemark"  ng-model="p.modal.remark">
+                                                <option ng-repeat="remarkStaff in remarkStaffList">{{remarkStaff}}</option>
+                                            </select>
+                                        </td> -->
+                                        <td>
+                                            <input type="text" ng-model="p.modal.remark" class="clickRemark">
+                                        </td>
+                                        <td>
+                                            <input type="text" ng-model="p.modal.incomeMoney" name="incomeMoney">
+                                        </td>
+                                        <td><input type="text" ng-model="p.modal.payMoney"></td>
+                                        <td>
+                                            <span class="icon icon-add-pic image-add" ng-click="addItemPic(p.modal.img_Id)" ng-show="p.modal.photoUrl===''"></span>
+                                            <input type="file" id="{{p.modal.img_Id}}" accept="image/jpeg,image/jpg,image/png"  multiple="multiple" onchange="angular.element(this).scope().itemFileUpload(this)" ng-show="false">
+                                            <img class="image-box-show" ng-click="addItemPic(p.modal.img_Id)" ng-src="{{p.modal.photoUrl}}" ng-show="p.modal.photoUrl!==''" alt="">
+                                        </td>
+                                        <!-- <div id="{{p.passId}}" style="border:1px solid #C0C0C0;width:150px;height:auto; display:none;"></div> -->
+                                        <td style="text-align: center;">
+                                            <span class="order-other-operation" ng-click="addItem()"><i class="fa fa-plus-circle">&nbsp;</i>添加</span>
+                                            <span class="order-other-operation order-other-operation-qu" ng-click="cancelItem($index,p)"><i class="fa fa-times-circle-o">&nbsp;</i>取消</span>
+                                            
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    </div>
+        </form>
+    </div>
+</div>

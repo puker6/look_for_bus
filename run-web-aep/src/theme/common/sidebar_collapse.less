@@ -1,0 +1,104 @@
+@charset "UTF-8";
+.viewFramework-product-sidebar-collapse {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 20px;
+  height: 50px;
+  z-index: 3;
+  transition: all 0.2s ease;
+  .product-sidebar-collapse-inner {
+    top: -50%;
+    position: relative;
+    overflow: hidden;
+  }
+  .product-sidebar-collapse-bg {
+    width: 0;
+    height: 50px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-bottom: 9px solid transparent;
+    border-left: 13px solid darken(@text-help-color,30%);
+    border-top: 9px solid transparent;
+    transition: all 0.2s ease;
+  }
+  .product-sidebar-collapse {
+    height: 50px;
+    position: relative;
+    left: -7px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.1s ease, 0.1s ease;
+    span {
+      font-size: 15px;
+      line-height: 50px;
+      vertical-align: text-top;
+      color: @text-white-color;
+    }
+  }
+  .icon-collapse-left{
+    display: none;
+  }
+  .icon-collapse-right{
+    display: block;
+  }
+  &:hover{
+     .product-sidebar-collapse{
+       left: 0;
+    }
+    .product-sidebar-collapse-bg{
+      border-bottom: 8px solid transparent;
+      border-left: 20px solid @header-bg;
+      border-top: 8px solid transparent
+    }
+  }
+}
+
+.viewFramework-product-base {
+  width: (@page-header-height + 10)*3 !important;
+  .viewFramework-product-sidebar-collapse {
+    left: (@page-header-height + 30)*2;
+    .product-sidebar-collapse-bg {
+      right: 0;
+      left: auto;
+      border-bottom: 9px solid transparent;
+      border-left: none;
+      border-right: 13px solid @body-bg;
+      border-top: 9px solid transparent;
+      &:hover {
+        .viewFramework-sidebar-collapse-bg {
+          border-bottom: 8px solid transparent;
+          border-left: none;
+          border-right: 20px solid @split-line-color;
+          border-top: 8px solid transparent;
+        }
+      }
+    }
+    .product-sidebar-collapse {
+      right: -7px;
+      left: auto;
+      span{
+        color: @sidebar-list-bg;
+      }
+    }
+    .icon-collapse-left{
+      display: block;
+    }
+    .icon-collapse-right{
+      display: none;
+    }
+    &:hover{
+      .product-sidebar-collapse{
+        right: 0;
+        left: auto
+      }
+      .product-sidebar-collapse-bg{
+        border-bottom: 8px solid transparent;
+        border-left: none;
+        border-right: 20px solid @split-line-color;
+        border-top: 8px solid transparent
+      }
+    }
+  }
+}

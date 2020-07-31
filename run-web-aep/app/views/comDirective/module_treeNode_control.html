@@ -1,0 +1,22 @@
+<div class="tree-control-container">
+    <div class="tree-header-search">
+        <form class="search-form" role="form">
+            <input type="text" name="search" ng-model="treeName" placeholder=" 组织名称">
+            <span class="search-flag" ng-click="treeNodeFilter()">
+                <i class="fa fa-search" aria-hidden="true"></i>
+            </span>
+        </form>
+    </div>
+    <div class="tree-items">
+        <div class="tree-root-node">
+            <span class="tree-root-title tree-root-list-length" ng-class="{'selected': accessInfo && selected === undefined}" ng-if="accessInfo.accessTenementName.length<=16"
+                  ng-click="topNodeTree(accessInfo)">{{accessInfo.accessTenementName}}</span>
+            <span class="tree-root-title tree-root-list-length" ng-if="accessInfo.accessTenementName>16"
+                  tooltip-placement="bottom" uib-tooltip="{{accessInfo.accessTenementName}}"
+                  tooltip-class="customTooltip">{{accessInfo.accessTenementName}}</span>
+            <treecontrol class="tree-light" tree-model="treeLists" on-selection="showSelected(node,$parentNode,$index)" selected-node="selected"  filter-expression="treeName">
+                {{node.sourceName}}
+            </treecontrol>
+        </div>
+    </div>
+</div>

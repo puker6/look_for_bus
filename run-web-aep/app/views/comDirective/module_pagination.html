@@ -1,0 +1,32 @@
+<div class="pagination-container">
+    <div class="pagination_info">
+        <span class="error-info" ng-if="emptyStatus && !errorStatus">
+            <i class="fa fa-envira" aria-hidden="true" ng-click="refresh()"></i>
+            {{'MSG_10002' | translate}}
+            
+        </span>
+        <span class="error-info" ng-if="errorStatus">
+            <i class="fa fa-envira" aria-hidden="true" ng-click="refresh()"></i>
+            {{'PAGINATION_INFO_DATA_ERROR' | translate }}<br/>{{'PAGINATION_INFO_LOAD_RETRY' | translate }}
+            
+        </span>
+    </div>
+    <div class="pagination_content" ng-show="!emptyStatus && !errorStatus">
+        <span class="page-total" ng-if="recordTotal>0">共&nbsp;{{recordTotal}}&nbsp;条</span>
+        <!--<span class="page-number" ng-if="pageTotal>1">页码：{{pageIndex}} / {{pageTotal}}</span>-->
+        <!-- <select class="page-selected-size" ng-model="pageSize"
+                ng-options="ps.value as ps.name for ps in pageSizes"
+                ng-change="pageSizeChange()" ng-show="recordTotal > 10">
+        </select> -->
+        <div ng-show="pageTotal > 0">
+            <ul uib-pagination total-items="recordTotal" ng-model="pageIndex" max-size="6" class="pagination-sm"
+                items-per-page="pageSize"  force-ellipses="true"
+                boundary-link-numbers="true"  previous-text="{{'PAGINATION_BTN_PREVIOUS' | translate}}" next-text="{{'PAGINATION_BTN_NEXT'| translate}}"  ng-change="pageChanged()"></ul>
+        </div>
+        <div class="redirect_page_info" ng-show="pageTotal > 6">
+            <form ng-submit="changeByPageIndex()">
+                前往&nbsp;<input type="number" min="1" ng-model="pageIndexInput" required/>&nbsp;页
+            </form>
+        </div>
+    </div>
+</div>

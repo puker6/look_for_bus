@@ -1,0 +1,38 @@
+{
+  "success": true,
+  "status": 200,
+  "list": [
+    {
+      "sourceUI": "icon icon-hardware-develop",
+      "sourceName": "硬件管理",
+      "children": [
+        {
+          "sourceUrl": "aep.access.product",
+          "sourceName": "产品管理"
+        },
+        {
+          "sourceUrl": "aep.access.tactics",
+          "sourceName": "策略管理"
+        },
+        {
+          "sourceUrl": "aep.access.device",
+          "sourceName": "设备管理"
+        },
+        {
+          "sourceUrl": "aep.access.gateway",
+          "sourceName": "网关管理"
+        }
+      ]
+    },
+    {
+      "sourceUI": "icon icon-application-manage",
+      "sourceName": "应用管理",
+      "children": [
+        {
+          "sourceUrl": "aep.access.application",
+          "sourceName": "应用管理"
+        }
+      ]
+    }
+  ]
+}
